@@ -1,0 +1,161 @@
+{% extends "base.html" %} 
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Internship Portal Login</title>
+    <link rel="stylesheet"
+      href="{{ url_for('static', filename='login.css') }}"
+    />
+</head>
+<body>
+
+<div class="container">
+
+    <!-- LEFT SIDE -->
+    <div class="left-panel">
+
+        <h1 class="main-title">Accelerate Your Learning Journey</h1>
+
+        <h2 class="sub-title">Learn • Assess • Practice • Excel</h2>
+
+        <p class="description">
+            Join thousands of students mastering skills through AI-powered <br>
+            assessments, personalized learning paths, and real-time <br>
+            internship opportunities. Track your growth, build your <br>
+            portfolio, and unlock your full career potential.
+        </p>
+
+        <h3 class="journey">Anchor Your Internship Journey With Industry Leaders</h3>
+
+        <!-- Moving Companies -->
+        <div class="company-wrapper">
+            <div class="company-track">
+
+                <!-- Company 1 -->
+                <div class="company-box">
+                    <h4>Techno Solutions</h4>
+                    <p>
+                        Leading AI-driven product development company.<br>
+                        Specializes in cloud computing and automation tools.<br>
+                        Offers real-world internship exposure in software engineering.<br>
+                        Mentors students through live client projects.
+                    </p>
+                </div>
+
+                <!-- Company 2 -->
+                <div class="company-box">
+                    <h4>NextGen Analytics</h4>
+                    <p>
+                        Data science and analytics consulting firm.<br>
+                        Focused on machine learning model deployment.<br>
+                        Provides internships in business intelligence.<br>
+                        Hands-on training with enterprise datasets.
+                    </p>
+                </div>
+
+                <!-- Company 3 -->
+                <div class="company-box">
+                    <h4>FutureSoft Labs</h4>
+                    <p>
+                        Full-stack development and SaaS solutions provider.<br>
+                        Works on scalable startup ecosystems.<br>
+                        Internship roles in UI/UX and backend systems.<br>
+                        Real agile-based development environment.
+                    </p>
+                </div>
+
+                <!-- Company 4 -->
+                <div class="company-box">
+                    <h4>InnovateX Systems</h4>
+                    <p>
+                        Cybersecurity and blockchain technology firm.<br>
+                        Specializes in secure fintech platforms.<br>
+                        Internship training in ethical hacking.<br>
+                        Exposure to global security standards.
+                    </p>
+                </div>
+
+                <!-- Duplicate for infinite scroll -->
+                <div class="company-box">
+                    <h4>Techno Solutions</h4>
+                    <p>
+                        Leading AI-driven product development company.<br>
+                        Specializes in cloud computing and automation tools.<br>
+                        Offers real-world internship exposure in software engineering.<br>
+                        Mentors students through live client projects.
+                    </p>
+                </div>
+
+                <div class="company-box">
+                    <h4>NextGen Analytics</h4>
+                    <p>
+                        Data science and analytics consulting firm.<br>
+                        Focused on machine learning model deployment.<br>
+                        Provides internships in business intelligence.<br>
+                        Hands-on training with enterprise datasets.
+                    </p>
+                </div>
+
+                <div class="company-box">
+                    <h4>FutureSoft Labs</h4>
+                    <p>
+                        Full-stack development and SaaS solutions provider.<br>
+                        Works on scalable startup ecosystems.<br>
+                        Internship roles in UI/UX and backend systems.<br>
+                        Real agile-based development environment.
+                    </p>
+                </div>
+
+                <div class="company-box">
+                    <h4>InnovateX Systems</h4>
+                    <p>
+                        Cybersecurity and blockchain technology firm.<br>
+                        Specializes in secure fintech platforms.<br>
+                        Internship training in ethical hacking.<br>
+                        Exposure to global security standards.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RIGHT SIDE LOGIN -->
+    <div class="right-panel">
+
+        {% if request.args.get('registered') == 'success' %}
+        <div class="success-popup" id="successPopup">
+            <div class="success-content">
+                <div class="success-icon">✓</div>
+                <h3>Account Registered!</h3>
+                <p>Your account has been successfully created.</p>
+                <p>Please log in with your credentials to continue.</p>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="login-card">
+            <h2>Login</h2>
+
+            <form method="POST" action="{{ url_for('login') }}">
+                <input type="email" name="email" placeholder="Enter Email" required>
+                <input type="password" name="password" placeholder="Enter Password" required>
+
+                <button type="submit" class="login-btn">Sign In</button>
+
+                <p class="register-text">
+                    Don't have an account? <a href="{{ url_for('register') }}">Register</a></p>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+
+{% endblock %}

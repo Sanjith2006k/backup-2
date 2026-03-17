@@ -1,0 +1,1831 @@
+{% extends "base.html" %}
+
+{% block nav_links %}
+<a href="#" onclick="showSection('dashboard')" data-section="dashboard" class="nav-link" style="color:#ffffff;text-decoration:none;font-size:13px;padding:6px 10px;border-radius:4px;transition:all 0.2s;white-space:nowrap;">Dashboard</a>
+<a href="#" onclick="showSection('applications')" data-section="applications" class="nav-link" style="color:#ffffff;text-decoration:none;font-size:13px;padding:6px 10px;border-radius:4px;transition:all 0.2s;white-space:nowrap;">My Applications</a>
+<a href="#" onclick="showSection('my-internship')" data-section="my-internship" class="nav-link" style="color:#ffffff;text-decoration:none;font-size:13px;padding:6px 10px;border-radius:4px;transition:all 0.2s;white-space:nowrap;">Internship</a>
+<a href="/student/ai" style="color:#fbbf24;text-decoration:none;font-size:13px;padding:6px 10px;border-radius:4px;transition:all 0.2s;white-space:nowrap;font-weight:600;">AI Hub</a>
+<div class="nav-dropdown">
+  <button id="profile-dropdown-btn" class="nav-link" onclick="showSection('profile'); toggleProfileDropdown(event);" style="font-size:13px;padding:6px 10px;border-radius:4px;transition:all 0.2s;white-space:nowrap;background:none;border:none;cursor:pointer;font-family:inherit;">Profile &#9660;</button>
+  <div class="nav-dropdown-menu" id="profile-dropdown">
+    <a href="#" onclick="showSection('profile');return false;">Edit Profile</a>
+    <a href="#" onclick="showSection('add-certificate');return false;">Add Certificate</a>
+    <a href="#" onclick="showSection('add-internship');return false;">Add Internship</a>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<!-- Toast Notification -->
+<div id="toast" class="toast"></div>
+
+<div class="container">
+  <!-- ============================================================
+       SECTION 1: DASHBOARD (Overview)
+       ============================================================ -->
+  <div id="section-dashboard" class="section-view active">
+
+    <!-- ══ 1. WELCOME CARD ══════════════════════════════════════════════════ -->
+    <div class="sdb-welcome-card fade-in-up">
+      <div class="sdb-welcome-content">
+        <div class="sdb-active-tag">
+          <span class="sdb-pulse-dot"></span>
+          <span>Active Student</span>
+        </div>
+        <h1 class="sdb-greeting" id="greeting-text">Hello, {{ user.name }}!</h1>
+        <p class="sdb-greeting-sub">Here is your internship journey at a glance.</p>
+        {% if profile and not profile.skills %}
+        <div class="sdb-tip-bar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Add your skills to improve AI matching accuracy.
+          <button class="sdb-tip-btn" onclick="showSection('profile')">Update Now</button>
+        </div>
+        {% endif %}
+        <div class="sdb-stats-row">
+          <div class="sdb-stat">
+            <span class="sdb-stat-num" data-count="{{ total_applied }}">{{ total_applied }}</span>
+            <span class="sdb-stat-lbl">Applied</span>
+          </div>
+          <div class="sdb-stat-div"></div>
+          <div class="sdb-stat">
+            <span class="sdb-stat-num">{{ enriched_applications | selectattr('application.status', 'equalto', 'approved') | list | length }}</span>
+            <span class="sdb-stat-lbl">Approved</span>
+          </div>
+          <div class="sdb-stat-div"></div>
+          <div class="sdb-stat">
+            <span class="sdb-stat-num">{{ total_available }}</span>
+            <span class="sdb-stat-lbl">Available</span>
+          </div>
+          <div class="sdb-stat-div"></div>
+          <div class="sdb-stat">
+            <span class="sdb-stat-num">{{ enriched_applications | selectattr('application.status', 'equalto', 'pending') | list | length }}</span>
+            <span class="sdb-stat-lbl">Pending</span>
+          </div>
+        </div>
+      </div>
+      <div class="sdb-welcome-art" aria-hidden="true">
+        <div class="sdb-art-ring r1"></div>
+        <div class="sdb-art-ring r2"></div>
+        <div class="sdb-art-ring r3"></div>
+        <div class="sdb-art-inner">
+          <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 2. ACTION CARDS ═══════════════════════════════════════════════════ -->
+    <div class="sdb-section" style="animation-delay:.10s">
+      <div class="sdb-section-hd">
+        <h2 class="sdb-section-title">Quick Start</h2>
+        <span class="sdb-section-sub">What would you like to do today?</span>
+      </div>
+      <div class="sdb-action-grid">
+
+        <div class="sdb-ac sdb-ac-blue" tabindex="0" onclick="showSection('internships')">
+          <div class="sdb-ac-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+          </div>
+          <div class="sdb-ac-body">
+            <h3 class="sdb-ac-title">Browse Internships</h3>
+            <p class="sdb-ac-desc">Explore {{ total_available }} open opportunities matched to your profile.</p>
+          </div>
+          <button class="sdb-ac-btn" onclick="showSection('internships')">
+            Explore Now
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+
+        <div class="sdb-ac sdb-ac-purple" tabindex="0" onclick="showSection('profile')">
+          <div class="sdb-ac-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
+          </div>
+          <div class="sdb-ac-body">
+            <h3 class="sdb-ac-title">Complete Profile</h3>
+            <p class="sdb-ac-desc">{% if profile and profile.skills %}Your profile is active. Keep your skills updated.{% else %}Add your skills to stand out to recruiters.{% endif %}</p>
+          </div>
+          {% if profile and not profile.skills %}
+          <div class="sdb-progress-bar"><div class="sdb-progress-fill" style="width:60%"></div></div>
+          {% endif %}
+          <button class="sdb-ac-btn" onclick="showSection('profile')">
+            {% if profile and profile.skills %}View Profile{% else %}Complete Now{% endif %}
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+
+        <div class="sdb-ac sdb-ac-teal" tabindex="0" onclick="showSection('applications')">
+          <div class="sdb-ac-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <div class="sdb-ac-body">
+            <h3 class="sdb-ac-title">Track Applications</h3>
+            <p class="sdb-ac-desc">Monitor {{ total_applied }} application{{ 's' if total_applied != 1 else '' }} in real time.</p>
+          </div>
+          <button class="sdb-ac-btn" onclick="showSection('applications')">
+            View Status
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ 3. AI HUB BANNER ══════════════════════════════════════════════════ -->
+    <div class="sdb-ai-banner fade-in-up" style="animation-delay:.20s">
+      <div class="sdb-ai-banner-left">
+        <div class="sdb-ai-label">AI Intelligence Hub</div>
+        <p class="sdb-ai-desc">Career Predictor &middot; Skill Gap &middot; Success Probability &middot; Interview Simulator &middot; Scoreboard</p>
+      </div>
+      <div class="sdb-ai-links">
+        <a href="/student/ai/career-path" class="sdb-ai-pill">Career Path</a>
+        <a href="/student/ai/recommendations" class="sdb-ai-pill">AI Matches</a>
+        <a href="/student/ai/interview" class="sdb-ai-pill">Interview</a>
+        <a href="/student/ai" class="sdb-ai-pill sdb-ai-pill-primary">View All &rarr;</a>
+      </div>
+    </div>
+
+    <!-- ══ 4. APPLICATION STATUS TIMELINE ══════════════════════════════════════ -->
+    <div class="sdb-section fade-in-up" style="animation-delay:.25s">
+      <div class="sdb-section-hd">
+        <h2 class="sdb-section-title">Application Status</h2>
+        <span class="sdb-section-sub">
+          {% if enriched_applications %}{{ enriched_applications | length }} application{{ 's' if enriched_applications | length != 1 else '' }} tracked individually{% else %}No applications yet{% endif %}
+        </span>
+      </div>
+      <div class="sdb-timeline-card">
+
+        {% set step_profile = profile and (profile.skills or profile.location) %}
+        {% set step_resume  = portfolio and portfolio.resume_path %}
+
+        <!-- Global setup milestones (compact header row) -->
+        <div class="sdb-global-steps">
+          <div class="sdb-gs-step {{ 'sdb-gs-done' if step_profile else 'sdb-gs-todo' }}">
+            <div class="sdb-gs-dot">
+              {% if step_profile %}<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>{% else %}1{% endif %}
+            </div>
+            <span class="sdb-gs-lbl">Profile setup</span>
+          </div>
+          <div class="sdb-gs-sep"></div>
+          <div class="sdb-gs-step {{ 'sdb-gs-done' if step_resume else 'sdb-gs-todo' }}">
+            <div class="sdb-gs-dot">
+              {% if step_resume %}<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>{% else %}2{% endif %}
+            </div>
+            <span class="sdb-gs-lbl">Resume uploaded</span>
+          </div>
+          <div class="sdb-gs-sep"></div>
+          <div class="sdb-gs-step {{ 'sdb-gs-done' if enriched_applications else 'sdb-gs-todo' }}">
+            <div class="sdb-gs-dot">
+              {% if enriched_applications %}<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>{% else %}3{% endif %}
+            </div>
+            <span class="sdb-gs-lbl">Applied</span>
+          </div>
+        </div>
+
+        {% if enriched_applications %}
+        <!-- Per-internship status rows -->
+        <div class="sdb-app-timelines">
+          {% for ea in enriched_applications %}
+          {% set st = ea.application.status %}
+          <div class="sdb-app-tl-row">
+
+            <!-- Company info -->
+            <div class="sdb-app-tl-info">
+              <div class="sdb-app-tl-logo sdb-logo-col-{{ ((loop.index0 % 3) + 1) }}">
+                {{ ea.org.company_name[0].upper() if ea.org and ea.org.company_name else '?' }}
+              </div>
+              <div class="sdb-app-tl-meta">
+                <div class="sdb-app-tl-title">{{ ea.internship.title if ea.internship else 'N/A' }}</div>
+                <div class="sdb-app-tl-company">{{ ea.org.company_name if ea.org else 'Unknown' }}</div>
+              </div>
+            </div>
+
+            <!-- Mini 3-step track -->
+            <div class="sdb-app-tl-track">
+
+              <div class="sdb-apt-step sdb-apt-done">
+                <div class="sdb-apt-node">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <span class="sdb-apt-lbl">Applied</span>
+              </div>
+
+              <div class="sdb-apt-conn sdb-apt-conn-filled"></div>
+
+              <div class="sdb-apt-step {% if st in ['approved','rejected'] %}sdb-apt-done{% elif st == 'pending' %}sdb-apt-active{% else %}sdb-apt-pending{% endif %}">
+                <div class="sdb-apt-node">
+                  {% if st in ['approved','rejected'] %}
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                  {% elif st == 'pending' %}
+                  <span class="sdb-tl-pulse"></span>
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/></svg>
+                  {% else %}
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/></svg>
+                  {% endif %}
+                </div>
+                <span class="sdb-apt-lbl">Under Review</span>
+              </div>
+
+              <div class="sdb-apt-conn {% if st in ['approved','rejected'] %}sdb-apt-conn-filled{% elif st == 'pending' %}sdb-apt-conn-active{% endif %}"></div>
+
+              <div class="sdb-apt-step {% if st == 'approved' %}sdb-apt-approved{% elif st == 'rejected' %}sdb-apt-rejected{% endif %}">
+                {% if st == 'approved' or st == 'rejected' %}
+                <div class="sdb-apt-node">
+                  {% if st == 'approved' %}
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                  {% elif st == 'rejected' %}
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  {% endif %}
+                </div>
+                {% endif %}
+                <span class="sdb-apt-lbl">{% if st == 'approved' %}Selected{% elif st == 'rejected' %}Rejected{% endif %}</span>
+              </div>
+
+            </div>
+
+            <!-- Status badge -->
+            <span class="badge badge-{{ st }}" style="flex-shrink:0;">{{ st }}</span>
+          </div>
+          {% endfor %}
+        </div>
+
+        {% else %}
+        <div style="text-align:center;padding:24px 0;color:#94a3b8;font-size:13px;">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin:0 auto 8px;display:block;opacity:.35"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          No applications yet &mdash;
+          <button style="background:none;border:none;color:#1e7ce8;font-weight:700;cursor:pointer;font-size:13px;font-family:inherit;padding:0;" onclick="showSection('internships')">Browse internships</button>
+        </div>
+        {% endif %}
+
+      </div>
+    </div>
+
+    <!-- ══ 5. RECOMMENDED + RIGHT COLUMN ════════════════════════════════════ -->
+    <div class="sdb-two-col fade-in-up" style="animation-delay:.30s">
+
+      <!-- Recommended Internships -->
+      <div class="sdb-section sdb-recommended-col">
+        <div class="sdb-section-hd">
+          <h2 class="sdb-section-title">Recommended for You</h2>
+          <button class="sdb-link-btn" onclick="showSection('internships')">
+            See all
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+        {% if available_internships %}
+        <div class="sdb-intern-list">
+          {% for internship in available_internships[:3] %}
+          {% set org = orgs.get(internship.organization_id) %}
+          <div class="sdb-intern-card">
+            <div class="sdb-intern-top">
+              <div class="sdb-intern-logo sdb-logo-col-{{ loop.index }}">{{ (org.company_name[0].upper() if org and org.company_name else '?') }}</div>
+              <div class="sdb-intern-info">
+                <h3 class="sdb-intern-title">{{ internship.title }}</h3>
+                <span class="sdb-intern-company">{{ org.company_name if org else 'Organization' }}{% if internship.location %} &bull; {{ internship.location }}{% endif %}</span>
+              </div>
+            </div>
+            <div class="sdb-intern-chips">
+              {% if internship.duration %}<span class="sdb-chip">{{ internship.duration }}</span>{% endif %}
+              {% if internship.stipend %}<span class="sdb-chip">&#8377;{{ internship.stipend }}/mo</span>{% endif %}
+              <span class="sdb-chip">Full-time</span>
+            </div>
+            <div class="sdb-intern-footer">
+              <div class="sdb-intern-ai">
+                <a href="/student/ai/skill-gap/{{ internship.id }}" class="sdb-ai-mini">&#128269; Skill Gap</a>
+                <a href="/student/ai/success/{{ internship.id }}" class="sdb-ai-mini">&#128202; Success %</a>
+              </div>
+              {% if internship.id in applied_ids %}
+              <span class="badge badge-applied">&#10003; Applied</span>
+              {% else %}
+              <button class="sdb-apply-btn" onclick="applyInternship({{ internship.id }}, this)">Apply Now</button>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state" style="padding:30px;">
+          <div class="empty-icon">&mdash;</div>
+          <p>No internships available right now</p>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Right Column -->
+      <div class="sdb-right-col">
+
+        <!-- Quick Actions Panel -->
+        <div class="sdb-section">
+          <div class="sdb-section-hd">
+            <h2 class="sdb-section-title">Quick Actions</h2>
+          </div>
+          <div class="sdb-qa-card">
+            <button class="sdb-qa-row" onclick="showSection('internships')">
+              <span class="sdb-qa-icon-wrap sdb-qa-blue"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></span>
+              <span class="sdb-qa-lbl">Apply Internship</span>
+              <svg class="sdb-qa-arr" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+            <button class="sdb-qa-row" onclick="showSection('profile')">
+              <span class="sdb-qa-icon-wrap sdb-qa-purple"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+              <span class="sdb-qa-lbl">Update Profile</span>
+              <svg class="sdb-qa-arr" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+            <button class="sdb-qa-row" onclick="showSection('profile')">
+              <span class="sdb-qa-icon-wrap sdb-qa-teal"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span>
+              <span class="sdb-qa-lbl">Upload Resume</span>
+              <svg class="sdb-qa-arr" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+            <button class="sdb-qa-row" onclick="showSection('applications')">
+              <span class="sdb-qa-icon-wrap sdb-qa-orange"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+              <span class="sdb-qa-lbl">View Applications</span>
+              <svg class="sdb-qa-arr" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+            {% if profile and profile.allocated_internship %}
+            <button class="sdb-qa-row" onclick="showSection('my-internship')">
+              <span class="sdb-qa-icon-wrap sdb-qa-green"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span class="sdb-qa-lbl">My Internship</span>
+              <svg class="sdb-qa-arr" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Notifications Widget -->
+        <div class="sdb-section">
+          <div class="sdb-section-hd">
+            <h2 class="sdb-section-title">Notifications</h2>
+            <button class="sdb-link-btn" onclick="showSection('notifications')">All &rarr;</button>
+          </div>
+          <div class="sdb-notif-card">
+            {% if profile and profile.allocated_internship %}
+            <div class="sdb-notif-row sdb-notif-unread">
+              <div class="sdb-notif-icon-wrap sdb-ni-green"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div class="sdb-notif-body">
+                <p class="sdb-notif-txt"><strong>AI Allocated!</strong> Matched to {{ profile.allocated_internship }}</p>
+                <span class="sdb-notif-time">AI Matching System</span>
+              </div>
+              <span class="sdb-notif-badge-dot"></span>
+            </div>
+            {% endif %}
+            {% for ea in enriched_applications[:3] %}
+            <div class="sdb-notif-row {% if ea.application.status == 'pending' %}sdb-notif-unread{% endif %}">
+              <div class="sdb-notif-icon-wrap {% if ea.application.status == 'approved' %}sdb-ni-green{% elif ea.application.status == 'rejected' %}sdb-ni-red{% else %}sdb-ni-blue{% endif %}">
+                {% if ea.application.status == 'approved' %}
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                {% elif ea.application.status == 'rejected' %}
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                {% else %}
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+                {% endif %}
+              </div>
+              <div class="sdb-notif-body">
+                <p class="sdb-notif-txt">
+                  <strong>{{ ea.internship.title if ea.internship else 'Internship' }}</strong>
+                  at {{ ea.org.company_name if ea.org else 'org' }} &mdash;
+                  <span class="sdb-notif-status-{{ ea.application.status }}">{{ ea.application.status }}</span>
+                </p>
+                <span class="sdb-notif-time">{{ ea.application.applied_at.strftime('%d %b %Y') }}</span>
+              </div>
+              {% if ea.application.status == 'pending' %}<span class="sdb-notif-badge-dot"></span>{% endif %}
+            </div>
+            {% endfor %}
+            {% if not enriched_applications and not (profile and profile.allocated_internship) %}
+            <p class="sdb-notif-empty">No notifications yet</p>
+            {% endif %}
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ 6. RECENT ACTIVITY TABLE ═══════════════════════════════════════════ -->
+    {% if enriched_applications %}
+    <div class="sdb-section fade-in-up" style="animation-delay:.40s">
+      <div class="sdb-section-hd">
+        <h2 class="sdb-section-title">Recent Activity</h2>
+        {% if enriched_applications | length > 5 %}
+        <button class="sdb-link-btn" onclick="showSection('applications')">View All {{ total_applied }} &rarr;</button>
+        {% endif %}
+      </div>
+      <div class="table-container" style="margin-bottom:0;">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Internship</th>
+              <th>Organization</th>
+              <th>Location</th>
+              <th>Stipend</th>
+              <th>Status</th>
+              <th>Applied On</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for ea in enriched_applications[:5] %}
+            <tr>
+              <td style="color:#aaa;font-size:12px;">{{ loop.index }}</td>
+              <td style="font-weight:600;color:#001a40;">{{ ea.internship.title if ea.internship else 'N/A' }}</td>
+              <td style="color:#666;">{{ ea.org.company_name if ea.org else 'N/A' }}</td>
+              <td style="color:#888;font-size:13px;">{{ ea.internship.location if ea.internship and ea.internship.location else '&mdash;' }}</td>
+              <td style="font-size:13px;">{% if ea.internship and ea.internship.stipend %}&#8377;{{ ea.internship.stipend }}{% else %}&mdash;{% endif %}</td>
+              <td><span class="badge badge-{{ ea.application.status }}">{{ ea.application.status }}</span></td>
+              <td style="color:#999;font-size:12px;">{{ ea.application.applied_at.strftime('%d %b %Y') }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+
+
+  <!-- ============================================================
+       SECTION 2: AVAILABLE INTERNSHIPS
+       ============================================================ -->
+  <div id="section-internships" class="section-view">
+    <h1 class="page-title">Available Internships</h1>
+    <p class="page-subtitle">Explore open internship opportunities and apply today</p>
+    <span id="browse-skills-data" data-skills="{{ profile.skills | lower if profile and profile.skills else '' }}" style="display:none;"></span>
+
+    {% if profile and profile.location %}
+    <div style="font-size:13px;color:#6b7280;margin-bottom:12px;">Showing internships near <strong style="color:#001a40;">{{ profile.location }}</strong> first</div>
+    {% endif %}
+
+    <!-- Search & Filter -->
+    <div class="filter-bar">
+      <input type="text" id="search-input" class="search-input"
+        placeholder="Search by skill, role or company..."
+        onkeydown="if(event.key==='Enter') filterInternships();" />
+      <button onclick="filterInternships()"
+        style="padding:10px 18px;background:#001a40;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">
+        &#128269; Search
+      </button>
+      <select id="filter-location" onchange="filterInternships()">
+        <option value=""> All Locations</option>
+        {% set locations = [] %}
+        {% for i in available_internships %}
+          {% if i.location and i.location not in locations %}
+            {% set _ = locations.append(i.location) %}
+            <option value="{{ i.location }}">{{ i.location }}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+      <select id="filter-duration" onchange="filterInternships()">
+        <option value=""> All Durations</option>
+        {% set durations = [] %}
+        {% for i in available_internships %}
+          {% if i.duration and i.duration not in durations %}
+            {% set _ = durations.append(i.duration) %}
+            <option value="{{ i.duration }}">{{ i.duration }}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+      <button id="skill-filter-btn" onclick="toggleSkillFilter()"
+        style="padding:8px 16px;background:#1e7ce8;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;">
+        &#9889; My Skills
+      </button>
+    </div>
+
+    <!-- Active skill filter badge -->
+    <div id="skill-filter-banner" style="display:none;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:10px 16px;margin-bottom:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <span style="font-size:12px;font-weight:700;color:#1e40af;">&#9889; Filtering by your skills:</span>
+        <div id="skill-filter-tags" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
+      </div>
+      <button onclick="clearSkillFilter()" style="font-size:12px;color:#ef4444;background:none;border:none;cursor:pointer;font-weight:600;padding:0;">&#x2715; Clear</button>
+    </div>
+
+    <div id="no-results" style="display:none;" class="empty-state">
+      <div class="empty-icon">&mdash;</div>
+      <p>No internships match your filters</p>
+      <p class="empty-note">Try changing or clearing your search</p>
+    </div>
+
+    {% if available_internships %}
+    <div class="cards-grid" id="internship-cards">
+      {% for internship in available_internships %}
+      {% set org = orgs.get(internship.organization_id) %}
+      <div class="card card-accent internship-card-item"
+           data-title="{{ internship.title | lower }}"
+           data-company="{{ (org.company_name if org else '') | lower }}"
+           data-location="{{ internship.location | lower }}"
+           data-duration="{{ internship.duration | lower }}"
+           data-skills="{{ (internship.skills_required or '') | lower }}">
+        <div class="card-body">
+          <div class="card-title">{{ internship.title }}</div>
+          <div class="card-subtitle">{{ org.company_name if org else 'Organization' }}</div>
+          {% if profile and profile.location and internship.location %}
+            {% set sloc = profile.location | lower %}
+            {% set iloc = internship.location | lower %}
+            {% if iloc == 'remote' or sloc in iloc or iloc in sloc %}
+            <span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;background:#dcfce7;color:#166534;display:inline-block;margin-bottom:4px;">Near You</span>
+            {% endif %}
+          {% endif %}
+          <div class="meta-list">
+            {% if internship.location %}
+            <div class="meta-item"><span class="meta-icon">&bull;</span> {{ internship.location }}</div>
+            {% endif %}
+            {% if internship.duration %}
+            <div class="meta-item"><span class="meta-icon">&bull;</span> {{ internship.duration }}</div>
+            {% endif %}
+            {% if internship.stipend %}
+            <div class="meta-item"><span class="meta-icon">&bull;</span> ₹{{ internship.stipend }}/month</div>
+            {% endif %}
+            {% if internship.capacity %}
+            <div class="meta-item"><span class="meta-icon">&bull;</span> {{ internship.capacity }} position{{ 's' if internship.capacity != 1 else '' }}</div>
+            {% endif %}
+          </div>
+          {% if internship.skills_required %}
+          <div class="skills-container">
+            {% for skill in internship.skills_required.split(',')[:5] %}
+            {% if skill.strip() %}
+            <span class="skill-tag">{{ skill.strip() }}</span>
+            {% endif %}
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        <div class="card-footer">
+          {% if internship.id in applied_ids %}
+          <span class="badge badge-applied">✓ Applied</span>
+          {% else %}
+          <button class="btn btn-primary btn-sm" onclick="applyInternship({{ internship.id }}, this)">Apply Now</button>
+          {% endif %}
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+            <a href="/student/ai/skill-gap/{{ internship.id }}" style="font-size:11px;padding:4px 10px;background:#eff6ff;color:#1e40af;border-radius:6px;text-decoration:none;font-weight:600;" title="AI Skill Gap Analysis">🔍 Skill Gap</a>
+            <a href="/student/ai/success/{{ internship.id }}" style="font-size:11px;padding:4px 10px;background:#ede9fe;color:#6d28d9;border-radius:6px;text-decoration:none;font-weight:600;" title="AI Success Probability">Success %</a>
+            <span style="font-size:11px;color:#999;">{{ internship.created_at.strftime('%d %b %Y') if internship.created_at else '' }}</span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">&mdash;</div>
+      <p>No internships available right now</p>
+      <p class="empty-note">Check back later — new opportunities are added regularly</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- ============================================================
+       SECTION 3: MY APPLICATIONS
+       ============================================================ -->
+  <div id="section-applications" class="section-view">
+    <h1 class="page-title">My Applications</h1>
+    <p class="page-subtitle">Track the status of all your internship applications</p>
+
+    <div class="section-header">
+      <h2>All Applications <span style="font-size:15px;font-weight:400;color:#666;">({{ total_applied }})</span></h2>
+      <button class="btn btn-primary btn-sm" onclick="showSection('internships')">+ Apply for More</button>
+    </div>
+
+    {% if enriched_applications %}
+    <div class="app-timeline-list">
+      {% for ea in enriched_applications %}
+      {% set s = ea.application.status %}
+      <div class="app-tl-card" id="app-row-{{ ea.application.id }}">
+
+        <!-- Card header -->
+        <div class="app-tl-header">
+          <div class="app-tl-info">
+            <div class="app-tl-title">{{ ea.internship.title if ea.internship else 'N/A' }}</div>
+            <div class="app-tl-meta">
+              <span>{{ ea.org.company_name if ea.org else 'N/A' }}</span>
+              {% if ea.internship and ea.internship.location %}
+              <span class="app-tl-dot">·</span>
+              <span>{{ ea.internship.location }}</span>
+              {% endif %}
+              {% if ea.internship and ea.internship.stipend %}
+              <span class="app-tl-dot">·</span>
+              <span>₹{{ ea.internship.stipend }}/mo</span>
+              {% endif %}
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+            <span class="badge badge-{{ s }}">{{ s }}</span>
+            {% if s == 'pending' %}
+            <button class="btn btn-danger btn-sm" onclick="withdrawApplication({{ ea.application.id }}, this)">Withdraw</button>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Timeline steps -->
+        <div class="app-tl-steps">
+
+          <!-- Step 1: Applied -->
+          <div class="app-tl-step">
+            <div class="tl-circle done-circle"> </div>
+            <div class="tl-label">Applied</div>
+            <div class="tl-date">{{ ea.application.applied_at.strftime('%d %b %Y') }}</div>
+          </div>
+
+          <div class="tl-connector done-line"></div>
+
+          <!-- Step 2: Under Review -->
+          <div class="app-tl-step">
+            <div class="tl-circle {% if s == 'pending' %}active-circle{% else %}done-circle{% endif %}">
+              {% if s == 'pending' %}⏳{% else %}✓{% endif %}
+            </div>
+            <div class="tl-label">Under Review</div>
+            <div class="tl-date">—</div>
+          </div>
+
+          <div class="tl-connector
+            {% if s in ('shortlisted','approved') %}done-line
+            {% elif s == 'rejected' %}rejected-line
+            {% else %}pending-line{% endif %}"></div>
+
+          <!-- Step 3: Shortlisted / Rejected -->
+          <div class="app-tl-step">
+            <div class="tl-circle
+              {% if s == 'shortlisted' %}shortlisted-circle
+              {% elif s == 'approved' %}done-circle
+              {% elif s == 'rejected' %}rejected-circle
+              {% else %}future-circle{% endif %}">
+              {% if s == 'shortlisted' %}★
+              {% elif s == 'approved' %}✓
+              {% elif s == 'rejected' %}✗
+              {% else %}?{% endif %}
+            </div>
+            <div class="tl-label">
+              {% if s == 'rejected' %}Rejected{% else %}Shortlisted{% endif %}
+            </div>
+            <div class="tl-date">—</div>
+          </div>
+
+          <div class="tl-connector
+            {% if s == 'approved' %}done-line
+            {% elif s == 'shortlisted' %}pending-line
+            {% endif %}"></div>
+
+          <!-- Step 4: Final Decision -->
+          <div class="app-tl-step">
+            <div class="tl-circle
+              {% if s == 'approved' %}approved-circle
+              {% elif s == 'shortlisted' %}active-circle
+              {% else %}future-circle{% endif %}">
+              {% if s == 'approved' %}✓
+              {% elif s == 'shortlisted' %}⏳
+              {% else %}?{% endif %}
+            </div>
+            <div class="tl-label">
+              {% if s == 'approved' %}Approved{% else %}Decision{% endif %}
+            </div>
+            <div class="tl-date">—</div>
+          </div>
+
+        </div>
+
+      </div>
+      {% endfor %}
+    </div>
+
+    <style>
+      .app-timeline-list { display: flex; flex-direction: column; gap: 16px; margin-top: 8px; }
+      .app-tl-card {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 20px 24px;
+        transition: box-shadow 0.2s;
+      }
+      .app-tl-card:hover { box-shadow: 0 2px 14px rgba(0,0,0,0.07); }
+      .app-tl-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .app-tl-title { font-size: 15px; font-weight: 700; color: #001a40; }
+      .app-tl-meta { font-size: 13px; color: #6b7280; margin-top: 3px; }
+      .app-tl-dot { margin: 0 5px; }
+
+      .app-tl-steps {
+        display: flex;
+        align-items: flex-start;
+        gap: 0;
+      }
+      .app-tl-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-width: 80px;
+        flex-shrink: 0;
+      }
+      .tl-connector {
+        flex: 1;
+        height: 3px;
+        background: #e5e7eb;
+        margin-top: 16px;
+        border-radius: 2px;
+        transition: background 0.3s;
+      }
+      .done-line    { background: #22c55e; }
+      .pending-line { background: repeating-linear-gradient(90deg,#f59e0b 0,#f59e0b 6px,transparent 6px,transparent 12px); }
+
+      .tl-circle {
+        width: 34px; height: 34px;
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 14px; font-weight: 700;
+        background: #f3f4f6; color: #9ca3af;
+        border: 2px solid #e5e7eb;
+      }
+      .done-circle        { background: #dcfce7; color: #16a34a; border-color: #22c55e; }
+      .active-circle      { background: #fef9c3; color: #92400e; border-color: #f59e0b; }
+      .approved-circle    { background: #dcfce7; color: #166534; border-color: #22c55e; }
+      .rejected-circle    { background: #fee2e2; color: #991b1b; border-color: #ef4444; }
+      .shortlisted-circle { background: #dbeafe; color: #1e40af; border-color: #1e7ce8; }
+      .future-circle      { background: #f3f4f6; color: #9ca3af; border-color: #e5e7eb; }
+      .rejected-line { background: #ef4444; }
+
+      .tl-label { font-size: 11px; font-weight: 600; color: #555; margin-top: 6px; text-align: center; }
+      .tl-date  { font-size: 10px; color: #9ca3af; margin-top: 2px; text-align: center; }
+    </style>
+    {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">&mdash;</div>
+      <p>No applications yet</p>
+      <p class="empty-note">You haven't applied to any internships. Browse the available ones!</p>
+      <button class="btn btn-primary" onclick="showSection('internships')">Browse Internships</button>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- ============================================================
+       SECTION 4: MY INTERNSHIP (Ongoing / Allocated)
+       ============================================================ -->
+  <div id="section-my-internship" class="section-view">
+    <h1 class="page-title">My Internship</h1>
+    <p class="page-subtitle">Your active or AI-allocated internship information</p>
+
+    {% if profile and profile.allocated_internship %}
+    <div class="allocated-card">
+      <h3>AI-Allocated Internship</h3>
+      <div class="intern-title">{{ profile.allocated_internship }}</div>
+      {% if profile.match_score %}
+      <div class="score-badge"> Match Score: {{ "%.0f"|format(profile.match_score * 100) }}%</div>
+      {% endif %}
+    </div>
+
+    {% if profile.match_score %}
+    <div class="form-card">
+      <h3>Skill Match Details</h3>
+      <div style="margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+          <span style="font-size:14px;color:#001a40;font-weight:600;">Overall Match</span>
+          <span style="font-size:14px;color:#1e7ce8;font-weight:700;">{{ "%.0f"|format(profile.match_score * 100) }}%</span>
+        </div>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" style="width: {{ "%.0f"|format(profile.match_score * 100) }}%"></div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:#666;">This score is calculated by the AI matching engine based on your listed skills compared to the internship requirements.</p>
+    </div>
+    {% endif %}
+
+    {% set active_apps = enriched_applications | selectattr('application.status', 'equalto', 'approved') | list %}
+    {% if active_apps %}
+    <div class="section-header" style="margin-top:10px;">
+      <h2>Approved Internships</h2>
+    </div>
+    <div class="cards-grid">
+      {% for ea in active_apps %}
+      <div class="card card-accent">
+        <div class="card-body">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+            <div class="card-title">{{ ea.internship.title if ea.internship else 'N/A' }}</div>
+            <span class="badge badge-active">Active</span>
+          </div>
+          <div class="card-subtitle">{{ ea.org.company_name if ea.org else 'N/A' }}</div>
+          <div class="meta-list">
+            {% if ea.internship and ea.internship.location %}
+            <div class="meta-item"><span class="meta-icon">&bull;</span> {{ ea.internship.location }}</div>
+            {% endif %}
+            {% if ea.internship and ea.internship.duration %}
+            <div class="meta-item"><span class="meta-icon">&bull;</span> {{ ea.internship.duration }}</div>
+            {% endif %}
+            {% if ea.internship and ea.internship.stipend %}
+            <div class="meta-item"><span class="meta-icon">&bull;</span> ₹{{ ea.internship.stipend }}/month</div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">&mdash;</div>
+      <p>No internship allocated yet</p>
+      <p class="empty-note">The AI matching engine will assign you an internship once it processes your skills. Update your skills profile to improve your match score.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:10px;">
+        <button class="btn btn-primary" onclick="showSection('profile')">Update Skills</button>
+        <button class="btn btn-secondary" onclick="showSection('internships')">Browse & Apply</button>
+      </div>
+    </div>
+    {% endif %}
+
+
+
+    <!-- ====== SAVED INTERNSHIPS (Pending Applications) ====== -->
+    {% set saved_apps = enriched_applications | selectattr('application.status', 'equalto', 'pending') | list %}
+    <div style="margin-top:36px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <div>
+          <div style="font-size:17px;font-weight:800;color:#001a40;">&#128203; Saved Internships</div>
+          <div style="font-size:12px;color:#6b7280;margin-top:2px;">Internships you've applied to — awaiting response</div>
+        </div>
+        <span style="font-size:12px;font-weight:700;padding:4px 12px;background:#eff6ff;color:#1e7ce8;border-radius:20px;">{{ saved_apps | length }} pending</span>
+      </div>
+      {% if saved_apps %}
+      <div class="cards-grid">
+        {% for ea in saved_apps %}
+        <div class="card" style="border-left:4px solid #f59e0b;">
+          <div class="card-body">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+              <div class="card-title">{{ ea.internship.title if ea.internship else 'N/A' }}</div>
+              <span style="font-size:11px;font-weight:700;padding:3px 10px;background:#fef9c3;color:#92400e;border-radius:12px;white-space:nowrap;">&#9203; Pending</span>
+            </div>
+            <div class="card-subtitle">{{ ea.org.company_name if ea.org else 'Organization' }}</div>
+            <div class="meta-list">
+              {% if ea.internship and ea.internship.location %}<div class="meta-item"><span class="meta-icon">&bull;</span> {{ ea.internship.location }}</div>{% endif %}
+              {% if ea.internship and ea.internship.duration %}<div class="meta-item"><span class="meta-icon">&bull;</span> {{ ea.internship.duration }}</div>{% endif %}
+              {% if ea.internship and ea.internship.stipend %}<div class="meta-item"><span class="meta-icon">&bull;</span> &#8377;{{ ea.internship.stipend }}/month</div>{% endif %}
+            </div>
+            <div style="font-size:11px;color:#9ca3af;margin-top:10px;">Applied {{ ea.application.applied_at.strftime('%b %d, %Y') if ea.application.applied_at else '' }}</div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div style="background:#f9fafb;border-radius:12px;padding:28px 20px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:10px;">&#128203;</div>
+        <div style="font-size:14px;font-weight:700;color:#374151;margin-bottom:6px;">No saved internships yet</div>
+        <div style="font-size:13px;color:#9ca3af;margin-bottom:16px;">Internships you apply to will appear here while awaiting a response.</div>
+        <button onclick="showSection('internships')" class="btn btn-primary" style="font-size:13px;">Browse Internships</button>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SECTION 5: PROFILE
+       ============================================================ -->
+  <div id="section-profile" class="section-view">
+    <!-- Profile Hero Banner -->
+    <div class="profile-page-hero">
+      <div class="profile-page-hero-avatar">{{ user.name[0]|upper if user.name else 'S' }}</div>
+      <div class="profile-page-hero-info">
+        <div class="profile-page-hero-name">{{ user.name }}</div>
+        <div class="profile-page-hero-email">{{ user.email }}</div>
+        <span class="profile-page-hero-badge">&#128100; Student</span>
+      </div>
+      <div class="profile-page-hero-tag">
+        <span class="profile-page-hero-subtitle">Update your info below</span>
+      </div>
+    </div>
+
+    {% if request.args.get('saved') and request.args.get('section') == 'profile' %}
+    <div class="profile-success-msg">
+      &#10003; Profile updated successfully!
+    </div>
+    {% endif %}
+
+    {% if request.args.get('scanned') and resume_scan %}
+    {% if resume_scan.get('error') %}
+    <div style="background:#fef9c3;border:1px solid #fbbf24;border-radius:12px;padding:16px 20px;margin-bottom:20px;color:#92400e;font-size:13px;">
+      ⚠️ <strong>AI Resume Scan:</strong> {{ resume_scan.error }}
+    </div>
+    {% else %}
+    <div id="ai-scan-banner" style="background:#1e7ce8;border-radius:14px;padding:24px 28px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden;">
+      <div style="position:absolute;right:-40px;top:-40px;width:200px;height:200px;background:rgba(30,124,232,0.15);border-radius:50%;"></div>
+      <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:200px;">
+          <div style="font-size:11px;font-weight:700;color:#fbbf24;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">🧠 AI Resume Scan Complete</div>
+          <div style="font-size:18px;font-weight:800;margin-bottom:4px;">
+            {{ resume_scan.total_detected }} skills detected
+            {% if resume_scan.total_new > 0 %}· <span style="color:#86efac;">{{ resume_scan.total_new }} new added</span>{% endif %}
+          </div>
+          <div style="font-size:13px;color:#93c5fd;margin-bottom:16px;">
+            AI scanned your resume and automatically updated your profile
+            {% if resume_scan.linkedin_url or resume_scan.github_url %} + found portfolio links{% endif %}.
+          </div>
+
+          {% if resume_scan.skills %}
+          <div style="margin-bottom:12px;">
+            <div style="font-size:11px;font-weight:700;color:#93c5fd;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Detected Skills</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;">
+              {% for skill in resume_scan.skills[:20] %}
+              <span style="font-size:12px;padding:3px 10px;border-radius:20px;font-weight:600;
+                background:{{ 'rgba(134,239,172,0.2)' if skill in resume_scan.new_skills else 'rgba(255,255,255,0.1)' }};
+                color:{{ '#86efac' if skill in resume_scan.new_skills else '#e2e8f0' }};
+                border:1px solid {{ 'rgba(134,239,172,0.4)' if skill in resume_scan.new_skills else 'rgba(255,255,255,0.15)' }};">
+                {{ '✨' if skill in resume_scan.new_skills else '' }}{{ skill }}
+              </span>
+              {% endfor %}
+              {% if resume_scan.skills|length > 20 %}
+              <span style="font-size:12px;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,0.1);color:#93c5fd;">+{{ resume_scan.skills|length - 20 }} more</span>
+              {% endif %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% if resume_scan.linkedin_url or resume_scan.github_url %}
+          <div>
+            <div style="font-size:11px;font-weight:700;color:#93c5fd;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Portfolio Links Found</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              {% if resume_scan.linkedin_url %}
+              <a href="{{ resume_scan.linkedin_url }}" target="_blank" style="font-size:12px;padding:5px 14px;background:rgba(255,255,255,0.1);color:#93c5fd;border-radius:8px;text-decoration:none;font-weight:600;">🔗 LinkedIn</a>
+              {% endif %}
+              {% if resume_scan.github_url %}
+              <a href="{{ resume_scan.github_url }}" target="_blank" style="font-size:12px;padding:5px 14px;background:rgba(255,255,255,0.1);color:#93c5fd;border-radius:8px;text-decoration:none;font-weight:600;">🐙 GitHub</a>
+              {% endif %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+
+        {% if resume_scan.text_preview %}
+        <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:12px 14px;max-width:300px;flex-shrink:0;">
+          <div style="font-size:10px;font-weight:700;color:#fbbf24;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Resume Text Preview</div>
+          <div style="font-size:11px;color:#93c5fd;line-height:1.6;font-family:monospace;">{{ resume_scan.text_preview[:250] }}{% if resume_scan.text_preview|length > 250 %}...{% endif %}</div>
+        </div>
+        {% endif %}
+      </div>
+
+      <div style="font-size:11px;color:#64748b;margin-top:14px;">✨ Green-highlighted skills are newly added to your profile. You can edit or remove them in the Skills field below.</div>
+    </div>
+    {% endif %}
+    {% endif %}
+
+    <form action="/student/profile" method="POST" enctype="multipart/form-data">
+      <div class="form-card profile-card-personal">
+        <h3>&#128100; Personal Information</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" value="{{ user.name }}" required />
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" value="{{ user.email }}" disabled style="background:#f9fafb;cursor:not-allowed;" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Role</label>
+          <input type="text" value="Student" disabled style="background:#f9fafb;cursor:not-allowed;" />
+        </div>
+        <div class="form-group">
+          <label>Your Location <span style="color:#888;font-weight:400;">(city or region)</span></label>
+          <input type="text" name="student_location" value="{{ profile.location if profile and profile.location else '' }}" placeholder="e.g. Bangalore, Mumbai, Remote" />
+          <p style="font-size:12px;color:#888;margin-top:4px;">Used to surface nearby internships first.</p>
+        </div>
+      </div>
+
+      <div class="form-card profile-card-skills">
+        <h3>&#9998; Skills &amp; Expertise</h3>
+        <div class="form-group">
+          <label for="skills">Skills <span style="color:#888;font-weight:400;">(comma separated)</span></label>
+          <textarea id="skills" name="skills" placeholder="e.g. Python, Machine Learning, React, SQL" rows="3">{{ profile.skills if profile and profile.skills else '' }}</textarea>
+        </div>
+        {% if profile and profile.skills %}
+        <div style="margin-top:-8px;margin-bottom:16px;">
+          <div style="font-size:12px;color:#888;margin-bottom:8px;">Preview:</div>
+          <div class="skills-container">
+            {% for skill in profile.skills.split(',') %}
+            {% if skill.strip() %}
+            <span class="skill-tag">{{ skill.strip() }}</span>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+        <p style="font-size:12px;color:#888;">Your skills are used by the AI engine to match you with the best internships.</p>
+      </div>
+
+      <div class="form-card profile-card-portfolio">
+        <h3>&#128279; Portfolio &amp; Links</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>LinkedIn Profile</label>
+            <input type="url" name="linkedin_url" value="{{ portfolio.linkedin_url if portfolio and portfolio.linkedin_url else '' }}" placeholder="https://linkedin.com/in/yourprofile" />
+          </div>
+          <div class="form-group">
+            <label>GitHub / Portfolio</label>
+            <input type="url" name="github_url" value="{{ portfolio.github_url if portfolio and portfolio.github_url else '' }}" placeholder="https://github.com/yourhandle" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Resume / CV
+            <span style="font-size:11px;font-weight:600;padding:2px 8px;background:#1e7ce8;color:#fff;border-radius:10px;margin-left:8px;vertical-align:middle;">🧠 AI Auto-Scan</span>
+          </label>
+          <input type="file" name="resume_file" id="resume_file_input" accept=".pdf,.doc,.docx" style="padding:8px;" onchange="onResumeSelected(this)" />
+          <div id="resume-ai-hint" style="font-size:12px;color:#6b7280;margin-top:6px;display:flex;align-items:center;gap:6px;">
+            <span style="color:#1e7ce8;font-weight:600;">⚡ AI will automatically detect your skills and portfolio links (LinkedIn, GitHub) from your resume.</span>
+          </div>
+          {% if portfolio and portfolio.resume_path %}
+          <a href="/{{ portfolio.resume_path }}" target="_blank" class="profile-resume-link">
+            &#128196; View Current Resume
+          </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="profile-save-bar">
+        <span class="profile-save-hint">&#128274; Changes are saved securely to your account</span>
+        <button type="submit" class="btn btn-primary">&#10003; Save Profile</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ============================================================
+       SECTION 6: NOTIFICATIONS
+       ============================================================ -->
+  <div id="section-notifications" class="section-view">
+    <h1 class="page-title">Notifications</h1>
+    <p class="page-subtitle">Stay updated on your applications and messages</p>
+
+    <div class="section-header">
+      <h2>Recent Alerts</h2>
+    </div>
+
+    <div class="notification-list">
+      {% set approved_apps = enriched_applications | selectattr('application.status', 'equalto', 'approved') | list %}
+      {% set rejected_apps = enriched_applications | selectattr('application.status', 'equalto', 'rejected') | list %}
+
+      {% if profile and profile.allocated_internship %}
+      <div class="notification-item unread">
+        <div class="notification-icon">&starf;</div>
+        <div class="notification-content">
+          <p><strong>Internship Allocated!</strong> You have been matched to <strong>{{ profile.allocated_internship }}</strong> by the AI engine.</p>
+          <div class="notification-time">AI Matching System</div>
+        </div>
+      </div>
+      {% endif %}
+
+      {% for ea in approved_apps %}
+      <div class="notification-item unread">
+        <div class="notification-icon">&check;</div>
+        <div class="notification-content">
+          <p>Your application for <strong>{{ ea.internship.title if ea.internship else 'an internship' }}</strong> at <strong>{{ ea.org.company_name if ea.org else 'the organization' }}</strong> has been <strong style="color:#166534;">approved</strong>!</p>
+          <div class="notification-time">{{ ea.application.applied_at.strftime('%d %b %Y') }}</div>
+        </div>
+      </div>
+      {% endfor %}
+
+      {% for ea in rejected_apps %}
+      <div class="notification-item">
+        <div class="notification-icon">&times;</div>
+        <div class="notification-content">
+          <p>Your application for <strong>{{ ea.internship.title if ea.internship else 'an internship' }}</strong> was not selected this time.</p>
+          <div class="notification-time">{{ ea.application.applied_at.strftime('%d %b %Y') }}</div>
+        </div>
+      </div>
+      {% endfor %}
+
+      {% if total_applied > 0 %}
+      <div class="notification-item">
+        <div class="notification-icon">#</div>
+        <div class="notification-content">
+          <p>You have submitted <strong>{{ total_applied }}</strong> application{{ 's' if total_applied != 1 else '' }} on InternAI.</p>
+          <div class="notification-time">Platform activity</div>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if not profile or not profile.skills or not profile.skills.strip() %}
+      <div class="notification-item unread">
+        <div class="notification-icon">!</div>
+        <div class="notification-content">
+          <p><strong>Profile Incomplete</strong> — Add your skills to get better internship matches from the AI engine.</p>
+          <div class="notification-time">Recommendation</div>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if not approved_apps and not rejected_apps and not (profile and profile.allocated_internship) and total_applied == 0 %}
+      <div class="empty-state">
+        <div class="empty-icon">&mdash;</div>
+        <p>No notifications yet</p>
+        <p class="empty-note">Apply to internships to receive status updates and alerts here</p>
+        <button class="btn btn-primary" onclick="showSection('internships')">Browse Internships</button>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SECTION 7: SETTINGS
+       ============================================================ -->
+  <div id="section-settings" class="section-view">
+    <h1 class="page-title">Settings</h1>
+    <p class="page-subtitle">Manage your account preferences and security</p>
+
+    {% if request.args.get('saved') and request.args.get('section') == 'settings' %}
+    <div style="background:#dcfce7;border:1px solid #86efac;color:#166534;padding:12px 18px;border-radius:8px;margin-bottom:20px;font-weight:500;">
+      ✓ Password changed successfully!
+    </div>
+    {% endif %}
+    {% if request.args.get('error') %}
+    <div style="background:#fee2e2;border:1px solid #fca5a5;color:#991b1b;padding:12px 18px;border-radius:8px;margin-bottom:20px;font-weight:500;">
+      {% if request.args.get('error') == 'wrong_password' %}✗ Current password is incorrect.
+      {% elif request.args.get('error') == 'short_password' %}✗ New password must be at least 6 characters.
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <form action="/student/change-password" method="POST">
+      <div class="form-card">
+        <h3>Change Password</h3>
+        <div class="form-group">
+          <label for="current_password">Current Password</label>
+          <input type="password" id="current_password" name="current_password" placeholder="Enter your current password" required />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="new_password">New Password</label>
+            <input type="password" id="new_password" name="new_password" minlength="6" placeholder="Min 6 characters" required />
+          </div>
+          <div class="form-group">
+            <label for="confirm_password">Confirm New Password</label>
+            <input type="password" id="confirm_password" name="confirm_password" placeholder="Repeat new password" required />
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" onclick="return validatePasswords()">Update Password</button>
+      </div>
+    </form>
+
+    <div class="form-card">
+      <h3>Account Information</h3>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border-color);">
+          <div>
+            <div style="font-weight:600;color:#001a40;font-size:14px;">Email Address</div>
+            <div style="color:#666;font-size:13px;">{{ user.email }}</div>
+          </div>
+          <span style="background:#dbeafe;color:#0369a1;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;">Verified</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border-color);">
+          <div>
+            <div style="font-weight:600;color:#001a40;font-size:14px;">Account Role</div>
+            <div style="color:#666;font-size:13px;">Student</div>
+          </div>
+          <span class="badge badge-applied">Student</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;">
+          <div>
+            <div style="font-weight:600;color:#001a40;font-size:14px;">Account Status</div>
+            <div style="color:#666;font-size:13px;">Active and verified</div>
+          </div>
+          <span class="badge badge-approved">Active</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card" style="border-color:rgba(239,68,68,0.3);">
+      <h3 style="color:#991b1b;">Danger Zone</h3>
+      <p style="color:#666;font-size:14px;margin-bottom:16px;">Permanently log out of your account across all sessions.</p>
+      <a href="/logout" class="btn btn-danger">Logout from InternAI</a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SECTION: ADD CERTIFICATE
+       ============================================================ -->
+  <div id="section-add-certificate" class="section-view">
+    <!-- Certificate Hero Banner -->
+    <div class="cert-page-hero">
+      <div class="cert-page-hero-icon">&#127885;</div>
+      <div class="cert-page-hero-info">
+        <div class="cert-page-hero-title">Add Certificate</div>
+        <div class="cert-page-hero-subtitle">Record certifications you've earned to strengthen your profile</div>
+        <span class="cert-page-hero-badge">&#9733; Certification Record</span>
+      </div>
+    </div>
+
+    {% if request.args.get('saved') and request.args.get('section') == 'add-certificate' %}
+    <div class="profile-success-msg">
+      &#10003; Certificate saved successfully!
+    </div>
+    {% endif %}
+    {% if request.args.get('updated') and request.args.get('section') == 'add-certificate' %}
+    <div class="profile-success-msg">
+      &#10003; Certificate updated successfully!
+    </div>
+    {% endif %}
+    {% if request.args.get('deleted') and request.args.get('section') == 'add-certificate' %}
+    <div class="profile-success-msg" style="background:#fee2e2;color:#991b1b;border-color:#fca5a5;">
+      Certificate deleted.
+    </div>
+    {% endif %}
+
+    <form action="/student/certificate" method="POST" enctype="multipart/form-data">
+
+    <div class="form-card cert-card-details">
+      <h3>&#128196; Certificate Details</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Certificate Name <span style="color:#ef4444;">*</span></label>
+          <input type="text" name="certificate_name" placeholder="e.g. AWS Certified Developer" required />
+        </div>
+        <div class="form-group">
+          <label>Issuing Organization <span style="color:#ef4444;">*</span></label>
+          <input type="text" name="issuing_organization" placeholder="e.g. Amazon Web Services" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Issue Date <span style="color:#ef4444;">*</span></label>
+          <input type="date" name="issue_date" required />
+        </div>
+        <div class="form-group">
+          <label>Expiry Date <span style="color:#888;font-weight:400;">(optional)</span></label>
+          <input type="date" name="expiry_date" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Upload Certificate <span style="color:#888;font-weight:400;">(optional, PDF/Image)</span></label>
+        <input type="file" name="certificate_file" accept=".pdf,.jpg,.jpeg,.png,.webp" style="padding:8px;" />
+      </div>
+      <div class="form-group">
+        <label>Description <span style="color:#888;font-weight:400;">(optional)</span></label>
+        <textarea name="description" placeholder="Brief description of what this certificate covers..." rows="2"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Related Skill <span style="color:#888;font-weight:400;">(optional – links certificate to a skill)</span></label>
+          <input type="text" name="related_skill" list="skill-suggestions" placeholder="e.g. Python, AWS, React" />
+          <datalist id="skill-suggestions">
+            {% if profile and profile.skills %}
+              {% for sk in profile.skills.split(',') %}
+              <option value="{{ sk.strip() }}">
+              {% endfor %}
+            {% endif %}
+          </datalist>
+        </div>
+        <div class="form-group">
+          <label>Credential URL <span style="color:#888;font-weight:400;">(optional – link to online certificate)</span></label>
+          <input type="url" name="credential_url" placeholder="e.g. https://www.credly.com/badges/..." />
+        </div>
+      </div>
+    </div>
+    <div class="profile-save-bar">
+      <span class="profile-save-hint">&#127885; Certificate will be saved to your profile</span>
+      <button type="submit" class="btn btn-primary">&#10003; Save Certificate</button>
+    </div>
+    </form>
+
+    <!-- Certificates List -->
+    <div class="dash-section-block">
+      <div class="section-header"><h2>Your Certificates</h2></div>
+      {% if certificates %}
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        {% for cert in certificates %}
+        <div class="recommended-card" style="align-items:flex-start;">
+          <div style="display:flex;flex-direction:column;gap:6px;flex:1;">
+            <div class="recommended-title">{{ cert.certificate_name }}</div>
+            <div class="recommended-company">{{ cert.issuing_organization }}</div>
+            {% if cert.related_skill %}
+            <div>
+              <span style="font-size:11px;padding:2px 10px;border-radius:20px;background:#eff6ff;color:#1e40af;font-weight:600;">🏅 {{ cert.related_skill }}</span>
+            </div>
+            {% endif %}
+            <div class="recommended-meta">
+              {% if cert.issue_date %}<span>Issued: {{ cert.issue_date.strftime('%d %b %Y') }}</span>{% endif %}
+              {% if cert.expiry_date %}<span>Expires: {{ cert.expiry_date.strftime('%d %b %Y') }}</span>{% endif %}
+            </div>
+            {% if cert.description %}
+            <div style="font-size:12px;color:#666;">{{ cert.description }}</div>
+            {% endif %}
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end;flex-shrink:0;">
+            {% if cert.credential_url %}
+            <a class="btn btn-secondary btn-sm" href="{{ cert.credential_url }}" target="_blank" rel="noopener">🌐 View Online</a>
+            {% endif %}
+            {% if cert.certificate_file_path %}
+            <a class="btn btn-secondary btn-sm" href="/{{ cert.certificate_file_path }}" target="_blank">View File</a>
+            {% endif %}
+            <a href="/student/ai/certificate-verify/{{ cert.id }}" style="font-size:11px;padding:4px 10px;background:#dcfce7;color:#166534;border-radius:6px;text-decoration:none;font-weight:600;">🛡️ Verify AI</a>
+            <button
+              onclick="openEditCert({{ cert.id }}, {{ cert.certificate_name | tojson }}, {{ cert.issuing_organization | tojson }}, '{{ cert.issue_date.strftime('%Y-%m-%d') if cert.issue_date else '' }}', '{{ cert.expiry_date.strftime('%Y-%m-%d') if cert.expiry_date else '' }}', {{ (cert.description or '') | tojson }}, {{ (cert.related_skill or '') | tojson }}, {{ (cert.credential_url or '') | tojson }})"
+              style="font-size:11px;padding:4px 10px;background:#eff6ff;color:#1e40af;border:none;border-radius:6px;cursor:pointer;font-weight:600;">
+              ✏️ Edit
+            </button>
+            <form method="POST" action="/student/certificate/{{ cert.id }}/delete" style="margin:0;" onsubmit="return confirm('Delete this certificate? This cannot be undone.');">
+              <button type="submit" style="font-size:11px;padding:4px 10px;background:#fee2e2;color:#991b1b;border:none;border-radius:6px;cursor:pointer;font-weight:600;">🗑 Delete</button>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state" style="padding:40px 20px;">
+        <div class="empty-icon">&mdash;</div>
+        <p>No certificates added yet</p>
+        <p class="empty-note">Add your certifications to showcase your skills to organizations</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SECTION: ADD INTERNSHIP (Past Experience)
+       ============================================================ -->
+  <div id="section-add-internship" class="section-view">
+    <!-- Internship Hero Banner -->
+    <div class="internship-page-hero">
+      <div class="internship-page-hero-icon">&#128188;</div>
+      <div class="internship-page-hero-info">
+        <div class="internship-page-hero-title">Add Internship</div>
+        <div class="internship-page-hero-subtitle">Record past internship experiences to build your professional portfolio</div>
+        <span class="internship-page-hero-badge">&#128188; Work Experience</span>
+      </div>
+    </div>
+
+    {% if request.args.get('saved') and request.args.get('section') == 'add-internship' %}
+    <div class="profile-success-msg">
+      &#10003; Internship experience saved successfully!
+    </div>
+    {% endif %}
+
+    <form action="/student/internship-experience" method="POST" enctype="multipart/form-data">
+
+    <div class="form-card internship-card-details">
+      <h3>&#128188; Internship Details</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Company / Organization <span style="color:#ef4444;">*</span></label>
+          <input type="text" name="company_name" placeholder="e.g. Google India Pvt. Ltd." required />
+        </div>
+        <div class="form-group">
+          <label>Role / Position <span style="color:#ef4444;">*</span></label>
+          <input type="text" name="role" placeholder="e.g. Software Engineering Intern" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Start Date <span style="color:#ef4444;">*</span></label>
+          <input type="date" name="start_date" required />
+        </div>
+        <div class="form-group">
+          <label>End Date <span style="color:#ef4444;">*</span></label>
+          <input type="date" name="end_date" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Location</label>
+          <input type="text" name="location" placeholder="e.g. Bangalore / Remote" />
+        </div>
+        <div class="form-group">
+          <label>Stipend <span style="color:#888;font-weight:400;">(optional)</span></label>
+          <input type="text" name="stipend" placeholder="e.g. ₹15,000/month" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Skills Used <span style="color:#888;font-weight:400;">(comma separated)</span></label>
+        <input type="text" name="skills_used" placeholder="e.g. React, Node.js, MongoDB" />
+      </div>
+      <div class="form-group">
+        <label>Work Description</label>
+        <textarea name="work_description" placeholder="Briefly describe your role and key responsibilities..." rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Offer / Experience Letter <span style="color:#888;font-weight:400;">(optional)</span></label>
+        <input type="file" name="proof_file" accept=".pdf,.jpg,.jpeg,.png,.webp" style="padding:8px;" />
+      </div>
+    </div>
+    <div class="profile-save-bar">
+      <span class="profile-save-hint">&#128188; Experience will be saved to your portfolio</span>
+      <button type="submit" class="btn btn-primary">&#10003; Save Internship</button>
+    </div>
+    </form>
+
+    <!-- Past Internships List -->
+    <div class="dash-section-block">
+      <div class="section-header"><h2>Past Internship Experiences</h2></div>
+      {% if internship_experiences %}
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        {% for exp in internship_experiences %}
+        <div class="recommended-card" style="align-items:flex-start;">
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div class="recommended-title">{{ exp.role }}</div>
+            <div class="recommended-company">{{ exp.company_name }}</div>
+            <div class="recommended-meta">
+              {% if exp.location %}<span> {{ exp.location }}</span>{% endif %}
+              {% if exp.start_date %}<span>From: {{ exp.start_date.strftime('%d %b %Y') }}</span>{% endif %}
+              {% if exp.end_date %}<span>To: {{ exp.end_date.strftime('%d %b %Y') }}</span>{% endif %}
+              {% if exp.stipend %}<span> {{ exp.stipend }}</span>{% endif %}
+            </div>
+            {% if exp.skills_used %}<div style="font-size:12px;color:#666;"><strong>Skills:</strong> {{ exp.skills_used }}</div>{% endif %}
+            {% if exp.work_description %}<div style="font-size:12px;color:#666;">{{ exp.work_description }}</div>{% endif %}
+          </div>
+          {% if exp.proof_file_path %}
+          <a class="btn btn-secondary btn-sm" href="/{{ exp.proof_file_path }}" target="_blank">View File</a>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state" style="padding:40px 20px;">
+        <div class="empty-icon">&mdash;</div>
+        <p>No past internships added yet</p>
+        <p class="empty-note">Adding past experience helps organizations understand your background</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+</div><!-- /.container -->
+
+<!-- ============================================================
+     EDIT CERTIFICATE MODAL
+     ============================================================ -->
+<div id="edit-cert-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:14px;padding:32px;width:100%;max-width:540px;margin:0 16px;box-shadow:0 20px 60px rgba(0,0,0,.2);max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;">
+      <h3 style="margin:0;color:#001a40;font-size:18px;">✏️ Edit Certificate</h3>
+      <button onclick="closeEditCert()" style="background:none;border:none;font-size:22px;cursor:pointer;color:#6b7280;line-height:1;">&times;</button>
+    </div>
+    <form id="edit-cert-form" method="POST" enctype="multipart/form-data">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+        <div style="grid-column:1/-1;">
+          <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:4px;">Certificate Name *</label>
+          <input id="ec-name" type="text" name="certificate_name" required
+            style="width:100%;padding:9px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;"/>
+        </div>
+        <div style="grid-column:1/-1;">
+          <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:4px;">Issuing Organization *</label>
+          <input id="ec-org" type="text" name="issuing_organization" required
+            style="width:100%;padding:9px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;"/>
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:4px;">Issue Date *</label>
+          <input id="ec-issue" type="date" name="issue_date" required
+            style="width:100%;padding:9px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;"/>
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:4px;">Expiry Date <span style="font-weight:400;color:#9ca3af;">(optional)</span></label>
+          <input id="ec-expiry" type="date" name="expiry_date"
+            style="width:100%;padding:9px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;"/>
+        </div>
+        <div style="grid-column:1/-1;">
+          <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:4px;">Description <span style="font-weight:400;color:#9ca3af;">(optional)</span></label>
+          <textarea id="ec-desc" name="description" rows="2"
+            style="width:100%;padding:9px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;resize:vertical;box-sizing:border-box;"></textarea>
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:4px;">Related Skill <span style="font-weight:400;color:#9ca3af;">(optional)</span></label>
+          <input id="ec-skill" type="text" name="related_skill" list="ec-skill-suggestions"
+            style="width:100%;padding:9px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;" placeholder="e.g. Python, AWS, React"/>
+          <datalist id="ec-skill-suggestions">
+            {% if profile and profile.skills %}
+              {% for sk in profile.skills.split(',') %}
+              <option value="{{ sk.strip() }}">
+              {% endfor %}
+            {% endif %}
+          </datalist>
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:4px;">Credential URL <span style="font-weight:400;color:#9ca3af;">(optional)</span></label>
+          <input id="ec-url" type="url" name="credential_url"
+            style="width:100%;padding:9px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;" placeholder="https://www.credly.com/badges/..."/>
+        </div>
+        <div style="grid-column:1/-1;">
+          <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:4px;">Replace Certificate File <span style="font-weight:400;color:#9ca3af;">(optional – leave blank to keep existing)</span></label>
+          <input type="file" name="certificate_file" accept=".pdf,.jpg,.jpeg,.png,.webp"
+            style="width:100%;padding:8px;border:1px solid #d1d5db;border-radius:8px;font-size:13px;box-sizing:border-box;"/>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:8px;border-top:1px solid #e5e7eb;">
+        <button type="button" onclick="closeEditCert()" style="padding:9px 20px;border:1px solid #d1d5db;border-radius:8px;background:#fff;color:#374151;font-size:14px;font-weight:600;cursor:pointer;">Cancel</button>
+        <button type="submit" style="padding:9px 20px;border:none;border-radius:8px;background:#1e7ce8;color:#fff;font-size:14px;font-weight:600;cursor:pointer;">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+  var profileSections = ['profile', 'add-certificate', 'add-internship'];
+
+  function showSection(name) {
+    document.querySelectorAll('.section-view').forEach(function(s) {
+      s.classList.remove('active');
+    });
+    var target = document.getElementById('section-' + name);
+    if (target) target.classList.add('active');
+
+    // Reset all nav-links
+    document.querySelectorAll('.nav-link').forEach(function(link) {
+      link.style.backgroundColor = '';
+      link.style.color = '#ffffff';
+    });
+
+    // Highlight matching direct nav-link
+    var direct = document.querySelector('[data-section="' + name + '"]');
+    if (direct) direct.style.backgroundColor = '#1e7ce8';
+
+    // Highlight Profile dropdown btn when any sub-section is active
+    var profileBtn = document.getElementById('profile-dropdown-btn');
+    if (profileBtn && profileSections.indexOf(name) !== -1) {
+      profileBtn.style.backgroundColor = '#1e7ce8';
+    }
+
+    closeDropdown();
+    history.replaceState(null, '', window.location.pathname + '?section=' + name);
+  }
+
+  function openEditCert(id, name, org, issueDate, expiryDate, desc, skill, credUrl) {
+    document.getElementById('ec-name').value   = name;
+    document.getElementById('ec-org').value    = org;
+    document.getElementById('ec-issue').value  = issueDate;
+    document.getElementById('ec-expiry').value = expiryDate;
+    document.getElementById('ec-desc').value   = desc;
+    document.getElementById('ec-skill').value  = skill || '';
+    document.getElementById('ec-url').value    = credUrl || '';
+    document.getElementById('edit-cert-form').action = '/student/certificate/' + id + '/edit';
+    var modal = document.getElementById('edit-cert-modal');
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeEditCert() {
+    document.getElementById('edit-cert-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  // Close modal on backdrop click
+  document.getElementById('edit-cert-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeEditCert();
+  });
+
+  function toggleProfileDropdown(e) {
+    e.stopPropagation();
+    document.getElementById('profile-dropdown').classList.toggle('open');
+  }
+
+  function closeDropdown() {
+    var menu = document.getElementById('profile-dropdown');
+    if (menu) menu.classList.remove('open');
+  }
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.nav-dropdown')) closeDropdown();
+  });
+
+  (function() {
+    var params = new URLSearchParams(window.location.search);
+    var section = params.get('section');
+    if (section) {
+      showSection(section);
+    } else {
+      var defLink = document.querySelector('[data-section="dashboard"]');
+      if (defLink) defLink.style.backgroundColor = '#1e7ce8';
+    }
+
+    // Time-based greeting
+    var hour = new Date().getHours();
+    var greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+    var el = document.getElementById('greeting-text');
+    if (el) el.textContent = greeting + ', {{ user.name }}!';
+  })();
+
+  // ── AI Resume Scan live feedback ──────────────────────────────────────────
+  function onResumeSelected(input) {
+    var hint = document.getElementById('resume-ai-hint');
+    if (!hint) return;
+    if (input.files && input.files[0]) {
+      var f = input.files[0];
+      var ext = f.name.split('.').pop().toLowerCase();
+      if (ext === 'pdf' || ext === 'docx') {
+        hint.innerHTML = '<span style="color:#16a34a;font-weight:700;display:flex;align-items:center;gap:6px;">'
+          + '<span style="width:10px;height:10px;background:#16a34a;border-radius:50%;display:inline-block;animation:pulse 1.5s infinite;"></span>'
+          + '🧠 AI will scan &ldquo;' + f.name + '&rdquo; for skills &amp; portfolio links when you save.</span>';
+      } else {
+        hint.innerHTML = '<span style="color:#f59e0b;font-weight:600;">⚠️ Upload PDF or DOCX for AI skill extraction. DOC files are not supported for scanning.</span>';
+      }
+    }
+  }
+
+  function applyInternship(id, btn) {
+    btn.disabled = true;
+    btn.textContent = 'Applying…';
+    fetch('/student/apply/' + id, { method: 'POST' })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.status === 'success') {
+          btn.textContent = '✓ Applied';
+          btn.className = 'btn btn-success btn-sm';
+          showToast(data.message, 'success');
+        } else {
+          btn.disabled = false;
+          btn.textContent = 'Apply Now';
+          showToast(data.message, 'error');
+        }
+      })
+      .catch(function() {
+        btn.disabled = false;
+        btn.textContent = 'Apply Now';
+        showToast('Something went wrong. Please try again.', 'error');
+      });
+  }
+
+  function withdrawApplication(id, btn) {
+    if (!confirm('Are you sure you want to withdraw this application?')) return;
+    btn.disabled = true;
+    btn.textContent = 'Withdrawing…';
+    fetch('/student/withdraw/' + id, { method: 'POST' })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.status === 'success') {
+          var row = document.getElementById('app-row-' + id);
+          if (row) row.style.opacity = '0.4';
+          btn.textContent = 'Withdrawn';
+          showToast('Application withdrawn', 'success');
+        } else {
+          btn.disabled = false;
+          btn.textContent = 'Withdraw';
+          showToast(data.message, 'error');
+        }
+      });
+  }
+
+  var activeSkillTerms = [];   // holds profile skills when filter is on
+
+  function toggleSkillFilter() {
+    if (activeSkillTerms.length) {
+      clearSkillFilter();
+      return;
+    }
+    var el  = document.getElementById('browse-skills-data');
+    var raw = el ? (el.getAttribute('data-skills') || '') : '';
+    var skills = raw.split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+    if (!skills.length) {
+      showToast('Add skills to your profile first to use this filter.', 'error');
+      return;
+    }
+    activeSkillTerms = skills;
+
+    // show banner with skill tags
+    var banner = document.getElementById('skill-filter-banner');
+    var tagsEl = document.getElementById('skill-filter-tags');
+    tagsEl.innerHTML = skills.map(function(s){
+      return '<span style="font-size:11px;padding:2px 9px;border-radius:12px;background:#dbeafe;color:#1e40af;font-weight:600;">' + s + '</span>';
+    }).join('');
+    banner.style.display = 'flex';
+
+    // update button to show active state
+    var btn = document.getElementById('skill-filter-btn');
+    btn.style.background = '#0f52ba';
+    btn.innerHTML = '&#x2715; My Skills';
+
+    filterInternships();
+  }
+
+  function clearSkillFilter() {
+    activeSkillTerms = [];
+    var banner = document.getElementById('skill-filter-banner');
+    if (banner) banner.style.display = 'none';
+    var btn = document.getElementById('skill-filter-btn');
+    if (btn) { btn.style.background = '#1e7ce8'; btn.innerHTML = '&#9889; My Skills'; }
+    filterInternships();
+  }
+
+  function filterInternships() {
+    var siEl = document.getElementById('search-input');
+    var flEl = document.getElementById('filter-location');
+    var fdEl = document.getElementById('filter-duration');
+    if (!siEl) return;
+    var query          = siEl.value.toLowerCase().trim();
+    var locationFilter = flEl ? flEl.value.toLowerCase() : '';
+    var durationFilter = fdEl ? fdEl.value.toLowerCase() : '';
+    var cards = document.querySelectorAll('.internship-card-item');
+    var visible = 0;
+    cards.forEach(function(card) {
+      var title    = card.getAttribute('data-title')    || '';
+      var company  = card.getAttribute('data-company')  || '';
+      var location = card.getAttribute('data-location') || '';
+      var duration = card.getAttribute('data-duration') || '';
+      var skills   = card.getAttribute('data-skills')   || '';
+
+      // exact word match — "ml" must NOT match "html"
+      var matchSearch = true;
+      if (query) {
+        var words = query.split(/\s+/).filter(Boolean);
+        matchSearch = words.every(function(w) {
+          var re = new RegExp('\\b' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b');
+          var skillTokens = skills.split(',').map(function(s){ return s.trim(); });
+          return re.test(title) || re.test(company) ||
+                 skillTokens.some(function(tok){ return tok === w; });
+        });
+      }
+
+      var matchLocation = !locationFilter || location.includes(locationFilter);
+      var matchDuration = !durationFilter || duration.includes(durationFilter);
+
+      // skill filter: card must match AT LEAST ONE of the student's skills
+      var matchSkill = true;
+      if (activeSkillTerms.length) {
+        var skillTokens = skills.split(',').map(function(s){ return s.trim(); });
+        matchSkill = activeSkillTerms.some(function(term) {
+          var re = new RegExp('\\b' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b');
+          return skillTokens.some(function(tok){ return tok === term; }) || re.test(title);
+        });
+      }
+
+      if (matchSearch && matchLocation && matchDuration && matchSkill) {
+        card.style.display = '';
+        visible++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+    var noResults = document.getElementById('no-results');
+    if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  function validatePasswords() {
+    var np = document.getElementById('new_password').value;
+    var cp = document.getElementById('confirm_password').value;
+    if (np !== cp) {
+      showToast('New passwords do not match!', 'error');
+      return false;
+    }
+    return true;
+  }
+
+  function showToast(msg, type) {
+    var toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.className = 'toast ' + (type || '');
+    toast.style.display = 'block';
+    setTimeout(function() { toast.style.display = 'none'; }, 3500);
+  }
+
+  function runPendingSkillSearch(terms) {
+    var container = document.getElementById('pending-skill-results');
+    var countEl   = document.getElementById('pending-skill-count');
+    var emptyEl   = document.getElementById('pending-skill-empty');
+    var cards     = document.querySelectorAll('.pending-skill-card');
+    var count = 0;
+
+    // normalise search terms
+    terms = terms.map(function(s){ return s.toLowerCase().trim(); }).filter(Boolean);
+
+    cards.forEach(function(card) {
+      // split card skills into individual tokens ("python", "react", "node js" …)
+      var skillTokens = (card.getAttribute('data-skills') || '')
+            .split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+      // split card title into words
+      var titleWords = (card.getAttribute('data-title') || '')
+            .split(/\s+/).map(function(s){ return s.trim(); }).filter(Boolean);
+
+      var match = terms.some(function(term) {
+        var inSkills = skillTokens.some(function(tok){ return tok.indexOf(term) !== -1; });
+        var inTitle  = titleWords.some(function(w){ return w.indexOf(term) !== -1; });
+        return inSkills || inTitle;
+      });
+
+      card.style.display = match ? 'block' : 'none';
+      if (match) count++;
+    });
+
+    container.style.display = 'block';
+    countEl.textContent = count + ' internship' + (count !== 1 ? 's' : '') + ' matched';
+    emptyEl.style.display = count === 0 ? 'block' : 'none';
+  }
+
+  function searchByMySkills() {
+    var el  = document.getElementById('my-skills-data');
+    var raw = el ? (el.getAttribute('data-skills') || '') : '';
+    var skills = raw.split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+    if (!skills.length) {
+      alert('No skills found. Please update your profile with your skills first.');
+      return;
+    }
+    document.getElementById('pending-skill-input').value = '';
+    runPendingSkillSearch(skills);
+  }
+
+  function pendingSkillSearch() {
+    var val = (document.getElementById('pending-skill-input').value || '').toLowerCase().trim();
+    if (!val) {
+      document.getElementById('pending-skill-results').style.display = 'none';
+      return;
+    }
+    // split input into separate words so "python react" searches both words
+    var terms = val.split(/\s+/).filter(Boolean);
+    runPendingSkillSearch(terms);
+  }
+</script>
+{% endblock %}

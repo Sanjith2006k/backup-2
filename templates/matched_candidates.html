@@ -1,0 +1,662 @@
+{% extends "base.html" %} {% block content %}
+<style>
+  .mc-wrap {
+    max-width: 1000px;
+    margin: 36px auto;
+    padding: 0 24px;
+  }
+  .mc-header {
+    background: linear-gradient(135deg, #001a40, #0a3066);
+    border-radius: 14px;
+    padding: 32px 40px;
+    color: #fff;
+    margin-bottom: 28px;
+  }
+  .mc-header h1 {
+    font-size: 26px;
+    font-weight: 800;
+    margin: 0 0 6px;
+  }
+  .mc-header p {
+    color: #93c5fd;
+    font-size: 14px;
+    margin: 0;
+  }
+  .mc-meta {
+    display: flex;
+    gap: 24px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  .mc-meta-item {
+    font-size: 13px;
+    color: #bfdbfe;
+  }
+  .mc-meta-item strong {
+    color: #fff;
+  }
+
+  .cand-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+  }
+  .cand-card.rank-1 {
+    border-color: #7c3aed;
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.12);
+  }
+
+  .cand-score-circle {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    color: #fff;
+  }
+  .cand-score-circle .sv {
+    font-size: 20px;
+    line-height: 1;
+  }
+  .cand-score-circle .sl {
+    font-size: 10px;
+    opacity: 0.85;
+  }
+
+  .cand-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .cand-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: #001a40;
+    margin: 0 0 2px;
+  }
+  .cand-email {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0 0 10px;
+  }
+  .cand-stats {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .cand-stat {
+    font-size: 12px;
+    color: #374151;
+  }
+  .cand-stat strong {
+    color: #001a40;
+  }
+
+  .skill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .sk {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  .sk-match {
+    background: #dcfce7;
+    color: #166534;
+  }
+  .sk-miss {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  .readiness-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  .cand-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 120px;
+  }
+
+  .cand-actions > div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn-shortlist {
+    background: #1e7ce8;
+    color: #fff;
+    border: none;
+    padding: 9px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    transition: background 0.2s;
+  }
+  .btn-shortlist:hover {
+    background: #1565c0;
+  }
+  .btn-reject {
+    background: #fee2e2;
+    color: #991b1b;
+    border: none;
+    padding: 9px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    transition: background 0.2s;
+  }
+  .btn-reject:hover {
+    background: #fecaca;
+  }
+  .btn-view {
+    background: #f3f4f6;
+    color: #374151;
+    border: none;
+    padding: 9px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    transition: background 0.2s;
+  }
+  .btn-view:hover {
+    background: #e5e7eb;
+  }
+
+  .app-status {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 6px;
+  }
+  .st-pending {
+    background: #fef9c3;
+    color: #854d0e;
+  }
+  .st-approved {
+    background: #dcfce7;
+    color: #166534;
+  }
+  .st-rejected {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  /* Custom Modal Styles */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-overlay.active {
+    display: flex;
+  }
+
+  .modal-content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 32px;
+    max-width: 400px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .modal-header {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .modal-message {
+    font-size: 15px;
+    color: #4b5563;
+    margin: 16px 0 24px;
+    line-height: 1.5;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 12px;
+  }
+
+  .modal-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .modal-btn-cancel {
+    background: #e5e7eb;
+    color: #374151;
+  }
+
+  .modal-btn-cancel:hover {
+    background: #d1d5db;
+  }
+
+  .modal-btn-confirm {
+    background: #dc2626;
+    color: #fff;
+  }
+
+  .modal-btn-confirm:hover {
+    background: #b91c1c;
+  }
+</style>
+
+<!-- Confirmation Modal -->
+<div id="confirmModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">⚠️ Confirm Rejection</div>
+    <div class="modal-message">Are you sure you want to reject this candidate? This action cannot be undone.</div>
+    <div class="modal-actions">
+      <button class="modal-btn modal-btn-cancel" onclick="cancelReject()">Cancel</button>
+      <button class="modal-btn modal-btn-confirm" onclick="confirmRejectAction()">Reject</button>
+    </div>
+  </div>
+</div>
+
+<div class="mc-wrap">
+  <a
+    href="/organization"
+    style="
+      color: #1e7ce8;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+    "
+    >← Back to Dashboard</a
+  >
+
+  <div class="mc-header" style="margin-top: 16px">
+    <h1>🤖 AI-Matched Applicants</h1>
+    <p>
+      Candidates ranked by AI match score — Skills · Certificates · Experience
+    </p>
+    <div class="mc-meta">
+      <div class="mc-meta-item"><strong>{{ internship.title }}</strong></div>
+      {% if internship.location %}
+      <div class="mc-meta-item">
+        📍 <strong>{{ internship.location }}</strong>
+      </div>
+      {% endif %} {% if internship.duration %}
+      <div class="mc-meta-item">
+        ⏱ <strong>{{ internship.duration }}</strong>
+      </div>
+      {% endif %}
+      <div class="mc-meta-item">
+        👥
+        <strong
+          >{{ candidates | length }} applicant{{ 's' if candidates | length != 1
+          else '' }}</strong
+        >
+      </div>
+    </div>
+  </div>
+
+  {% if candidates %} {% for c in candidates %} {% set score = c.match_score %}
+  {% set grad = 'linear-gradient(135deg,#16a34a,#15803d)' if score >= 75 else
+  'linear-gradient(135deg,#1e7ce8,#7c3aed)' if score >= 50 else
+  'linear-gradient(135deg,#f59e0b,#d97706)' %}
+  <div class="cand-card {% if loop.index == 1 %}rank-1{% endif %}" data-student-id="{{ c.student.id }}">>
+    <div class="cand-score-circle" style="background:{{ grad }}">
+      <span class="sv">{{ score }}%</span>
+      <span class="sl">match</span>
+    </div>
+
+    <div class="cand-body">
+      {% if loop.index == 1 %}
+      <span
+        style="
+          font-size: 11px;
+          font-weight: 700;
+          padding: 3px 10px;
+          border-radius: 20px;
+          background: #ede9fe;
+          color: #6d28d9;
+          display: inline-block;
+          margin-bottom: 6px;
+        "
+      >
+        🏆 Best Match
+      </span>
+      {% endif %}
+
+      <span class="app-status st-{{ c.application.status }}">
+        {{ c.application.status | title }}
+      </span>
+
+      <div class="cand-name">{{ c.student.name }}</div>
+      <div class="cand-email">{{ c.student.email }}</div>
+
+      <div class="cand-stats">
+        <div class="cand-stat">
+          🎓 <strong>{{ c.cert_count }}</strong> Certificate{{ 's' if
+          c.cert_count != 1 else '' }}
+        </div>
+        <div class="cand-stat">
+          💼 <strong>{{ c.exp_count }}</strong> Experience{{ 's' if c.exp_count
+          != 1 else '' }}
+        </div>
+        {% if c.profile and c.profile.location %}
+        <div class="cand-stat">
+          📍 <strong>{{ c.profile.location }}</strong>
+        </div>
+        {% endif %}
+        <div class="cand-stat">
+          <span
+            class="readiness-badge"
+            style="background:{{ '#dcfce7' if c.readiness_color == 'success' else '#fef9c3' if c.readiness_color == 'warning' else '#fee2e2' }};color:{{ '#166534' if c.readiness_color == 'success' else '#854d0e' if c.readiness_color == 'warning' else '#991b1b' }};"
+          >
+            {{ c.readiness }}
+          </span>
+        </div>
+      </div>
+
+      {% if c.matched_skills.matched_skills %}
+      <div
+        style="
+          font-size: 12px;
+          font-weight: 600;
+          color: #374151;
+          margin-bottom: 4px;
+        "
+      >
+        Matched Skills
+      </div>
+      <div class="skill-row">
+        {% for sk in c.matched_skills.matched_skills[:6] %}
+        <span class="sk sk-match">✓ {{ sk }}</span>
+        {% endfor %}
+      </div>
+      {% endif %} {% if c.matched_skills.missing_skills %}
+      <div
+        style="
+          font-size: 12px;
+          font-weight: 600;
+          color: #374151;
+          margin: 6px 0 4px;
+        "
+      >
+        Missing Skills
+      </div>
+      <div class="skill-row">
+        {% for sk in c.matched_skills.missing_skills[:4] %}
+        <span class="sk sk-miss">✗ {{ sk }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="cand-actions">
+      <a href="/org/candidate/{{ c.profile.id }}" class="btn-view"
+        >View Profile</a
+      >
+      <button
+        class="btn-view"
+        onclick="unviewCandidate({{ c.profile.id }})"
+        style="background: #f3f4f6; color: #374151;"
+      >
+        Underview
+      </button>
+      <div id="actions-{{ c.student.id }}">
+        {% if c.application.status == 'shortlisted' %}
+        <button class="btn-shortlist" disabled style="opacity: 0.6; cursor: not-allowed;">
+          ✓ Shortlisted
+        </button>
+        <button
+          class="btn-reject"
+          onclick="confirmReject({{ internship.id }}, {{ c.student.id }}, 'rejected')"
+        >
+          Reject
+        </button>
+        {% elif c.application.status == 'rejected' %}
+        <button
+          class="btn-shortlist"
+          onclick="updateStatus({{ internship.id }}, {{ c.student.id }}, 'shortlisted')"
+        >
+          Shortlist
+        </button>
+        <button class="btn-reject" disabled style="opacity: 0.6; cursor: not-allowed;">
+          ✗ Rejected
+        </button>
+        {% else %}
+        <button
+          class="btn-shortlist"
+          onclick="updateStatus({{ internship.id }}, {{ c.student.id }}, 'shortlisted')"
+        >
+          Shortlist
+        </button>
+        <button
+          class="btn-reject"
+          onclick="confirmReject({{ internship.id }}, {{ c.student.id }}, 'rejected')"
+        >
+          Reject
+        </button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %} {% else %}
+  <div
+    style="
+      text-align: center;
+      padding: 60px;
+      background: #f9fafb;
+      border-radius: 12px;
+    "
+  >
+    <div style="font-size: 48px; margin-bottom: 16px">📭</div>
+    <p
+      style="color: #374151; font-size: 16px; font-weight: 600; margin: 0 0 8px"
+    >
+      No applicants yet
+    </p>
+    <p style="color: #6b7280; font-size: 14px; margin: 0">
+      Students who apply to this internship will appear here, ranked by AI match
+      score.
+    </p>
+  </div>
+  {% endif %}
+</div>
+
+<script>
+  let pendingRejectData = { internshipId: null, studentId: null, status: null };
+  let isProcessing = false;
+
+  function confirmReject(internshipId, studentId, status) {
+    if (isProcessing) return;
+    pendingRejectData = { internshipId, studentId, status };
+    document.getElementById('confirmModal').classList.add('active');
+  }
+
+  function cancelReject() {
+    document.getElementById('confirmModal').classList.remove('active');
+    pendingRejectData = { internshipId: null, studentId: null, status: null };
+  }
+
+  function confirmRejectAction() {
+    const { internshipId, studentId, status } = pendingRejectData;
+    document.getElementById('confirmModal').classList.remove('active');
+    updateStatus(internshipId, studentId, status);
+  }
+
+  function updateStatus(internshipId, studentId, status) {
+    if (isProcessing) return;
+    isProcessing = true;
+
+    console.log(`Updating status for internship ${internshipId}, student ${studentId}, status ${status}`);
+
+    // Disable all buttons in the actions div
+    const actionsDiv = document.getElementById(`actions-${studentId}`);
+    if (actionsDiv) {
+      const buttons = actionsDiv.querySelectorAll('button');
+      buttons.forEach(btn => {
+        btn.disabled = true;
+        btn.style.opacity = '0.6';
+      });
+    }
+
+    fetch(`/org/shortlist/${internshipId}/${studentId}/${status}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((r) => {
+        console.log(`Response status: ${r.status}`);
+        if (!r.ok) {
+          throw new Error(`Server error: ${r.status}`);
+        }
+        return r.json();
+      })
+      .then((data) => {
+        console.log('Response data:', data);
+        if (data.status === "success") {
+          // Update the status badge
+          const statusElements = document.querySelectorAll(`[data-student-id="${studentId}"]`);
+          statusElements.forEach(el => {
+            const statusBadge = el.querySelector('.app-status');
+            if (statusBadge) {
+              statusBadge.className = `app-status st-${status}`;
+              statusBadge.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+            }
+          });
+
+          // Update the action buttons
+          if (actionsDiv) {
+            if (status === 'shortlisted') {
+              actionsDiv.innerHTML = `
+                <button class="btn-shortlist" disabled style="opacity: 0.6; cursor: not-allowed;">
+                  ✓ Shortlisted
+                </button>
+                <button class="btn-reject" onclick="confirmReject(${internshipId}, ${studentId}, 'rejected')">
+                  Reject
+                </button>
+              `;
+            } else if (status === 'rejected') {
+              actionsDiv.innerHTML = `
+                <button class="btn-shortlist" onclick="updateStatus(${internshipId}, ${studentId}, 'shortlisted')">
+                  Shortlist
+                </button>
+                <button class="btn-reject" disabled style="opacity: 0.6; cursor: not-allowed;">
+                  ✗ Rejected
+                </button>
+              `;
+            }
+          }
+
+          alert(
+            `Candidate ${status === "shortlisted" ? "shortlisted ✅" : "rejected ❌"}`,
+          );
+        } else {
+          alert(`Failed: ${data.message || 'Unknown error'}`);
+          // Re-enable buttons on error
+          if (actionsDiv) {
+            const buttons = actionsDiv.querySelectorAll('button');
+            buttons.forEach(btn => {
+              btn.disabled = false;
+              btn.style.opacity = '1';
+            });
+          }
+        }
+        isProcessing = false;
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert(`Error: ${error.message}`);
+        isProcessing = false;
+        // Re-enable buttons on error
+        if (actionsDiv) {
+          const buttons = actionsDiv.querySelectorAll('button');
+          buttons.forEach(btn => {
+            btn.disabled = false;
+            btn.style.opacity = '1';
+          });
+        }
+      });
+  }
+
+  function unviewCandidate(candidateId) {
+    fetch(`/org/candidate/${candidateId}/underview`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((r) => {
+        if (!r.ok) {
+          throw new Error(`Server error: ${r.status}`);
+        }
+        return r.json();
+      })
+      .then((data) => {
+        if (data.status === "success") {
+          alert("Candidate profile unviewed ✓");
+        } else {
+          alert(`Failed: ${data.message || 'Unknown error'}`);
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert(`Error: ${error.message}`);
+      });
+  }
+</script>
+{% endblock %}
