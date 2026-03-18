@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Top Student Matches - {{ internship.title }}</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .internship-header {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        margin-bottom: 30px;
+      }
+
+      .internship-header h1 {
+        color: #f5576c;
+        font-size: 2.2em;
+        margin-bottom: 10px;
+      }
+
+      .internship-meta {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin: 15px 0;
+      }
+
+      .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #666;
+        font-size: 1.05em;
+      }
+
+      .required-skills {
+        background: #fff3e0;
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 15px;
+      }
+
+      .required-skills h3 {
+        color: #e65100;
+        margin-bottom: 10px;
+        font-size: 1.1em;
+      }
+
+      .skill-badge {
+        display: inline-block;
+        padding: 6px 14px;
+        background: #fff;
+        border: 2px solid #ff9800;
+        color: #e65100;
+        border-radius: 20px;
+        margin: 5px;
+        font-weight: 500;
+      }
+
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .stat-box {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+      }
+
+      .stat-box .number {
+        font-size: 2.5em;
+        font-weight: bold;
+      }
+
+      .stat-box .label {
+        font-size: 0.9em;
+        opacity: 0.9;
+      }
+
+      .student-card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+        position: relative;
+      }
+
+      .student-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      .rank-badge {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.3em;
+        box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+      }
+
+      .rank-badge.top-3 {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5em;
+      }
+
+      .rank-badge.rank-1 {
+        background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+      }
+
+      .rank-badge.rank-2 {
+        background: linear-gradient(135deg, #c0c0c0 0%, #808080 100%);
+      }
+
+      .rank-badge.rank-3 {
+        background: linear-gradient(135deg, #cd7f32 0%, #8b4513 100%);
+      }
+
+      .student-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        padding-left: 70px;
+      }
+
+      .student-info h2 {
+        color: #333;
+        font-size: 1.6em;
+        margin-bottom: 8px;
+      }
+
+      .student-meta {
+        color: #666;
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+
+      .meta-badge {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.95em;
+      }
+
+      .match-score-large {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        padding: 25px;
+        border-radius: 12px;
+        text-align: center;
+        min-width: 150px;
+      }
+
+      .match-score-large .score {
+        font-size: 3em;
+        font-weight: bold;
+        line-height: 1;
+      }
+
+      .match-score-large .label {
+        font-size: 0.85em;
+        opacity: 0.9;
+        margin-top: 5px;
+      }
+
+      .match-quality {
+        display: inline-block;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.85em;
+        font-weight: 600;
+        margin-top: 10px;
+      }
+
+      .quality-excellent {
+        background: #c8e6c9;
+        color: #2e7d32;
+      }
+
+      .quality-good {
+        background: #b3e5fc;
+        color: #01579b;
+      }
+
+      .quality-fair {
+        background: #fff9c4;
+        color: #f57f17;
+      }
+
+      .details-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+      }
+
+      .detail-section {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+      }
+
+      .detail-section h3 {
+        color: #333;
+        margin-bottom: 15px;
+        font-size: 1.1em;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .strength-item {
+        background: white;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .strength-label {
+        color: #666;
+        font-size: 0.95em;
+      }
+
+      .strength-value {
+        font-weight: bold;
+        color: #f5576c;
+        font-size: 1.1em;
+      }
+
+      .progress-container {
+        background: #e0e0e0;
+        height: 6px;
+        border-radius: 3px;
+        margin-top: 8px;
+        overflow: hidden;
+      }
+
+      .progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+        border-radius: 3px;
+        transition: width 0.5s ease;
+      }
+
+      .highlights-section {
+        background: #e3f2fd;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+      }
+
+      .highlights-section h3 {
+        color: #1565c0;
+        margin-bottom: 15px;
+      }
+
+      .highlight-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+      }
+
+      .highlight-card {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+      }
+
+      .highlight-icon {
+        font-size: 2em;
+        margin-bottom: 8px;
+      }
+
+      .highlight-count {
+        font-size: 1.8em;
+        font-weight: bold;
+        color: #1565c0;
+      }
+
+      .highlight-label {
+        font-size: 0.9em;
+        color: #666;
+      }
+
+      .skills-match-section {
+        margin: 20px 0;
+      }
+
+      .skills-match-section h3 {
+        color: #333;
+        margin-bottom: 15px;
+      }
+
+      .matched-skills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .skill-tag {
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        font-weight: 500;
+      }
+
+      .skill-matched {
+        background: #c8e6c9;
+        color: #2e7d32;
+      }
+
+      .skill-partial {
+        background: #fff9c4;
+        color: #f57f17;
+      }
+
+      .skill-missing {
+        background: #ffcdd2;
+        color: #c62828;
+      }
+
+      .action-section {
+        display: flex;
+        gap: 15px;
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 2px solid #f0f0f0;
+      }
+
+      .btn {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(245, 87, 108, 0.4);
+      }
+
+      .btn-secondary {
+        background: white;
+        color: #f5576c;
+        border: 2px solid #f5576c;
+      }
+
+      .btn-secondary:hover {
+        background: #f5576c;
+        color: white;
+      }
+
+      .btn-success {
+        background: #4caf50;
+        color: white;
+      }
+
+      .btn-success:hover {
+        background: #388e3c;
+      }
+
+      .filter-bar {
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        margin-bottom: 25px;
+      }
+
+      .filter-controls {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .filter-controls select,
+      .filter-controls input {
+        padding: 10px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1em;
+      }
+
+      .student-details-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        overflow-y: auto;
+      }
+
+      .modal-content {
+        background: white;
+        max-width: 800px;
+        margin: 50px auto;
+        border-radius: 15px;
+        padding: 30px;
+      }
+
+      @media (max-width: 768px) {
+        .student-header {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .rank-badge {
+          top: 15px;
+          left: 15px;
+        }
+
+        .match-score-large {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Internship Header -->
+      <div class="internship-header">
+        <h1>{{ internship.title }}</h1>
+        <div class="internship-meta">
+          <div class="meta-item">
+            <span>🏢</span>
+            <strong>Your Company</strong>
+          </div>
+          <div class="meta-item">
+            <span>📍</span>
+            {{ internship.location }}
+          </div>
+          <div class="meta-item">
+            <span>⏱️</span>
+            {{ internship.duration }}
+          </div>
+          <div class="meta-item">
+            <span>💰</span>
+            {{ internship.stipend }}
+          </div>
+          <div class="meta-item">
+            <span>🎯</span>
+            {{ internship.domain }}
+          </div>
+        </div>
+
+        <div class="required-skills">
+          <h3>Required Skills</h3>
+          {% for skill in internship.skills_required.split(',') %}
+          <span class="skill-badge">{{ skill.strip() }}</span>
+          {% endfor %}
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-box">
+            <div class="number">{{ matches|length }}</div>
+            <div class="label">Total Candidates</div>
+          </div>
+          <div class="stat-box">
+            <div class="number">
+              {{ matches|selectattr('1.match_score', 'gt', 90)|list|length }}
+            </div>
+            <div class="label">Excellent Matches</div>
+          </div>
+          <div class="stat-box">
+            <div class="number">
+              {{ matches|selectattr('1.match_score', 'gt', 80)|list|length }}
+            </div>
+            <div class="label">Very Good Matches</div>
+          </div>
+          <div class="stat-box">
+            <div class="number">
+              {{ (matches|map(attribute='1.breakdown.certificate_count')|sum) }}
+            </div>
+            <div class="label">Total Certificates</div>
+          </div>
+          <div class="stat-box">
+            <div class="number">
+              {{ (matches|map(attribute='1.breakdown.experience_count')|sum) }}
+            </div>
+            <div class="label">Total Experience</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <div class="filter-controls">
+          <span style="font-weight: 600; color: #333">🔍 Filter Students:</span>
+          <select id="scoreFilter">
+            <option value="">All Scores</option>
+            <option value="90">Excellent (90+)</option>
+            <option value="80">Very Good (80-89)</option>
+            <option value="70">Good (70-79)</option>
+          </select>
+          <select id="experienceFilter">
+            <option value="">All Experience</option>
+            <option value="has">Has Experience</option>
+            <option value="none">No Experience</option>
+          </select>
+          <select id="certFilter">
+            <option value="">All Certificates</option>
+            <option value="2">2+ Certificates</option>
+            <option value="3">3+ Certificates</option>
+          </select>
+          <input
+            type="text"
+            id="searchBox"
+            placeholder="Search by name or skills..."
+            style="flex: 1; min-width: 200px"
+          />
+        </div>
+      </div>
+
+      <!-- Student Cards -->
+      {% if matches %} {% for student, match_result in matches %}
+      <div
+        class="student-card"
+        data-score="{{ match_result.match_score }}"
+        data-certs="{{ match_result.breakdown.certificate_count }}"
+        data-exp="{{ match_result.breakdown.experience_count }}"
+      >
+        <div
+          class="rank-badge {% if loop.index <= 3 %}top-3 rank-{{ loop.index }}{% endif %}"
+        >
+          {% if loop.index == 1 %}🥇 {% elif loop.index == 2 %}🥈 {% elif
+          loop.index == 3 %}🥉 {% else %}#{{ loop.index }} {% endif %}
+        </div>
+
+        <div class="student-header">
+          <div class="student-info">
+            <h2>Student #{{ student.id }}</h2>
+            <div class="student-meta">
+              <div class="meta-badge">
+                <span>📍</span>
+                {{ student.location }}
+              </div>
+              <div class="meta-badge">
+                <span>⭐</span>
+                AI Score: {{ student.ai_score if student.ai_score else 'N/A' }}
+              </div>
+              <div class="meta-badge">
+                <span>📜</span>
+                {{ match_result.breakdown.certificate_count }} Certificates
+              </div>
+              <div class="meta-badge">
+                <span>💼</span>
+                {{ match_result.breakdown.experience_count }} Internships
+              </div>
+              {% if match_result.breakdown.research_count > 0 %}
+              <div class="meta-badge">
+                <span>📄</span>
+                {{ match_result.breakdown.research_count }} Papers
+              </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="match-score-large">
+            <div class="score">
+              {{ "%.0f"|format(match_result.match_score) }}
+            </div>
+            <div class="label">Match Score</div>
+            <div
+              class="match-quality {% if match_result.match_score >= 90 %}quality-excellent{% elif match_result.match_score >= 80 %}quality-good{% else %}quality-fair{% endif %}"
+            >
+              {% if match_result.match_score >= 90 %}Excellent Match {% elif
+              match_result.match_score >= 80 %}Very Good Match {% elif
+              match_result.match_score >= 70 %}Good Match {% else %}Fair Match
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Highlights -->
+        {% if match_result.breakdown.certificate_bonus > 0 or
+        match_result.breakdown.experience_bonus > 0 or
+        match_result.breakdown.research_bonus > 0 %}
+        <div class="highlights-section">
+          <h3>🌟 Candidate Highlights</h3>
+          <div class="highlight-grid">
+            {% if match_result.breakdown.certificate_bonus > 0 %}
+            <div class="highlight-card">
+              <div class="highlight-icon">📜</div>
+              <div class="highlight-count">
+                +{{ "%.0f"|format(match_result.breakdown.certificate_bonus) }}
+              </div>
+              <div class="highlight-label">Certificate Bonus</div>
+            </div>
+            {% endif %} {% if match_result.breakdown.experience_bonus > 0 %}
+            <div class="highlight-card">
+              <div class="highlight-icon">💼</div>
+              <div class="highlight-count">
+                +{{ "%.0f"|format(match_result.breakdown.experience_bonus) }}
+              </div>
+              <div class="highlight-label">Experience Bonus</div>
+            </div>
+            {% endif %} {% if match_result.breakdown.research_bonus > 0 %}
+            <div class="highlight-card">
+              <div class="highlight-icon">📄</div>
+              <div class="highlight-count">
+                +{{ "%.0f"|format(match_result.breakdown.research_bonus) }}
+              </div>
+              <div class="highlight-label">Research Bonus</div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Details Grid -->
+        <div class="details-grid">
+          <!-- Match Breakdown -->
+          <div class="detail-section">
+            <h3>📊 Match Breakdown</h3>
+            <div class="strength-item">
+              <span class="strength-label">Skill Similarity</span>
+              <span class="strength-value"
+                >{{ "%.0f"|format(match_result.breakdown.skill_similarity)
+                }}%</span
+              >
+            </div>
+            <div class="progress-container">
+              <div
+                class="progress-bar"
+                style="width: {{ match_result.breakdown.skill_similarity }}%"
+              ></div>
+            </div>
+
+            <div class="strength-item" style="margin-top: 15px">
+              <span class="strength-label">Keyword Overlap</span>
+              <span class="strength-value"
+                >{{ "%.0f"|format(match_result.breakdown.keyword_overlap)
+                }}%</span
+              >
+            </div>
+            <div class="progress-container">
+              <div
+                class="progress-bar"
+                style="width: {{ match_result.breakdown.keyword_overlap }}%"
+              ></div>
+            </div>
+
+            <div class="strength-item" style="margin-top: 15px">
+              <span class="strength-label">Location Match</span>
+              <span class="strength-value"
+                >{{ "%.0f"|format(match_result.breakdown.location_match)
+                }}%</span
+              >
+            </div>
+            <div class="progress-container">
+              <div
+                class="progress-bar"
+                style="width: {{ match_result.breakdown.location_match }}%"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Skills Match -->
+          <div class="detail-section">
+            <h3>🎯 Skills Match</h3>
+            <div class="matched-skills">
+              {% for skill in student.skills.split(',')[:10] %} {% if
+              skill.strip() in internship.skills_required %}
+              <span class="skill-tag skill-matched">{{ skill.strip() }} ✓</span>
+              {% else %}
+              <span class="skill-tag skill-partial">{{ skill.strip() }}</span>
+              {% endif %} {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-section">
+          <a
+            href="/organization/student/view/{{ student.id }}"
+            class="btn btn-primary"
+            >View Full Profile</a
+          >
+          <a
+            href="/organization/shortlist/{{ student.id }}/{{ internship.id }}"
+            class="btn btn-success"
+            >Shortlist Candidate</a
+          >
+          <a
+            href="/organization/contact/{{ student.id }}"
+            class="btn btn-secondary"
+            >Contact Student</a
+          >
+        </div>
+      </div>
+      {% endfor %} {% else %}
+      <div
+        style="
+          background: white;
+          padding: 60px;
+          border-radius: 15px;
+          text-align: center;
+        "
+      >
+        <div style="font-size: 5em; margin-bottom: 20px">🔍</div>
+        <h2 style="color: #333; margin-bottom: 10px">No Student Matches Yet</h2>
+        <p style="color: #666">
+          Students will appear here as they apply or get matched by our AI
+        </p>
+      </div>
+      {% endif %}
+    </div>
+
+    <script>
+      // Filter functionality
+      const scoreFilter = document.getElementById("scoreFilter");
+      const experienceFilter = document.getElementById("experienceFilter");
+      const certFilter = document.getElementById("certFilter");
+      const searchBox = document.getElementById("searchBox");
+      const studentCards = document.querySelectorAll(".student-card");
+
+      function filterStudents() {
+        const minScore = scoreFilter.value;
+        const expFilter = experienceFilter.value;
+        const minCerts = certFilter.value;
+        const searchTerm = searchBox.value.toLowerCase();
+
+        studentCards.forEach((card) => {
+          const score = parseFloat(card.dataset.score);
+          const certs = parseInt(card.dataset.certs);
+          const exp = parseInt(card.dataset.exp);
+          const cardText = card.textContent.toLowerCase();
+
+          let show = true;
+
+          if (minScore && score < parseFloat(minScore)) show = false;
+          if (expFilter === "has" && exp === 0) show = false;
+          if (expFilter === "none" && exp > 0) show = false;
+          if (minCerts && certs < parseInt(minCerts)) show = false;
+          if (searchTerm && !cardText.includes(searchTerm)) show = false;
+
+          card.style.display = show ? "block" : "none";
+        });
+      }
+
+      scoreFilter.addEventListener("change", filterStudents);
+      experienceFilter.addEventListener("change", filterStudents);
+      certFilter.addEventListener("change", filterStudents);
+      searchBox.addEventListener("input", filterStudents);
+
+      // Animate on scroll
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = "0";
+              entry.target.style.transform = "translateY(20px)";
+              setTimeout(() => {
+                entry.target.style.transition = "all 0.5s ease";
+                entry.target.style.opacity = "1";
+                entry.target.style.transform = "translateY(0)";
+              }, 100);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+
+      studentCards.forEach((card) => observer.observe(card));
+    </script>
+  </body>
+</html>

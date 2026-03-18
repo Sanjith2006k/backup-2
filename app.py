@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, jsonify, session
+from flask import Flask, render_template, redirect, url_for, request, jsonify, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from ai.matcher import (
@@ -7,6 +7,8 @@ from ai.matcher import (
     match_personality_culture, get_interview_question, evaluate_interview_answer,
     calculate_ai_score, verify_certificate, extract_resume_data
 )
+from ai.ml_matcher import get_ml_matcher
+from ai.ml_integration import get_ml_match_score, train_ml_model_from_feedback
 from functools import wraps
 from datetime import datetime, timedelta
 import smtplib, random, string, os
@@ -171,6 +173,11 @@ class StudentProfile(db.Model):
     match_score = db.Column(db.Float)
     viewed_by_org = db.Column(db.Boolean, default=False)
 
+    # Aadhaar verification fields
+    aadhaar_number = db.Column(db.String(12))  # 12-digit Aadhaar number
+    aadhaar_verified = db.Column(db.Boolean, default=False)  # Verification status
+    aadhaar_verified_at = db.Column(db.DateTime)  # When verification was completed
+
 class StudentPortfolio(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, unique=True, index=True, nullable=False)
@@ -274,7 +281,180 @@ class StudentAIScore(db.Model):
     level = db.Column(db.String(20), default='Bronze')
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-# ---------------- LOGIN MANAGER ---------------- #
+class AadhaarOTP(db.Model):
+    """
+    Stores OTP details for Aadhaar verification attempts
+    """
+    __tablename__ = 'aadhaar_otp'
+
+    id = db.Column(db.Integer, primary_key=True)
+    student_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    aadhaar_number = db.Column(db.String(12), nullable=False)
+    mobile_number = db.Column(db.String(20))  # Last 4 digits or masked number
+    otp_code = db.Column(db.String(6), nullable=False)
+    is_verified = db.Column(db.Boolean, default=False)
+    attempt_count = db.Column(db.Integer, default=0)
+
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    expires_at = db.Column(db.DateTime)  # OTP valid for 10 minutes
+    verified_at = db.Column(db.DateTime)
+
+    @property
+    def is_expired(self):
+        """Check if OTP has expired"""
+        return datetime.utcnow() > self.expires_at
+
+    @property
+    def attempts_remaining(self):
+        """Get remaining attempts"""
+        return max(0, 5 - self.attempt_count)
+
+    def can_verify(self):
+        """Check if OTP can still be verified"""
+        return not self.is_expired and self.attempt_count < 5
+
+
+# ============================================================================
+# OTP ROUTES - DEFINED DIRECTLY IN APP (NO CIRCULAR IMPORTS)
+# ============================================================================
+
+@app.route('/student/aadhaar/request-otp', methods=['POST'])
+def request_aadhaar_otp():
+    """Request OTP for Aadhaar verification"""
+    from otp_verification import create_otp_request, send_otp_via_sms
+
+    if not current_user or not current_user.is_authenticated:
+        return jsonify({'success': False, 'message': 'Please login first'}), 401
+
+    if getattr(current_user, 'role', None) != 'student':
+        return jsonify({'success': False, 'message': 'Only students can verify Aadhaar'}), 403
+
+    try:
+        data = request.get_json()
+        aadhaar = data.get('aadhaar', '').replace(' ', '')
+        mobile = data.get('mobile', '')
+
+        if not aadhaar or len(aadhaar) != 12:
+            return jsonify({'success': False, 'message': 'Invalid Aadhaar number'}), 400
+
+        if not aadhaar.isdigit() or aadhaar[0] in ['0', '1']:
+            return jsonify({'success': False, 'message': 'Invalid Aadhaar format'}), 400
+
+        profile = StudentProfile.query.filter_by(user_id=current_user.id).first()
+        if not profile or profile.aadhaar_number != aadhaar:
+            return jsonify({'success': False, 'message': 'Aadhaar does not match profile'}), 400
+
+        success, message, otp_request = create_otp_request(current_user.id, aadhaar, mobile or "XXXX XXXX XXXX")
+        if not success:
+            return jsonify({'success': False, 'message': message}), 500
+
+        sms_success, sms_message, sms_id = send_otp_via_sms(mobile if mobile else current_user.email, otp_request.otp_code, aadhaar[-4:])
+
+        if not sms_success:
+            return jsonify({'success': False, 'message': 'OTP generated but SMS sending failed. Check console/logs.', 'debug_mode': True}), 500
+
+        return jsonify({'success': True, 'message': 'OTP sent successfully', 'mobile_masked': otp_request.mobile_number, 'otp_id': otp_request.id, 'expires_in_seconds': 600}), 200
+
+    except Exception as e:
+        return jsonify({'success': False, 'message': f'Error: {str(e)}'}), 500
+
+
+@app.route('/student/aadhaar/verify-otp', methods=['POST'])
+def verify_aadhaar_otp():
+    """Verify OTP for Aadhaar"""
+    from otp_verification import verify_otp
+
+    if not current_user or not current_user.is_authenticated:
+        return jsonify({'success': False, 'message': 'Please login first'}), 401
+
+    if getattr(current_user, 'role', None) != 'student':
+        return jsonify({'success': False, 'message': 'Only students can verify Aadhaar'}), 403
+
+    try:
+        data = request.get_json()
+        aadhaar = data.get('aadhaar', '').replace(' ', '')
+        otp_code = data.get('otp', '').strip()
+
+        if not aadhaar or len(aadhaar) != 12:
+            return jsonify({'success': False, 'message': 'Invalid Aadhaar number'}), 400
+
+        if not otp_code or len(otp_code) != 6 or not otp_code.isdigit():
+            return jsonify({'success': False, 'message': 'Invalid OTP format'}), 400
+
+        success, message, otp_record = verify_otp(current_user.id, aadhaar, otp_code)
+
+        if success:
+            return jsonify({'success': True, 'message': message, 'verified': True, 'verified_at': datetime.utcnow().isoformat()}), 200
+        else:
+            remaining = otp_record.attempts_remaining if otp_record else 0
+            return jsonify({'success': False, 'message': message, 'attempts_remaining': remaining, 'is_expired': otp_record.is_expired if otp_record else False}), 400
+
+    except Exception as e:
+        return jsonify({'success': False, 'message': f'Error: {str(e)}'}), 500
+
+
+@app.route('/student/aadhaar/resend-otp', methods=['POST'])
+def resend_aadhaar_otp():
+    """Resend OTP"""
+    from otp_verification import create_otp_request, send_otp_via_sms
+
+    if not current_user or not current_user.is_authenticated:
+        return jsonify({'success': False, 'message': 'Please login first'}), 401
+
+    if getattr(current_user, 'role', None) != 'student':
+        return jsonify({'success': False, 'message': 'Only students can verify Aadhaar'}), 403
+
+    try:
+        data = request.get_json()
+        aadhaar = data.get('aadhaar', '').replace(' ', '')
+
+        if not aadhaar or len(aadhaar) != 12:
+            return jsonify({'success': False, 'message': 'Invalid Aadhaar number'}), 400
+
+        recent_attempts = AadhaarOTP.query.filter_by(student_id=current_user.id, aadhaar_number=aadhaar).filter(AadhaarOTP.created_at > datetime.utcnow() - timedelta(minutes=1)).count()
+
+        if recent_attempts > 3:
+            return jsonify({'success': False, 'message': 'Too many OTP requests. Please try again in a few minutes.'}), 429
+
+        success, message, otp_request = create_otp_request(current_user.id, aadhaar, "XXXX XXXX XXXX")
+        if not success:
+            return jsonify({'success': False, 'message': message}), 500
+
+        sms_success, sms_message, sms_id = send_otp_via_sms(current_user.email, otp_request.otp_code, aadhaar[-4:])
+
+        return jsonify({'success': True, 'message': 'OTP resent successfully', 'expires_in_seconds': 600}), 200
+
+    except Exception as e:
+        return jsonify({'success': False, 'message': f'Error: {str(e)}'}), 500
+
+
+@app.route('/student/aadhaar/otp-status', methods=['GET'])
+def get_aadhaar_otp_status():
+    """Get OTP status"""
+    from otp_verification import get_otp_status
+
+    if not current_user or not current_user.is_authenticated:
+        return jsonify({'success': False, 'message': 'Please login first'}), 401
+
+    if getattr(current_user, 'role', None) != 'student':
+        return jsonify({'success': False, 'message': 'Only students can verify Aadhaar'}), 403
+
+    try:
+        aadhaar = request.args.get('aadhaar', '').replace(' ', '')
+
+        if not aadhaar or len(aadhaar) != 12:
+            return jsonify({'success': False, 'message': 'Invalid Aadhaar number'}), 400
+
+        status = get_otp_status(current_user.id, aadhaar)
+
+        return jsonify({'success': True, 'status': status}), 200
+
+    except Exception as e:
+        return jsonify({'success': False, 'message': f'Error: {str(e)}'}), 500
+
+
+# ============================================================================
+# LOGIN MANAGER
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -447,6 +627,24 @@ def withdraw_application(application_id):
 @role_required('student')
 def update_student_profile():
     profile = StudentProfile.query.filter_by(user_id=current_user.id).first()
+
+    # Check if Aadhaar is provided (REQUIRED FIELD)
+    aadhaar_input = request.form.get('aadhaar_number', '').strip()
+    if not aadhaar_input:
+        flash('Aadhaar number is required to complete your profile.', 'error')
+        return redirect(url_for('student_dashboard') + '?section=profile')
+
+    # Validate Aadhaar format
+    aadhaar_clean = aadhaar_input.replace(' ', '').replace('-', '')
+    if not (len(aadhaar_clean) == 12 and aadhaar_clean.isdigit() and not aadhaar_clean.startswith(('0', '1'))):
+        flash('Invalid Aadhaar number format. Please enter a valid 12-digit number.', 'error')
+        return redirect(url_for('student_dashboard') + '?section=profile')
+
+    # Save Aadhaar number
+    profile.aadhaar_number = aadhaar_clean
+    profile.aadhaar_verified = False
+    profile.aadhaar_verified_at = None
+
     portfolio = StudentPortfolio.query.filter_by(user_id=current_user.id).first()
     if not portfolio:
         portfolio = StudentPortfolio(user_id=current_user.id)
@@ -1387,6 +1585,388 @@ def admin_ai_allocation():
         ran=ran,
     )
 
+
+# ---------------- ML ROUTES ---------------- #
+
+@app.route('/student/ml-matches')
+@login_required
+def student_ml_matches():
+    """Student ML-powered matches dashboard"""
+    if current_user.role != 'student':
+        return redirect(url_for('dashboard'))
+
+    try:
+        # Get student profile
+        profile = StudentProfile.query.filter_by(user_id=current_user.id).first()
+        if not profile:
+            return redirect(url_for('create_profile'))
+
+        # Get all active internships (try both 'active' and 'approved' status)
+        internships = Internship.query.filter(Internship.status.in_(['active', 'approved'])).all()
+        print(f"[DEBUG ML MATCHES] Found {len(internships)} internships for matching")
+
+        # Get ML matcher
+        matcher = get_ml_matcher()
+
+        # Calculate ML matches for each internship
+        matches = []
+        for internship in internships:
+            try:
+                # Get ML match score (with fallback if ML fails)
+                try:
+                    match_score = get_ml_match_score(profile, internship)
+                except Exception as ml_error:
+                    print(f"[DEBUG] ML scoring failed for {internship.title}, using fallback: {ml_error}")
+                    # Fallback to simple skill-based scoring
+                    match_score = calculate_skill_match_percentage(profile.skills, internship.skills_required)
+
+                # Get organization info
+                org = Organization.query.filter_by(id=internship.organization_id).first()
+                org_name = org.company_name if org else "Unknown Company"
+
+                matches.append({
+                    'internship': internship,
+                    'organization': org_name,
+                    'match_score': round(match_score, 1),
+                    'skill_match': calculate_skill_match_percentage(profile.skills, internship.skills_required),
+                    'certificate_bonus': calculate_certificate_bonus(current_user.id),
+                    'experience_bonus': calculate_experience_bonus(current_user.id),
+                    'research_bonus': calculate_research_bonus(current_user.id)
+                })
+            except Exception as e:
+                print(f"Error calculating match for {internship.title}: {e}")
+                continue
+
+        # Sort by match score (highest first)
+        matches.sort(key=lambda x: x['match_score'], reverse=True)
+
+        # Get student certificates and experiences for bonus display
+        certificates = StudentCertificate.query.filter_by(user_id=current_user.id).all()
+        experiences = StudentInternshipExperience.query.filter_by(user_id=current_user.id).all()
+
+        # Create student object for template
+        student_data = {
+            'certificates': certificates,
+            'internship_experiences': experiences,
+            'name': current_user.name,
+            'profile': profile
+        }
+
+        return render_template('student/ml_matches.html',
+                             matches=matches[:10],  # Top 10 matches
+                             student_name=current_user.name,
+                             student=student_data,
+                             certificates=certificates,
+                             experiences=experiences)
+
+    except Exception as e:
+        print(f"Error in student_ml_matches: {e}")
+        # Create empty student object for template
+        student_data = {
+            'certificates': [],
+            'internship_experiences': [],
+            'name': current_user.name,
+            'profile': None
+        }
+        return render_template('student/ml_matches.html',
+                             matches=[],
+                             student_name=current_user.name,
+                             student=student_data,
+                             certificates=[],
+                             experiences=[],
+                             error="Unable to load ML matches at this time.")
+
+@app.route('/admin/ml-model/status')
+@login_required
+def admin_ml_model_status():
+    """Admin ML model status dashboard"""
+    if current_user.role != 'admin':
+        return redirect(url_for('dashboard'))
+
+    try:
+        # Import here to avoid circular imports
+        from models import InternshipFeedback, MatchingModelMetrics
+
+        # Get ML matcher instance
+        matcher = get_ml_matcher()
+
+        # Get model metrics
+        latest_metrics = MatchingModelMetrics.query.order_by(MatchingModelMetrics.created_at.desc()).first()
+
+        # Get feedback data stats
+        total_feedback = InternshipFeedback.query.count()
+        feedback_with_scores = InternshipFeedback.query.filter(
+            InternshipFeedback.actual_success_score.isnot(None)
+        ).count()
+
+        # Get recent training history
+        recent_metrics = MatchingModelMetrics.query.order_by(
+            MatchingModelMetrics.created_at.desc()
+        ).limit(10).all()
+
+        # Calculate average scores
+        avg_student_satisfaction = db.session.query(db.func.avg(InternshipFeedback.student_satisfaction)).scalar() or 0
+        avg_company_performance = db.session.query(db.func.avg(InternshipFeedback.company_performance)).scalar() or 0
+
+        model_stats = {
+            'is_trained': latest_metrics is not None,
+            'accuracy': latest_metrics.accuracy if latest_metrics else 0.0,
+            'mae': latest_metrics.mae if latest_metrics else 0.0,
+            'rmse': latest_metrics.rmse if latest_metrics else 0.0,
+            'r2_score': latest_metrics.r2_score if latest_metrics else 0.0,
+            'last_trained': latest_metrics.created_at if latest_metrics else None,
+            'total_feedback_records': total_feedback,
+            'usable_feedback_records': feedback_with_scores,
+            'avg_student_satisfaction': round(avg_student_satisfaction, 2),
+            'avg_company_performance': round(avg_company_performance, 2),
+            'training_history': recent_metrics
+        }
+
+        return render_template('admin/ml_model_status.html',
+                             model_stats=model_stats,
+                             recent_metrics=recent_metrics)
+
+    except Exception as e:
+        print(f"Error in admin_ml_model_status: {e}")
+        return render_template('admin/ml_model_status.html',
+                             model_stats={
+                                 'is_trained': False,
+                                 'accuracy': 0.0,
+                                 'error': str(e)
+                             },
+                             recent_metrics=[])
+
+@app.route('/admin/ml-model/train', methods=['POST'])
+@login_required
+def admin_train_ml_model():
+    """Train/retrain the ML model"""
+    if current_user.role != 'admin':
+        return jsonify({'error': 'Unauthorized'}), 403
+
+    try:
+        # Train the model using feedback data
+        result = train_ml_model_from_feedback()
+
+        if result['success']:
+            return jsonify({
+                'success': True,
+                'message': f'Model trained successfully! Accuracy: {result["accuracy"]:.2f}',
+                'metrics': result['metrics']
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'message': f'Training failed: {result["message"]}'
+            })
+
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': f'Training error: {str(e)}'
+        }), 500
+
+@app.route('/organization/ml-matches')
+@login_required
+def organization_ml_matches():
+    """Organization ML matches - see which students match their internships"""
+    if current_user.role != 'organization':
+        return redirect(url_for('dashboard'))
+
+    try:
+        # Get organization
+        org = Organization.query.filter_by(user_id=current_user.id).first()
+        if not org:
+            return redirect(url_for('dashboard'))
+
+        # Get organization's internships
+        internships = Internship.query.filter_by(organization_id=org.id).all()
+
+        # Get all student profiles
+        students = StudentProfile.query.all()
+
+        # Calculate matches for each internship
+        internship_matches = []
+        for internship in internships:
+            student_matches = []
+
+            for student in students:
+                try:
+                    # Get ML match score
+                    match_score = get_ml_match_score(student, internship)
+
+                    # Get student user info
+                    user = User.query.filter_by(id=student.user_id).first()
+                    if user:
+                        student_matches.append({
+                            'student': student,
+                            'user': user,
+                            'match_score': round(match_score, 1),
+                            'skill_match': calculate_skill_match_percentage(student.skills, internship.skills_required)
+                        })
+
+                except Exception as e:
+                    print(f"Error calculating match for student {student.id}: {e}")
+                    continue
+
+            # Sort by match score (highest first)
+            student_matches.sort(key=lambda x: x['match_score'], reverse=True)
+
+            internship_matches.append({
+                'internship': internship,
+                'top_matches': student_matches[:20]  # Top 20 students per internship
+            })
+
+        return render_template('organization/ml_matches.html',
+                             internship_matches=internship_matches,
+                             organization_name=org.company_name)
+
+    except Exception as e:
+        print(f"Error in organization_ml_matches: {e}")
+        return render_template('organization/ml_matches.html',
+                             internship_matches=[],
+                             organization_name="",
+                             error="Unable to load ML matches at this time.")
+
+@app.route('/student/profile/edit')
+@login_required
+def student_profile_edit():
+    """Student profile editing page"""
+    if current_user.role != 'student':
+        return redirect(url_for('dashboard'))
+
+    # Redirect to main student dashboard profile section
+    return redirect(url_for('student_dashboard') + '#profile')
+
+@app.route('/student/feedback/submit/<int:internship_id>', methods=['GET', 'POST'])
+@login_required
+def submit_student_feedback_route(internship_id):
+    """
+    Submit feedback after completing an internship.
+    """
+    if current_user.role != 'student':
+        return redirect(url_for('home'))
+
+    student_profile = StudentProfile.query.filter_by(user_id=current_user.id).first()
+    internship = Internship.query.get(internship_id)
+
+    if not student_profile or not internship:
+        flash('Invalid request - internship or profile not found.', 'error')
+        return redirect(url_for('student_dashboard'))
+
+    # Get organization info for the template
+    org = Organization.query.get(internship.organization_id)
+    internship.organization_name = org.company_name if org else 'Unknown Organization'
+
+    if request.method == 'POST':
+        try:
+            feedback_data = {
+                'student_id': student_profile.id,
+                'internship_id': internship_id,
+                'organization_id': internship.organization_id,
+                'satisfaction': int(request.form.get('satisfaction')),
+                'learning': int(request.form.get('learning')),
+                'work_environment': int(request.form.get('work_environment')),
+                'mentor_quality': int(request.form.get('mentor_quality')),
+                'skill_match': int(request.form.get('skill_match')),
+                'would_recommend': request.form.get('would_recommend') == 'yes',
+                'comments': request.form.get('comments', ''),
+                'original_match_score': getattr(student_profile, 'match_score', 0) or 0
+            }
+
+            from ai.ml_integration import submit_student_feedback
+            submit_student_feedback(feedback_data, db.session)
+
+            flash('Thank you for your feedback! This will help improve future recommendations.', 'success')
+            return redirect(url_for('student_dashboard'))
+
+        except Exception as e:
+            print(f"Error submitting student feedback: {e}")
+            flash('Error submitting feedback. Please try again.', 'error')
+
+@app.route('/organization/feedback/submit/<int:student_id>/<int:internship_id>',
+          methods=['GET', 'POST'])
+@login_required
+def submit_company_feedback_route(student_id, internship_id):
+    """
+    Submit feedback for a student who completed an internship.
+    """
+    if current_user.role != 'organization':
+        return redirect(url_for('home'))
+
+    org = Organization.query.filter_by(user_id=current_user.id).first()
+    student = StudentProfile.query.get(student_id)
+    internship = Internship.query.get(internship_id)
+
+    if not org or not student or not internship or internship.organization_id != org.id:
+        flash('Invalid request - unauthorized access or invalid data.', 'error')
+        return redirect(url_for('organization_dashboard'))
+
+    # Get student user info for the template
+    student_user = User.query.get(student.user_id)
+    student.name = student_user.name if student_user else 'Unknown Student'
+
+    if request.method == 'POST':
+        try:
+            feedback_data = {
+                'student_id': student_id,
+                'internship_id': internship_id,
+                'organization_id': org.id,
+                'performance': int(request.form.get('performance')),
+                'skill_level': int(request.form.get('skill_level')),
+                'professionalism': int(request.form.get('professionalism')),
+                'learning_ability': int(request.form.get('learning_ability')),
+                'would_hire': request.form.get('would_hire') == 'yes',
+                'would_recommend': request.form.get('would_recommend') == 'yes',
+                'comments': request.form.get('comments', ''),
+                'original_match_score': getattr(student, 'match_score', 0) or 0
+            }
+
+            from ai.ml_integration import submit_company_feedback
+            submit_company_feedback(feedback_data, db.session)
+
+            flash('Thank you for your feedback! This will help improve future matching.', 'success')
+            return redirect(url_for('organization_dashboard'))
+
+        except Exception as e:
+            print(f"Error submitting company feedback: {e}")
+            flash('Error submitting feedback. Please try again.', 'error')
+
+    return render_template('organization/submit_feedback.html',
+                          student=student,
+                          internship=internship)
+
+def calculate_skill_match_percentage(student_skills, required_skills):
+    """Calculate skill match percentage"""
+    if not student_skills or not required_skills:
+        return 0
+
+    student_set = set([s.strip().lower() for s in student_skills.split(',')])
+    required_set = set([s.strip().lower() for s in required_skills.split(',')])
+
+    if not required_set:
+        return 0
+
+    overlap = len(student_set & required_set)
+    return round((overlap / len(required_set)) * 100, 1)
+
+def calculate_certificate_bonus(user_id):
+    """Calculate certificate bonus percentage"""
+    certs = StudentCertificate.query.filter_by(user_id=user_id).count()
+    return min(certs * 5, 20)  # 5% per cert, max 20%
+
+def calculate_experience_bonus(user_id):
+    """Calculate experience bonus percentage"""
+    experiences = StudentInternshipExperience.query.filter_by(user_id=user_id).count()
+    return min(experiences * 7, 26)  # 7% per experience, max 26%
+
+def calculate_research_bonus(user_id):
+    """Calculate research paper bonus percentage"""
+    try:
+        from models import ResearchPaper
+        papers = ResearchPaper.query.filter_by(user_id=user_id).count()
+        return min(papers * 10, 45)  # 10% per paper, max 45%
+    except:
+        return 0
 
 # ---------------- RUN ---------------- #
 

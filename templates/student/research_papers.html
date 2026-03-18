@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Research Papers</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .header {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        margin-bottom: 30px;
+      }
+
+      .header h1 {
+        color: #667eea;
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .header p {
+        color: #666;
+        font-size: 1.1em;
+      }
+
+      .boost-info {
+        background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+        color: white;
+        padding: 20px 25px;
+        border-radius: 10px;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .boost-icon {
+        font-size: 3em;
+      }
+
+      .boost-text {
+        flex: 1;
+      }
+
+      .boost-title {
+        font-size: 1.3em;
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .boost-description {
+        opacity: 0.9;
+      }
+
+      .add-paper-section {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+      }
+
+      .section-title {
+        font-size: 1.8em;
+        color: #333;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group.full-width {
+        grid-column: 1 / -1;
+      }
+
+      .form-group label {
+        display: block;
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 8px;
+        font-size: 1em;
+      }
+
+      .required {
+        color: #f44336;
+        margin-left: 3px;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1em;
+        font-family: inherit;
+        transition: border-color 0.3s;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      .form-help {
+        font-size: 0.85em;
+        color: #666;
+        margin-top: 5px;
+      }
+
+      .btn {
+        padding: 12px 30px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+      }
+
+      .papers-list {
+        display: grid;
+        gap: 20px;
+      }
+
+      .paper-card {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        position: relative;
+        transition: transform 0.3s;
+      }
+
+      .paper-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      .paper-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 15px;
+      }
+
+      .paper-title {
+        font-size: 1.4em;
+        color: #333;
+        font-weight: 600;
+        flex: 1;
+        padding-right: 20px;
+      }
+
+      .citation-badge {
+        background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+        color: white;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .paper-authors {
+        color: #666;
+        font-size: 1em;
+        margin-bottom: 10px;
+      }
+
+      .paper-meta {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+      }
+
+      .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        color: #666;
+        font-size: 0.95em;
+      }
+
+      .paper-abstract {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        color: #333;
+        line-height: 1.6;
+        margin-bottom: 15px;
+      }
+
+      .paper-keywords {
+        margin-bottom: 15px;
+      }
+
+      .keyword-tag {
+        display: inline-block;
+        padding: 5px 12px;
+        background: #e3f2fd;
+        color: #1976d2;
+        border-radius: 15px;
+        margin: 5px;
+        font-size: 0.85em;
+      }
+
+      .paper-actions {
+        display: flex;
+        gap: 10px;
+        padding-top: 15px;
+        border-top: 2px solid #f0f0f0;
+      }
+
+      .btn-secondary {
+        background: white;
+        color: #667eea;
+        border: 2px solid #667eea;
+      }
+
+      .btn-secondary:hover {
+        background: #667eea;
+        color: white;
+      }
+
+      .btn-danger {
+        background: #f44336;
+        color: white;
+      }
+
+      .btn-danger:hover {
+        background: #c62828;
+      }
+
+      .empty-state {
+        background: white;
+        padding: 60px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .empty-icon {
+        font-size: 5em;
+        margin-bottom: 20px;
+      }
+
+      .empty-state h2 {
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .empty-state p {
+        color: #666;
+        margin-bottom: 20px;
+      }
+
+      .verified-badge {
+        background: #4caf50;
+        color: white;
+        padding: 5px 12px;
+        border-radius: 15px;
+        font-size: 0.8em;
+        font-weight: 600;
+      }
+
+      .pending-badge {
+        background: #ff9800;
+        color: white;
+        padding: 5px 12px;
+        border-radius: 15px;
+        font-size: 0.8em;
+        font-weight: 600;
+      }
+
+      @media (max-width: 768px) {
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .paper-header {
+          flex-direction: column;
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h1>📄 Research Papers</h1>
+        <p>Add your published research to boost your internship match scores</p>
+
+        <div class="boost-info">
+          <div class="boost-icon">🚀</div>
+          <div class="boost-text">
+            <div class="boost-title">Boost Your Match Score by up to 45%!</div>
+            <div class="boost-description">
+              Research papers in relevant domains significantly increase your
+              chances of getting matched with top internships
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Paper Form -->
+      <div class="add-paper-section">
+        <h2 class="section-title">➕ Add Research Paper</h2>
+
+        <form
+          method="POST"
+          action="/student/research-papers"
+          enctype="multipart/form-data"
+        >
+          <div class="form-grid">
+            <!-- Title -->
+            <div class="form-group full-width">
+              <label for="title">
+                Paper Title <span class="required">*</span>
+              </label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                required
+                placeholder="e.g., Novel CNN Architecture for Image Classification"
+              />
+            </div>
+
+            <!-- Authors -->
+            <div class="form-group full-width">
+              <label for="authors">
+                Authors <span class="required">*</span>
+              </label>
+              <input
+                type="text"
+                id="authors"
+                name="authors"
+                required
+                placeholder="e.g., John Doe, Jane Smith, Robert Johnson"
+              />
+              <div class="form-help">Comma-separated list of all authors</div>
+            </div>
+
+            <!-- Publication Venue -->
+            <div class="form-group">
+              <label for="venue">
+                Publication Venue <span class="required">*</span>
+              </label>
+              <input
+                type="text"
+                id="venue"
+                name="venue"
+                required
+                placeholder="e.g., CVPR 2023, IEEE Transactions"
+              />
+              <div class="form-help">Conference or journal name</div>
+            </div>
+
+            <!-- Publication Date -->
+            <div class="form-group">
+              <label for="pub_date">
+                Publication Date <span class="required">*</span>
+              </label>
+              <input type="date" id="pub_date" name="pub_date" required />
+            </div>
+
+            <!-- Domain -->
+            <div class="form-group">
+              <label for="domain">
+                Domain <span class="required">*</span>
+              </label>
+              <select id="domain" name="domain" required>
+                <option value="">Select Domain</option>
+                <option value="Machine Learning">Machine Learning</option>
+                <option value="Web Development">Web Development</option>
+                <option value="Data Science">Data Science</option>
+                <option value="Cybersecurity">Cybersecurity</option>
+                <option value="Mobile Development">Mobile Development</option>
+                <option value="Cloud Computing">Cloud Computing</option>
+                <option value="Blockchain">Blockchain</option>
+                <option value="IoT">Internet of Things</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <!-- Citation Count -->
+            <div class="form-group">
+              <label for="citation_count"> Citation Count </label>
+              <input
+                type="number"
+                id="citation_count"
+                name="citation_count"
+                min="0"
+                value="0"
+                placeholder="0"
+              />
+              <div class="form-help">Higher citations = bigger bonus!</div>
+            </div>
+
+            <!-- DOI -->
+            <div class="form-group full-width">
+              <label for="doi"> DOI (Digital Object Identifier) </label>
+              <input
+                type="text"
+                id="doi"
+                name="doi"
+                placeholder="e.g., 10.1234/example.doi"
+              />
+              <div class="form-help">Optional but helps with verification</div>
+            </div>
+
+            <!-- Paper URL -->
+            <div class="form-group full-width">
+              <label for="paper_url"> Paper URL </label>
+              <input
+                type="url"
+                id="paper_url"
+                name="paper_url"
+                placeholder="e.g., https://arxiv.org/abs/1234.5678"
+              />
+              <div class="form-help">
+                Link to the published paper or preprint
+              </div>
+            </div>
+
+            <!-- Abstract -->
+            <div class="form-group full-width">
+              <label for="abstract">
+                Abstract <span class="required">*</span>
+              </label>
+              <textarea
+                id="abstract"
+                name="abstract"
+                required
+                placeholder="Brief summary of your research..."
+              ></textarea>
+              <div class="form-help">
+                Helps our AI match you with relevant internships
+              </div>
+            </div>
+
+            <!-- Keywords -->
+            <div class="form-group full-width">
+              <label for="keywords">
+                Keywords <span class="required">*</span>
+              </label>
+              <input
+                type="text"
+                id="keywords"
+                name="keywords"
+                required
+                placeholder="e.g., deep learning, computer vision, CNN, image classification"
+              />
+              <div class="form-help">
+                Comma-separated keywords related to your research
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            style="margin-top: 20px"
+          >
+            ➕ Add Research Paper
+          </button>
+        </form>
+      </div>
+
+      <!-- Papers List -->
+      <div class="papers-list">
+        {% if papers %} {% for paper in papers %}
+        <div class="paper-card">
+          <div class="paper-header">
+            <div class="paper-title">{{ paper.title }}</div>
+            <div style="display: flex; gap: 10px; align-items: center">
+              {% if paper.is_verified %}
+              <span class="verified-badge">✓ Verified</span>
+              {% else %}
+              <span class="pending-badge">⏳ Pending Verification</span>
+              {% endif %} {% if paper.citation_count > 0 %}
+              <div class="citation-badge">
+                📊 {{ paper.citation_count }} citations
+              </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="paper-authors">👥 {{ paper.authors }}</div>
+
+          <div class="paper-meta">
+            <div class="meta-item">
+              <span>📚</span>
+              <strong>{{ paper.publication_venue }}</strong>
+            </div>
+            <div class="meta-item">
+              <span>📅</span>
+              {{ paper.publication_date.strftime('%B %Y') if
+              paper.publication_date else 'N/A' }}
+            </div>
+            <div class="meta-item">
+              <span>🎯</span>
+              {{ paper.domain }}
+            </div>
+            {% if paper.doi %}
+            <div class="meta-item">
+              <span>🔖</span>
+              DOI: {{ paper.doi }}
+            </div>
+            {% endif %}
+          </div>
+
+          {% if paper.abstract %}
+          <div class="paper-abstract">
+            <strong>Abstract:</strong><br />
+            {{ paper.abstract }}
+          </div>
+          {% endif %} {% if paper.keywords %}
+          <div class="paper-keywords">
+            <strong>Keywords:</strong><br />
+            {% for keyword in paper.keywords.split(',') %}
+            <span class="keyword-tag">{{ keyword.strip() }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          <div class="paper-actions">
+            {% if paper.paper_url %}
+            <a
+              href="{{ paper.paper_url }}"
+              target="_blank"
+              class="btn btn-secondary"
+            >
+              🔗 View Paper
+            </a>
+            {% endif %}
+            <a
+              href="/student/research-papers/edit/{{ paper.id }}"
+              class="btn btn-secondary"
+            >
+              ✏️ Edit
+            </a>
+            <a
+              href="/student/research-papers/delete/{{ paper.id }}"
+              class="btn btn-danger"
+              onclick="
+                return confirm('Are you sure you want to delete this paper?');
+              "
+            >
+              🗑️ Delete
+            </a>
+          </div>
+        </div>
+        {% endfor %} {% else %}
+        <div class="empty-state">
+          <div class="empty-icon">📄</div>
+          <h2>No Research Papers Yet</h2>
+          <p>
+            Add your published research papers to significantly boost your
+            internship match scores!
+          </p>
+          <p style="font-size: 0.9em; color: #999">
+            Papers in relevant domains can increase your match score by up to
+            45%
+          </p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </body>
+</html>

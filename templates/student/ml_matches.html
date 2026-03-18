@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI-Powered Internship Matches - Student Dashboard</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .header {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        margin-bottom: 30px;
+      }
+
+      .header h1 {
+        color: #667eea;
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .header p {
+        color: #666;
+        font-size: 1.1em;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .stat-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+      }
+
+      .stat-card .number {
+        font-size: 2.5em;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .stat-card .label {
+        font-size: 0.9em;
+        opacity: 0.9;
+      }
+
+      .match-card {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .match-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      }
+
+      .match-rank {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5em;
+        font-weight: bold;
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      .match-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        padding-right: 80px;
+      }
+
+      .match-title {
+        flex: 1;
+      }
+
+      .match-title h2 {
+        color: #333;
+        font-size: 1.8em;
+        margin-bottom: 5px;
+      }
+
+      .company-name {
+        color: #666;
+        font-size: 1.1em;
+        margin-bottom: 10px;
+      }
+
+      .match-tags {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .tag {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.85em;
+        font-weight: 500;
+      }
+
+      .tag-location {
+        background: #e3f2fd;
+        color: #1976d2;
+      }
+
+      .tag-duration {
+        background: #f3e5f5;
+        color: #7b1fa2;
+      }
+
+      .tag-stipend {
+        background: #e8f5e9;
+        color: #388e3c;
+      }
+
+      .tag-domain {
+        background: #fff3e0;
+        color: #f57c00;
+      }
+
+      .match-score-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 25px;
+        border-radius: 12px;
+        margin: 20px 0;
+      }
+
+      .score-display {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .score-number {
+        font-size: 4em;
+        font-weight: bold;
+        display: flex;
+        align-items: baseline;
+      }
+
+      .score-number span {
+        font-size: 0.5em;
+        opacity: 0.8;
+        margin-left: 5px;
+      }
+
+      .confidence-badge {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-size: 0.9em;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .confidence-high {
+        background: rgba(76, 175, 80, 0.3);
+      }
+
+      .breakdown-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .breakdown-item {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 15px;
+        border-radius: 8px;
+        backdrop-filter: blur(10px);
+      }
+
+      .breakdown-label {
+        font-size: 0.85em;
+        opacity: 0.9;
+        margin-bottom: 5px;
+      }
+
+      .breakdown-value {
+        font-size: 1.5em;
+        font-weight: bold;
+      }
+
+      .progress-bar {
+        background: rgba(255, 255, 255, 0.2);
+        height: 8px;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-top: 8px;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: white;
+        border-radius: 4px;
+        transition: width 0.5s ease;
+      }
+
+      .bonus-section {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+      }
+
+      .bonus-section h3 {
+        color: #333;
+        margin-bottom: 15px;
+        font-size: 1.2em;
+      }
+
+      .bonus-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+      }
+
+      .bonus-card {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 4px solid #667eea;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .bonus-icon {
+        font-size: 2em;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 10px;
+      }
+
+      .bonus-details {
+        flex: 1;
+      }
+
+      .bonus-points {
+        font-size: 1.3em;
+        font-weight: bold;
+        color: #667eea;
+      }
+
+      .bonus-description {
+        font-size: 0.9em;
+        color: #666;
+      }
+
+      .recommendations-section {
+        background: #fff8e1;
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 5px solid #ffa726;
+        margin: 20px 0;
+      }
+
+      .recommendations-section h3 {
+        color: #e65100;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .recommendation-item {
+        background: white;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .recommendation-item:before {
+        content: "💡";
+        font-size: 1.5em;
+      }
+
+      .skills-section {
+        margin: 20px 0;
+      }
+
+      .skills-section h3 {
+        color: #333;
+        margin-bottom: 15px;
+      }
+
+      .skills-comparison {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .skills-column h4 {
+        color: #666;
+        margin-bottom: 10px;
+        font-size: 0.95em;
+      }
+
+      .skill-tag {
+        display: inline-block;
+        padding: 6px 12px;
+        background: #e3f2fd;
+        color: #1976d2;
+        border-radius: 15px;
+        margin: 5px;
+        font-size: 0.9em;
+      }
+
+      .skill-tag.matched {
+        background: #c8e6c9;
+        color: #2e7d32;
+        font-weight: 500;
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 25px;
+      }
+
+      .btn {
+        padding: 12px 30px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-secondary {
+        background: white;
+        color: #667eea;
+        border: 2px solid #667eea;
+      }
+
+      .btn-secondary:hover {
+        background: #667eea;
+        color: white;
+      }
+
+      .filter-section {
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+      }
+
+      .filter-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 15px;
+      }
+
+      .filter-item select {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1em;
+      }
+
+      .empty-state {
+        background: white;
+        padding: 60px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .empty-state-icon {
+        font-size: 5em;
+        margin-bottom: 20px;
+      }
+
+      .empty-state h2 {
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .empty-state p {
+        color: #666;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .match-header {
+          flex-direction: column;
+        }
+
+        .match-rank {
+          top: 10px;
+          right: 10px;
+          width: 50px;
+          height: 50px;
+          font-size: 1.2em;
+        }
+
+        .score-number {
+          font-size: 3em;
+        }
+
+        .skills-comparison {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .match-status-excellent {
+        border-left: 5px solid #4caf50;
+      }
+
+      .match-status-good {
+        border-left: 5px solid #2196f3;
+      }
+
+      .match-status-fair {
+        border-left: 5px solid #ff9800;
+      }
+
+      .match-status-poor {
+        border-left: 5px solid #f44336;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h1>🤖 AI-Powered Internship Matches</h1>
+        <p>
+          Personalized recommendations based on your skills, experience, and
+          career goals
+        </p>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="number">{{ matches|length }}</div>
+            <div class="label">Total Matches</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">
+              {{ matches|selectattr('1.match_score', 'gt', 80)|list|length }}
+            </div>
+            <div class="label">Excellent Matches</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">{{ student.certificates|length }}</div>
+            <div class="label">Your Certificates</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">
+              {{ student.internship_experiences|length }}
+            </div>
+            <div class="label">Past Internships</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filter-section">
+        <h3>🔍 Filter Matches</h3>
+        <div class="filter-grid">
+          <div class="filter-item">
+            <select id="domainFilter">
+              <option value="">All Domains</option>
+              <option value="ml">Machine Learning</option>
+              <option value="web">Web Development</option>
+              <option value="data">Data Science</option>
+              <option value="security">Cybersecurity</option>
+              <option value="mobile">Mobile Development</option>
+              <option value="cloud">Cloud Computing</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <select id="scoreFilter">
+              <option value="">All Scores</option>
+              <option value="90">Excellent (90+)</option>
+              <option value="80">Very Good (80-89)</option>
+              <option value="70">Good (70-79)</option>
+              <option value="60">Fair (60-69)</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <select id="locationFilter">
+              <option value="">All Locations</option>
+              <option value="remote">Remote</option>
+              <option value="bangalore">Bangalore</option>
+              <option value="mumbai">Mumbai</option>
+              <option value="delhi">Delhi</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Match Cards -->
+      {% if matches %} {% for internship, match_result in matches %}
+      <div
+        class="match-card {% if match_result.match_score >= 90 %}match-status-excellent{% elif match_result.match_score >= 80 %}match-status-good{% elif match_result.match_score >= 70 %}match-status-fair{% else %}match-status-poor{% endif %}"
+      >
+        <div class="match-rank">#{{ loop.index }}</div>
+
+        <!-- Match Header -->
+        <div class="match-header">
+          <div class="match-title">
+            <h2>{{ internship.title }}</h2>
+            <div class="company-name">
+              📍 {{ internship.organization_name }}
+            </div>
+            <div class="match-tags">
+              <span class="tag tag-domain">{{ internship.domain }}</span>
+              <span class="tag tag-location">📍 {{ internship.location }}</span>
+              <span class="tag tag-duration">⏱️ {{ internship.duration }}</span>
+              <span class="tag tag-stipend">💰 {{ internship.stipend }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Match Score -->
+        <div class="match-score-section">
+          <div class="score-display">
+            <div class="score-number">
+              {{ "%.1f"|format(match_result.match_score) }}
+              <span>/100</span>
+            </div>
+            <div
+              class="confidence-badge {% if match_result.confidence == 'high' %}confidence-high{% endif %}"
+            >
+              {{ match_result.confidence }} Confidence
+            </div>
+          </div>
+
+          <div class="breakdown-grid">
+            <div class="breakdown-item">
+              <div class="breakdown-label">Skill Match</div>
+              <div class="breakdown-value">
+                {{ "%.0f"|format(match_result.breakdown.skill_similarity) }}%
+              </div>
+              <div class="progress-bar">
+                <div
+                  class="progress-fill"
+                  style="width: {{ match_result.breakdown.skill_similarity }}%"
+                ></div>
+              </div>
+            </div>
+            <div class="breakdown-item">
+              <div class="breakdown-label">Keyword Overlap</div>
+              <div class="breakdown-value">
+                {{ "%.0f"|format(match_result.breakdown.keyword_overlap) }}%
+              </div>
+              <div class="progress-bar">
+                <div
+                  class="progress-fill"
+                  style="width: {{ match_result.breakdown.keyword_overlap }}%"
+                ></div>
+              </div>
+            </div>
+            <div class="breakdown-item">
+              <div class="breakdown-label">Location Match</div>
+              <div class="breakdown-value">
+                {{ "%.0f"|format(match_result.breakdown.location_match) }}%
+              </div>
+              <div class="progress-bar">
+                <div
+                  class="progress-fill"
+                  style="width: {{ match_result.breakdown.location_match }}%"
+                ></div>
+              </div>
+            </div>
+            <div class="breakdown-item">
+              <div class="breakdown-label">AI Score Impact</div>
+              <div class="breakdown-value">
+                {{ "%.0f"|format(match_result.breakdown.ai_score_contribution)
+                }}%
+              </div>
+              <div class="progress-bar">
+                <div
+                  class="progress-fill"
+                  style="width: {{ match_result.breakdown.ai_score_contribution }}%"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bonuses -->
+        {% if match_result.breakdown.certificate_bonus > 0 or
+        match_result.breakdown.experience_bonus > 0 or
+        match_result.breakdown.research_bonus > 0 %}
+        <div class="bonus-section">
+          <h3>🎁 Your Bonus Points</h3>
+          <div class="bonus-grid">
+            {% if match_result.breakdown.certificate_bonus > 0 %}
+            <div class="bonus-card">
+              <div class="bonus-icon">📜</div>
+              <div class="bonus-details">
+                <div class="bonus-points">
+                  +{{ "%.1f"|format(match_result.breakdown.certificate_bonus) }}
+                </div>
+                <div class="bonus-description">
+                  {{ match_result.breakdown.certificate_count }} relevant
+                  certificate(s)
+                </div>
+              </div>
+            </div>
+            {% endif %} {% if match_result.breakdown.experience_bonus > 0 %}
+            <div class="bonus-card">
+              <div class="bonus-icon">💼</div>
+              <div class="bonus-details">
+                <div class="bonus-points">
+                  +{{ "%.1f"|format(match_result.breakdown.experience_bonus) }}
+                </div>
+                <div class="bonus-description">
+                  {{ match_result.breakdown.experience_count }} relevant
+                  internship(s)
+                </div>
+              </div>
+            </div>
+            {% endif %} {% if match_result.breakdown.research_bonus > 0 %}
+            <div class="bonus-card">
+              <div class="bonus-icon">📄</div>
+              <div class="bonus-details">
+                <div class="bonus-points">
+                  +{{ "%.1f"|format(match_result.breakdown.research_bonus) }}
+                </div>
+                <div class="bonus-description">
+                  {{ match_result.breakdown.research_count }} research paper(s)
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Skills Comparison -->
+        <div class="skills-section">
+          <h3>🎯 Skills Analysis</h3>
+          <div class="skills-comparison">
+            <div class="skills-column">
+              <h4>Required Skills</h4>
+              {% for skill in internship.skills_required.split(',') %}
+              <span
+                class="skill-tag {% if skill.strip() in student.skills %}matched{% endif %}"
+              >
+                {{ skill.strip() }} {% if skill.strip() in student.skills %}✓{%
+                endif %}
+              </span>
+              {% endfor %}
+            </div>
+            <div class="skills-column">
+              <h4>Your Skills</h4>
+              {% for skill in student.skills.split(',')[:8] %}
+              <span class="skill-tag">{{ skill.strip() }}</span>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Recommendations -->
+        {% if match_result.recommendations %}
+        <div class="recommendations-section">
+          <h3>💡 How to Improve Your Match</h3>
+          {% for rec in match_result.recommendations %}
+          <div class="recommendation-item">{{ rec }}</div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <a href="/student/apply/{{ internship.id }}" class="btn btn-primary"
+            >Apply Now</a
+          >
+          <a
+            href="/student/match-details/{{ internship.id }}"
+            class="btn btn-secondary"
+            >View Full Details</a
+          >
+        </div>
+      </div>
+      {% endfor %} {% else %}
+      <div class="empty-state">
+        <div class="empty-state-icon">🔍</div>
+        <h2>No Matches Found</h2>
+        <p>
+          Complete your profile to get personalized internship recommendations
+        </p>
+        <a href="/student/profile/edit" class="btn btn-primary"
+          >Complete Profile</a
+        >
+      </div>
+      {% endif %}
+    </div>
+
+    <script>
+      // Filter functionality
+      const domainFilter = document.getElementById("domainFilter");
+      const scoreFilter = document.getElementById("scoreFilter");
+      const locationFilter = document.getElementById("locationFilter");
+
+      // Animation on scroll
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = "0";
+            entry.target.style.transform = "translateY(20px)";
+            setTimeout(() => {
+              entry.target.style.transition = "all 0.5s ease";
+              entry.target.style.opacity = "1";
+              entry.target.style.transform = "translateY(0)";
+            }, 100);
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll(".match-card").forEach((card) => {
+        observer.observe(card);
+      });
+    </script>
+  </body>
+</html>

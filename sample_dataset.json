@@ -1,0 +1,3302 @@
+{
+  "students": [
+    {
+      "id": 1,
+      "user_id": 1001,
+      "name": "Edward Hernandez",
+      "skills": "Tableau, Python",
+      "location": "Kolkata",
+      "certificates": [
+        {
+          "certificate_name": "Google Data Analytics Certificate",
+          "related_skill": "Tableau",
+          "description": "Comprehensive course on Tableau",
+          "issuing_organization": "Google Data Analytics Certificate"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 348,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.5670644512865235,
+      "expertise_level": "beginner",
+      "primary_domain": "Data Science"
+    },
+    {
+      "id": 2,
+      "user_id": 1002,
+      "name": "Corey Patel",
+      "skills": "Angular, TypeScript, MongoDB",
+      "location": "Ahmedabad",
+      "certificates": [
+        {
+          "certificate_name": "JavaScript Algorithms - freeCodeCamp",
+          "related_skill": "TypeScript",
+          "description": "Comprehensive course on TypeScript",
+          "issuing_organization": "freeCodeCamp"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 347,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.7078746675702741,
+      "expertise_level": "beginner",
+      "primary_domain": "Web Development"
+    },
+    {
+      "id": 3,
+      "user_id": 1003,
+      "name": "Keith Trujillo",
+      "skills": "Angular, JavaScript, HTML",
+      "location": "Delhi",
+      "certificates": [
+        {
+          "certificate_name": "Full Stack Web Development - Coursera",
+          "related_skill": "JavaScript",
+          "description": "Comprehensive course on JavaScript",
+          "issuing_organization": "Coursera"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 277,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.4838469977987784,
+      "expertise_level": "beginner",
+      "primary_domain": "Web Development"
+    },
+    {
+      "id": 4,
+      "user_id": 1004,
+      "name": "Kristen Green",
+      "skills": "Network Security, Cryptography, Security Auditing, Linux",
+      "location": "Mumbai",
+      "certificates": [
+        {
+          "certificate_name": "Ethical Hacking - EC-Council",
+          "related_skill": "Cryptography",
+          "description": "Comprehensive course on Cryptography",
+          "issuing_organization": "EC-Council"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 224,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.7242568322897436,
+      "expertise_level": "beginner",
+      "primary_domain": "Cybersecurity"
+    },
+    {
+      "id": 5,
+      "user_id": 1005,
+      "name": "Mary Mcpherson",
+      "skills": "Swift, React Native, API Integration",
+      "location": "Remote",
+      "certificates": [],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 249,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.8797405009792736,
+      "expertise_level": "beginner",
+      "primary_domain": "Mobile Development"
+    },
+    {
+      "id": 6,
+      "user_id": 1006,
+      "name": "Ronald Little",
+      "skills": "Security Auditing, Ethical Hacking",
+      "location": "Delhi",
+      "certificates": [],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 266,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.3587918317270329,
+      "expertise_level": "beginner",
+      "primary_domain": "Cybersecurity"
+    },
+    {
+      "id": 7,
+      "user_id": 1007,
+      "name": "Jason Flores",
+      "skills": "Cryptography, Firewall",
+      "location": "Remote",
+      "certificates": [
+        {
+          "certificate_name": "Network Security - Cisco",
+          "related_skill": "Cryptography",
+          "description": "Comprehensive course on Cryptography",
+          "issuing_organization": "Cisco"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 321,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.5999772448804013,
+      "expertise_level": "beginner",
+      "primary_domain": "Cybersecurity"
+    },
+    {
+      "id": 8,
+      "user_id": 1008,
+      "name": "Cristian Kelly",
+      "skills": "Azure, CI/CD, AWS, Linux",
+      "location": "Hyderabad",
+      "certificates": [],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 248,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.6350310229401208,
+      "expertise_level": "beginner",
+      "primary_domain": "Cloud Computing"
+    },
+    {
+      "id": 9,
+      "user_id": 1009,
+      "name": "Jennifer Callahan",
+      "skills": "Data Visualization, Python, SQL",
+      "location": "Kolkata",
+      "certificates": [
+        {
+          "certificate_name": "Tableau Desktop Specialist",
+          "related_skill": "SQL",
+          "description": "Comprehensive course on SQL",
+          "issuing_organization": "Tableau Desktop Specialist"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 388,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.5420458175247013,
+      "expertise_level": "beginner",
+      "primary_domain": "Data Science"
+    },
+    {
+      "id": 10,
+      "user_id": 1010,
+      "name": "Scott Hansen",
+      "skills": "SQL, Excel, Statistics, Data Analysis",
+      "location": "Remote",
+      "certificates": [],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 400,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.6952140545067595,
+      "expertise_level": "beginner",
+      "primary_domain": "Data Science"
+    },
+    {
+      "id": 11,
+      "user_id": 1011,
+      "name": "Shelly Hansen",
+      "skills": "CSS, Node.js, TypeScript, Vue.js, React",
+      "location": "Remote",
+      "certificates": [
+        {
+          "certificate_name": "Node.js Certification - OpenJS Foundation",
+          "related_skill": "CSS",
+          "description": "Comprehensive course on CSS",
+          "issuing_organization": "OpenJS Foundation"
+        }
+      ],
+      "internship_experiences": [
+        {
+          "role": "Full Stack Developer Intern",
+          "company_name": "AlphaStack",
+          "skills_used": "Vue.js, React, Node.js",
+          "work_description": "Worked on web development projects involving TypeScript",
+          "start_date": "2025-03-29",
+          "end_date": "2025-07-27"
+        }
+      ],
+      "research_papers": [],
+      "ai_score": 491,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.3600773233066666,
+      "expertise_level": "medium",
+      "primary_domain": "Web Development"
+    },
+    {
+      "id": 12,
+      "user_id": 1012,
+      "name": "Tanya Walker",
+      "skills": "Pandas, SQL, R, Data Visualization",
+      "location": "Chennai",
+      "certificates": [
+        {
+          "certificate_name": "Google Data Analytics Certificate",
+          "related_skill": "SQL",
+          "description": "Comprehensive course on SQL",
+          "issuing_organization": "Google Data Analytics Certificate"
+        },
+        {
+          "certificate_name": "Google Data Analytics Certificate",
+          "related_skill": "Pandas",
+          "description": "Comprehensive course on Pandas",
+          "issuing_organization": "Google Data Analytics Certificate"
+        }
+      ],
+      "internship_experiences": [
+        {
+          "role": "Quantitative Analyst Intern",
+          "company_name": "InnovateLabs",
+          "skills_used": "Data Visualization, Pandas, SQL",
+          "work_description": "Worked on data science projects involving SQL",
+          "start_date": "2024-11-11",
+          "end_date": "2025-04-10"
+        }
+      ],
+      "research_papers": [
+        {
+          "title": "Predictive Analytics for Customer Churn",
+          "abstract": "This research explores predictive analytics for customer churn with focus on Pandas",
+          "keywords": "Data Visualization, SQL, Pandas, R",
+          "domain": "Data Science",
+          "citation_count": 3
+        }
+      ],
+      "ai_score": 458,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.36634268624554645,
+      "expertise_level": "medium",
+      "primary_domain": "Data Science"
+    },
+    {
+      "id": 13,
+      "user_id": 1013,
+      "name": "Mark Brooks",
+      "skills": "Statistics, Tableau, Excel, Python, Data Analysis, Power BI",
+      "location": "Ahmedabad",
+      "certificates": [
+        {
+          "certificate_name": "Data Science Professional Certificate - IBM",
+          "related_skill": "Data Analysis",
+          "description": "Comprehensive course on Data Analysis",
+          "issuing_organization": "IBM"
+        },
+        {
+          "certificate_name": "Microsoft Power BI Data Analyst",
+          "related_skill": "Power BI",
+          "description": "Comprehensive course on Power BI",
+          "issuing_organization": "Microsoft Power BI Data Analyst"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [
+        {
+          "title": "Predictive Analytics for Customer Churn",
+          "abstract": "This research explores predictive analytics for customer churn with focus on Excel",
+          "keywords": "Data Analysis, Tableau, Excel, Statistics",
+          "domain": "Data Science",
+          "citation_count": 7
+        }
+      ],
+      "ai_score": 622,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.5105757682894094,
+      "expertise_level": "medium",
+      "primary_domain": "Data Science"
+    },
+    {
+      "id": 14,
+      "user_id": 1014,
+      "name": "Brittany Brown",
+      "skills": "GCP, Terraform, Azure, Linux",
+      "location": "Kolkata",
+      "certificates": [
+        {
+          "certificate_name": "AWS Certified Cloud Practitioner",
+          "related_skill": "Linux",
+          "description": "Comprehensive course on Linux",
+          "issuing_organization": "AWS Certified Cloud Practitioner"
+        },
+        {
+          "certificate_name": "AWS Certified Cloud Practitioner",
+          "related_skill": "Azure",
+          "description": "Comprehensive course on Azure",
+          "issuing_organization": "AWS Certified Cloud Practitioner"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [
+        {
+          "title": "Multi-Cloud Strategy Implementation",
+          "abstract": "This research explores multi-cloud strategy implementation with focus on Terraform",
+          "keywords": "GCP, Azure, Linux, Terraform",
+          "domain": "Cloud Computing",
+          "citation_count": 1
+        }
+      ],
+      "ai_score": 487,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.3958223530740941,
+      "expertise_level": "medium",
+      "primary_domain": "Cloud Computing"
+    },
+    {
+      "id": 15,
+      "user_id": 1015,
+      "name": "Amy Wilkins",
+      "skills": "React Native, Flutter, API Integration, Kotlin",
+      "location": "Remote",
+      "certificates": [
+        {
+          "certificate_name": "Mobile App Development - Coursera",
+          "related_skill": "Kotlin",
+          "description": "Comprehensive course on Kotlin",
+          "issuing_organization": "Coursera"
+        },
+        {
+          "certificate_name": "Mobile App Development - Coursera",
+          "related_skill": "API Integration",
+          "description": "Comprehensive course on API Integration",
+          "issuing_organization": "Coursera"
+        }
+      ],
+      "internship_experiences": [
+        {
+          "role": "Flutter Developer Intern",
+          "company_name": "DataDrive Inc",
+          "skills_used": "API Integration, React Native, Flutter",
+          "work_description": "Worked on mobile development projects involving React Native",
+          "start_date": "2025-04-09",
+          "end_date": "2025-07-08"
+        }
+      ],
+      "research_papers": [
+        {
+          "title": "Offline-First Mobile Applications",
+          "abstract": "This research explores offline-first mobile applications with focus on API Integration",
+          "keywords": "API Integration, React Native, Flutter, Kotlin",
+          "domain": "Mobile Development",
+          "citation_count": 1
+        }
+      ],
+      "ai_score": 491,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.6819085306012977,
+      "expertise_level": "medium",
+      "primary_domain": "Mobile Development"
+    },
+    {
+      "id": 16,
+      "user_id": 1016,
+      "name": "Megan Garcia",
+      "skills": "Vue.js, HTML, Express, MongoDB",
+      "location": "Pune",
+      "certificates": [
+        {
+          "certificate_name": "Full Stack Web Development - Coursera",
+          "related_skill": "HTML",
+          "description": "Comprehensive course on HTML",
+          "issuing_organization": "Coursera"
+        },
+        {
+          "certificate_name": "React Developer Certification - Meta",
+          "related_skill": "Vue.js",
+          "description": "Comprehensive course on Vue.js",
+          "issuing_organization": "Meta"
+        }
+      ],
+      "internship_experiences": [
+        {
+          "role": "Backend Developer Intern",
+          "company_name": "SecureNet Systems",
+          "skills_used": "HTML, MongoDB, Vue.js",
+          "work_description": "Worked on web development projects involving HTML",
+          "start_date": "2025-01-21",
+          "end_date": "2025-05-21"
+        }
+      ],
+      "research_papers": [],
+      "ai_score": 584,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.3312807985181382,
+      "expertise_level": "medium",
+      "primary_domain": "Web Development"
+    },
+    {
+      "id": 17,
+      "user_id": 1017,
+      "name": "Sean Patterson",
+      "skills": "Security Auditing, Linux, Network Security, Ethical Hacking",
+      "location": "Pune",
+      "certificates": [
+        {
+          "certificate_name": "Cybersecurity Fundamentals - IBM",
+          "related_skill": "Network Security",
+          "description": "Comprehensive course on Network Security",
+          "issuing_organization": "IBM"
+        },
+        {
+          "certificate_name": "Cybersecurity Fundamentals - IBM",
+          "related_skill": "Security Auditing",
+          "description": "Comprehensive course on Security Auditing",
+          "issuing_organization": "IBM"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [
+        {
+          "title": "Cloud Security Best Practices",
+          "abstract": "This research explores cloud security best practices with focus on Network Security",
+          "keywords": "Linux, Ethical Hacking, Security Auditing, Network Security",
+          "domain": "Cybersecurity",
+          "citation_count": 6
+        }
+      ],
+      "ai_score": 676,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.8729452764105434,
+      "expertise_level": "medium",
+      "primary_domain": "Cybersecurity"
+    },
+    {
+      "id": 18,
+      "user_id": 1018,
+      "name": "Katrina Huynh",
+      "skills": "Swift, Flutter, iOS, Mobile UI/UX, Android, Kotlin",
+      "location": "Pune",
+      "certificates": [
+        {
+          "certificate_name": "React Native - Meta",
+          "related_skill": "Swift",
+          "description": "Comprehensive course on Swift",
+          "issuing_organization": "Meta"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 629,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.8344378454923758,
+      "expertise_level": "medium",
+      "primary_domain": "Mobile Development"
+    },
+    {
+      "id": 19,
+      "user_id": 1019,
+      "name": "Kelly Johnson",
+      "skills": "CI/CD, Kubernetes, AWS, Azure",
+      "location": "Hyderabad",
+      "certificates": [
+        {
+          "certificate_name": "Microsoft Azure Fundamentals",
+          "related_skill": "CI/CD",
+          "description": "Comprehensive course on CI/CD",
+          "issuing_organization": "Microsoft Azure Fundamentals"
+        },
+        {
+          "certificate_name": "Google Cloud Associate Engineer",
+          "related_skill": "Kubernetes",
+          "description": "Comprehensive course on Kubernetes",
+          "issuing_organization": "Google Cloud Associate Engineer"
+        }
+      ],
+      "internship_experiences": [
+        {
+          "role": "Site Reliability Engineer Intern",
+          "company_name": "DeltaDev",
+          "skills_used": "Azure, CI/CD, Kubernetes",
+          "work_description": "Worked on cloud computing projects involving Kubernetes",
+          "start_date": "2025-01-15",
+          "end_date": "2025-07-14"
+        }
+      ],
+      "research_papers": [],
+      "ai_score": 640,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.4874081085843858,
+      "expertise_level": "medium",
+      "primary_domain": "Cloud Computing"
+    },
+    {
+      "id": 20,
+      "user_id": 1020,
+      "name": "Ashley Rios",
+      "skills": "Linux, Kubernetes, Terraform, Cloud Architecture",
+      "location": "Ahmedabad",
+      "certificates": [
+        {
+          "certificate_name": "Google Cloud Associate Engineer",
+          "related_skill": "Cloud Architecture",
+          "description": "Comprehensive course on Cloud Architecture",
+          "issuing_organization": "Google Cloud Associate Engineer"
+        },
+        {
+          "certificate_name": "Google Cloud Associate Engineer",
+          "related_skill": "Cloud Architecture",
+          "description": "Comprehensive course on Cloud Architecture",
+          "issuing_organization": "Google Cloud Associate Engineer"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [
+        {
+          "title": "Infrastructure as Code Best Practices",
+          "abstract": "This research explores infrastructure as code best practices with focus on Linux",
+          "keywords": "Terraform, Kubernetes, Linux, Cloud Architecture",
+          "domain": "Cloud Computing",
+          "citation_count": 5
+        }
+      ],
+      "ai_score": 454,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.35362459039778926,
+      "expertise_level": "medium",
+      "primary_domain": "Cloud Computing"
+    },
+    {
+      "id": 21,
+      "user_id": 1021,
+      "name": "Nancy Kennedy",
+      "skills": "Firewall, SIEM, Linux, Ethical Hacking",
+      "location": "Kolkata",
+      "certificates": [
+        {
+          "certificate_name": "Ethical Hacking - EC-Council",
+          "related_skill": "Linux",
+          "description": "Comprehensive course on Linux",
+          "issuing_organization": "EC-Council"
+        },
+        {
+          "certificate_name": "Google Cybersecurity Certificate",
+          "related_skill": "Ethical Hacking",
+          "description": "Comprehensive course on Ethical Hacking",
+          "issuing_organization": "Google Cybersecurity Certificate"
+        }
+      ],
+      "internship_experiences": [
+        {
+          "role": "Network Security Intern",
+          "company_name": "BetaWorks",
+          "skills_used": "SIEM, Firewall, Ethical Hacking",
+          "work_description": "Worked on cybersecurity projects involving Ethical Hacking",
+          "start_date": "2025-08-24",
+          "end_date": "2025-10-23"
+        }
+      ],
+      "research_papers": [],
+      "ai_score": 635,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.3295842534684178,
+      "expertise_level": "medium",
+      "primary_domain": "Cybersecurity"
+    },
+    {
+      "id": 22,
+      "user_id": 1022,
+      "name": "Elizabeth Stewart",
+      "skills": "API Integration, Flutter, React Native, Firebase",
+      "location": "Bangalore",
+      "certificates": [
+        {
+          "certificate_name": "React Native - Meta",
+          "related_skill": "API Integration",
+          "description": "Comprehensive course on API Integration",
+          "issuing_organization": "Meta"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 451,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.5435780299170847,
+      "expertise_level": "medium",
+      "primary_domain": "Mobile Development"
+    },
+    {
+      "id": 23,
+      "user_id": 1023,
+      "name": "Misty Todd",
+      "skills": "Flutter, Swift, Firebase, iOS, Mobile UI/UX, Android",
+      "location": "Kolkata",
+      "certificates": [
+        {
+          "certificate_name": "React Native - Meta",
+          "related_skill": "Flutter",
+          "description": "Comprehensive course on Flutter",
+          "issuing_organization": "Meta"
+        },
+        {
+          "certificate_name": "React Native - Meta",
+          "related_skill": "iOS",
+          "description": "Comprehensive course on iOS",
+          "issuing_organization": "Meta"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [
+        {
+          "title": "Mobile App Security Best Practices",
+          "abstract": "This research explores mobile app security best practices with focus on Android",
+          "keywords": "Firebase, Android, Swift, Flutter",
+          "domain": "Mobile Development",
+          "citation_count": 4
+        }
+      ],
+      "ai_score": 409,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.4755082487190112,
+      "expertise_level": "medium",
+      "primary_domain": "Mobile Development"
+    },
+    {
+      "id": 24,
+      "user_id": 1024,
+      "name": "Nicole Davis",
+      "skills": "Network Security, Penetration Testing, Ethical Hacking, Linux, Cryptography, Firewall, Security Auditing",
+      "location": "Chennai",
+      "certificates": [
+        {
+          "certificate_name": "Ethical Hacking - EC-Council",
+          "related_skill": "Penetration Testing",
+          "description": "Comprehensive course on Penetration Testing",
+          "issuing_organization": "EC-Council"
+        },
+        {
+          "certificate_name": "Network Security - Cisco",
+          "related_skill": "Ethical Hacking",
+          "description": "Comprehensive course on Ethical Hacking",
+          "issuing_organization": "Cisco"
+        }
+      ],
+      "internship_experiences": [
+        {
+          "role": "Network Security Intern",
+          "company_name": "InnovateLabs",
+          "skills_used": "Penetration Testing, Ethical Hacking, Cryptography",
+          "work_description": "Worked on cybersecurity projects involving Network Security",
+          "start_date": "2025-06-11",
+          "end_date": "2025-11-08"
+        }
+      ],
+      "research_papers": [
+        {
+          "title": "Advanced Persistent Threats Detection",
+          "abstract": "This research explores advanced persistent threats detection with focus on Security Auditing",
+          "keywords": "Security Auditing, Linux, Network Security, Penetration Testing",
+          "domain": "Cybersecurity",
+          "citation_count": 3
+        }
+      ],
+      "ai_score": 644,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.815485757836351,
+      "expertise_level": "medium",
+      "primary_domain": "Cybersecurity"
+    },
+    {
+      "id": 25,
+      "user_id": 1025,
+      "name": "Robin Brown",
+      "skills": "REST API, React, Vue.js, Express, Node.js, TypeScript, Angular",
+      "location": "Mumbai",
+      "certificates": [
+        {
+          "certificate_name": "Web Development Bootcamp - Udemy",
+          "related_skill": "TypeScript",
+          "description": "Comprehensive course on TypeScript",
+          "issuing_organization": "Udemy"
+        },
+        {
+          "certificate_name": "Node.js Certification - OpenJS Foundation",
+          "related_skill": "Angular",
+          "description": "Comprehensive course on Angular",
+          "issuing_organization": "OpenJS Foundation"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [
+        {
+          "title": "Progressive Web Apps: A Comprehensive Study",
+          "abstract": "This research explores progressive web apps: a comprehensive study with focus on Vue.js",
+          "keywords": "REST API, Express, TypeScript, Angular",
+          "domain": "Web Development",
+          "citation_count": 9
+        }
+      ],
+      "ai_score": 504,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.8626412738315898,
+      "expertise_level": "medium",
+      "primary_domain": "Web Development"
+    },
+    {
+      "id": 26,
+      "user_id": 1026,
+      "name": "Andrea Clayton",
+      "skills": "AWS, Linux, DevOps, CI/CD, Docker, Terraform",
+      "location": "Bangalore",
+      "certificates": [
+        {
+          "certificate_name": "Microsoft Azure Fundamentals",
+          "related_skill": "Terraform",
+          "description": "Comprehensive course on Terraform",
+          "issuing_organization": "Microsoft Azure Fundamentals"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [
+        {
+          "title": "Cloud Cost Optimization Techniques",
+          "abstract": "This research explores cloud cost optimization techniques with focus on DevOps",
+          "keywords": "Linux, Terraform, Docker, CI/CD",
+          "domain": "Cloud Computing",
+          "citation_count": 0
+        }
+      ],
+      "ai_score": 477,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.7467150398483091,
+      "expertise_level": "medium",
+      "primary_domain": "Cloud Computing"
+    },
+    {
+      "id": 27,
+      "user_id": 1027,
+      "name": "Michelle Bender",
+      "skills": "iOS, React Native, Flutter, Kotlin, API Integration, Firebase",
+      "location": "Ahmedabad",
+      "certificates": [
+        {
+          "certificate_name": "Flutter Development - Google",
+          "related_skill": "Firebase",
+          "description": "Comprehensive course on Firebase",
+          "issuing_organization": "Google"
+        },
+        {
+          "certificate_name": "Android Developer Certification - Google",
+          "related_skill": "React Native",
+          "description": "Comprehensive course on React Native",
+          "issuing_organization": "Google"
+        }
+      ],
+      "internship_experiences": [
+        {
+          "role": "Flutter Developer Intern",
+          "company_name": "SecureNet Systems",
+          "skills_used": "Firebase, API Integration, Kotlin",
+          "work_description": "Worked on mobile development projects involving Firebase",
+          "start_date": "2025-05-16",
+          "end_date": "2025-07-15"
+        }
+      ],
+      "research_papers": [],
+      "ai_score": 456,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.4895574254412277,
+      "expertise_level": "medium",
+      "primary_domain": "Mobile Development"
+    },
+    {
+      "id": 28,
+      "user_id": 1028,
+      "name": "Steven Moreno",
+      "skills": "React, HTML, MongoDB, Angular",
+      "location": "Delhi",
+      "certificates": [
+        {
+          "certificate_name": "React Developer Certification - Meta",
+          "related_skill": "HTML",
+          "description": "Comprehensive course on HTML",
+          "issuing_organization": "Meta"
+        }
+      ],
+      "internship_experiences": [
+        {
+          "role": "Backend Developer Intern",
+          "company_name": "InnovateLabs",
+          "skills_used": "HTML, React, Angular",
+          "work_description": "Worked on web development projects involving React",
+          "start_date": "2024-10-07",
+          "end_date": "2025-04-05"
+        }
+      ],
+      "research_papers": [],
+      "ai_score": 561,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.6135080866143572,
+      "expertise_level": "medium",
+      "primary_domain": "Web Development"
+    },
+    {
+      "id": 29,
+      "user_id": 1029,
+      "name": "Angela Morales",
+      "skills": "Data Visualization, Pandas, Statistics, Power BI, Excel, Tableau",
+      "location": "Chennai",
+      "certificates": [
+        {
+          "certificate_name": "Tableau Desktop Specialist",
+          "related_skill": "Tableau",
+          "description": "Comprehensive course on Tableau",
+          "issuing_organization": "Tableau Desktop Specialist"
+        }
+      ],
+      "internship_experiences": [
+        {
+          "role": "Data Science Intern",
+          "company_name": "WebWizards",
+          "skills_used": "Data Visualization, Tableau, Power BI",
+          "work_description": "Worked on data science projects involving Data Visualization",
+          "start_date": "2024-11-10",
+          "end_date": "2025-05-09"
+        }
+      ],
+      "research_papers": [
+        {
+          "title": "Statistical Analysis of Social Media Trends",
+          "abstract": "This research explores statistical analysis of social media trends with focus on Pandas",
+          "keywords": "Power BI, Data Visualization, Pandas, Tableau",
+          "domain": "Data Science",
+          "citation_count": 1
+        }
+      ],
+      "ai_score": 493,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.3403897042384191,
+      "expertise_level": "medium",
+      "primary_domain": "Data Science"
+    },
+    {
+      "id": 30,
+      "user_id": 1030,
+      "name": "Laura Massey",
+      "skills": "Neural Networks, Computer Vision, TensorFlow, NumPy, NLP",
+      "location": "Ahmedabad",
+      "certificates": [
+        {
+          "certificate_name": "Deep Learning Specialization - Coursera",
+          "related_skill": "Computer Vision",
+          "description": "Comprehensive course on Computer Vision",
+          "issuing_organization": "Coursera"
+        }
+      ],
+      "internship_experiences": [
+        {
+          "role": "Deep Learning Intern",
+          "company_name": "InnovateLabs",
+          "skills_used": "Computer Vision, TensorFlow, NumPy",
+          "work_description": "Worked on machine learning projects involving NLP",
+          "start_date": "2025-06-21",
+          "end_date": "2025-10-19"
+        }
+      ],
+      "research_papers": [],
+      "ai_score": 629,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.6633890961319435,
+      "expertise_level": "medium",
+      "primary_domain": "Machine Learning"
+    },
+    {
+      "id": 31,
+      "user_id": 1031,
+      "name": "Steven Young",
+      "skills": "Data Visualization, Excel, R, SQL, Python, Power BI, Statistics",
+      "location": "Pune",
+      "certificates": [
+        {
+          "certificate_name": "Google Data Analytics Certificate",
+          "related_skill": "Statistics",
+          "description": "Comprehensive course on Statistics",
+          "issuing_organization": "Google Data Analytics Certificate"
+        },
+        {
+          "certificate_name": "Data Analysis with Python - Coursera",
+          "related_skill": "Power BI",
+          "description": "Comprehensive course on Power BI",
+          "issuing_organization": "Coursera"
+        }
+      ],
+      "internship_experiences": [
+        {
+          "role": "Data Science Intern",
+          "company_name": "EpsilonTech",
+          "skills_used": "Power BI, SQL, R",
+          "work_description": "Worked on data science projects involving Python",
+          "start_date": "2025-04-20",
+          "end_date": "2025-09-17"
+        }
+      ],
+      "research_papers": [],
+      "ai_score": 642,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.34748275333851053,
+      "expertise_level": "medium",
+      "primary_domain": "Data Science"
+    },
+    {
+      "id": 32,
+      "user_id": 1032,
+      "name": "Lori Spencer",
+      "skills": "Deep Learning, Python, PyTorch, TensorFlow, NLP, Pandas, NumPy, Neural Networks",
+      "location": "Delhi",
+      "certificates": [
+        {
+          "certificate_name": "Machine Learning Certificate - Stanford Online",
+          "related_skill": "Python",
+          "description": "Comprehensive course on Python",
+          "issuing_organization": "Stanford Online"
+        },
+        {
+          "certificate_name": "Advanced Machine Learning - Coursera",
+          "related_skill": "Neural Networks",
+          "description": "Comprehensive course on Neural Networks",
+          "issuing_organization": "Coursera"
+        }
+      ],
+      "internship_experiences": [
+        {
+          "role": "ML Engineer Intern",
+          "company_name": "SecureNet Systems",
+          "skills_used": "Deep Learning, NLP, TensorFlow",
+          "work_description": "Worked on machine learning projects involving Python",
+          "start_date": "2025-03-29",
+          "end_date": "2025-05-28"
+        }
+      ],
+      "research_papers": [
+        {
+          "title": "Novel CNN Architecture for Image Classification",
+          "abstract": "This research explores novel cnn architecture for image classification with focus on Pandas",
+          "keywords": "Neural Networks, NLP, TensorFlow, Pandas",
+          "domain": "Machine Learning",
+          "citation_count": 29
+        }
+      ],
+      "ai_score": 963,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.3134622840598511,
+      "expertise_level": "expert",
+      "primary_domain": "Machine Learning"
+    },
+    {
+      "id": 33,
+      "user_id": 1033,
+      "name": "Kathleen Henry",
+      "skills": "TensorFlow, Pandas, Computer Vision, Neural Networks",
+      "location": "Kolkata",
+      "certificates": [],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 228,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.48555553844822674,
+      "expertise_level": "beginner",
+      "primary_domain": "Machine Learning"
+    },
+    {
+      "id": 34,
+      "user_id": 1034,
+      "name": "Rebecca Berg",
+      "skills": "Kubernetes, Docker, Terraform, Linux",
+      "location": "Kolkata",
+      "certificates": [
+        {
+          "certificate_name": "Docker Certified Associate",
+          "related_skill": "Kubernetes",
+          "description": "Comprehensive course on Kubernetes",
+          "issuing_organization": "Docker Certified Associate"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 689,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.6052889059560493,
+      "expertise_level": "medium",
+      "primary_domain": "Cloud Computing"
+    },
+    {
+      "id": 35,
+      "user_id": 1035,
+      "name": "Brenda Cooke",
+      "skills": "TypeScript, Angular, REST API, Node.js, React, MongoDB",
+      "location": "Pune",
+      "certificates": [
+        {
+          "certificate_name": "JavaScript Algorithms - freeCodeCamp",
+          "related_skill": "REST API",
+          "description": "Comprehensive course on REST API",
+          "issuing_organization": "freeCodeCamp"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 677,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.36058853160181137,
+      "expertise_level": "medium",
+      "primary_domain": "Web Development"
+    },
+    {
+      "id": 36,
+      "user_id": 1036,
+      "name": "Bruce Cain",
+      "skills": "JavaScript, TypeScript, CSS, Node.js, HTML, REST API, MongoDB, Vue.js",
+      "location": "Remote",
+      "certificates": [
+        {
+          "certificate_name": "JavaScript Algorithms - freeCodeCamp",
+          "related_skill": "HTML",
+          "description": "Comprehensive course on HTML",
+          "issuing_organization": "freeCodeCamp"
+        },
+        {
+          "certificate_name": "React Developer Certification - Meta",
+          "related_skill": "CSS",
+          "description": "Comprehensive course on CSS",
+          "issuing_organization": "Meta"
+        },
+        {
+          "certificate_name": "React Developer Certification - Meta",
+          "related_skill": "REST API",
+          "description": "Comprehensive course on REST API",
+          "issuing_organization": "Meta"
+        },
+        {
+          "certificate_name": "JavaScript Algorithms - freeCodeCamp",
+          "related_skill": "JavaScript",
+          "description": "Comprehensive course on JavaScript",
+          "issuing_organization": "freeCodeCamp"
+        }
+      ],
+      "internship_experiences": [
+        {
+          "role": "Backend Developer Intern",
+          "company_name": "DataDrive Inc",
+          "skills_used": "REST API, TypeScript, JavaScript",
+          "work_description": "Worked on web development projects involving HTML",
+          "start_date": "2025-03-02",
+          "end_date": "2025-08-29"
+        },
+        {
+          "role": "Backend Developer Intern",
+          "company_name": "SecureNet Systems",
+          "skills_used": "CSS, TypeScript, HTML",
+          "work_description": "Worked on web development projects involving HTML",
+          "start_date": "2025-03-29",
+          "end_date": "2025-08-26"
+        },
+        {
+          "role": "Backend Developer Intern",
+          "company_name": "EpsilonTech",
+          "skills_used": "TypeScript, Node.js, Vue.js",
+          "work_description": "Worked on web development projects involving CSS",
+          "start_date": "2025-10-01",
+          "end_date": "2025-11-30"
+        }
+      ],
+      "research_papers": [
+        {
+          "title": "GraphQL vs REST: Performance Analysis",
+          "abstract": "This research explores graphql vs rest: performance analysis with focus on CSS",
+          "keywords": "Vue.js, REST API, Node.js, HTML",
+          "domain": "Web Development",
+          "citation_count": 20
+        },
+        {
+          "title": "Microservices Architecture for Web Applications",
+          "abstract": "This research explores microservices architecture for web applications with focus on HTML",
+          "keywords": "MongoDB, JavaScript, Node.js, TypeScript",
+          "domain": "Web Development",
+          "citation_count": 16
+        },
+        {
+          "title": "Performance Optimization in Single Page Applications",
+          "abstract": "This research explores performance optimization in single page applications with focus on JavaScript",
+          "keywords": "HTML, Node.js, REST API, JavaScript",
+          "domain": "Web Development",
+          "citation_count": 38
+        }
+      ],
+      "ai_score": 873,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.7519169594300994,
+      "expertise_level": "expert",
+      "primary_domain": "Web Development"
+    },
+    {
+      "id": 37,
+      "user_id": 1037,
+      "name": "Colin Duncan",
+      "skills": "Neural Networks, Deep Learning, NLP, Computer Vision",
+      "location": "Pune",
+      "certificates": [],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 249,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.4377228141573716,
+      "expertise_level": "beginner",
+      "primary_domain": "Machine Learning"
+    },
+    {
+      "id": 38,
+      "user_id": 1038,
+      "name": "Melissa Parker",
+      "skills": "Ethical Hacking, Linux, Firewall, SIEM",
+      "location": "Chennai",
+      "certificates": [
+        {
+          "certificate_name": "Ethical Hacking - EC-Council",
+          "related_skill": "Linux",
+          "description": "Comprehensive course on Linux",
+          "issuing_organization": "EC-Council"
+        },
+        {
+          "certificate_name": "Cybersecurity Fundamentals - IBM",
+          "related_skill": "SIEM",
+          "description": "Comprehensive course on SIEM",
+          "issuing_organization": "IBM"
+        }
+      ],
+      "internship_experiences": [
+        {
+          "role": "SOC Analyst Intern",
+          "company_name": "NextGen Software",
+          "skills_used": "Linux, Firewall, SIEM",
+          "work_description": "Worked on cybersecurity projects involving SIEM",
+          "start_date": "2025-04-10",
+          "end_date": "2025-10-07"
+        }
+      ],
+      "research_papers": [
+        {
+          "title": "Machine Learning for Intrusion Detection",
+          "abstract": "This research explores machine learning for intrusion detection with focus on Ethical Hacking",
+          "keywords": "Ethical Hacking, Linux, Firewall, SIEM",
+          "domain": "Cybersecurity",
+          "citation_count": 5
+        }
+      ],
+      "ai_score": 604,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.33886535344179436,
+      "expertise_level": "medium",
+      "primary_domain": "Cybersecurity"
+    },
+    {
+      "id": 39,
+      "user_id": 1039,
+      "name": "Michael Johnson",
+      "skills": "Firebase, API Integration, iOS",
+      "location": "Pune",
+      "certificates": [],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 240,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.82926350529631,
+      "expertise_level": "beginner",
+      "primary_domain": "Mobile Development"
+    },
+    {
+      "id": 40,
+      "user_id": 1040,
+      "name": "Erica Rhodes",
+      "skills": "Python, Computer Vision, TensorFlow, Deep Learning, NLP, Neural Networks, NumPy",
+      "location": "Chennai",
+      "certificates": [
+        {
+          "certificate_name": "Machine Learning Certificate - Stanford Online",
+          "related_skill": "NumPy",
+          "description": "Comprehensive course on NumPy",
+          "issuing_organization": "Stanford Online"
+        },
+        {
+          "certificate_name": "Deep Learning Specialization - Coursera",
+          "related_skill": "Computer Vision",
+          "description": "Comprehensive course on Computer Vision",
+          "issuing_organization": "Coursera"
+        }
+      ],
+      "internship_experiences": [
+        {
+          "role": "ML Engineer Intern",
+          "company_name": "AI Innovations",
+          "skills_used": "Deep Learning, Python, Neural Networks",
+          "work_description": "Worked on machine learning projects involving Python",
+          "start_date": "2025-05-08",
+          "end_date": "2025-10-05"
+        }
+      ],
+      "research_papers": [
+        {
+          "title": "Generative Adversarial Networks for Image Synthesis",
+          "abstract": "This research explores generative adversarial networks for image synthesis with focus on NLP",
+          "keywords": "NLP, TensorFlow, Neural Networks, NumPy",
+          "domain": "Machine Learning",
+          "citation_count": 5
+        }
+      ],
+      "ai_score": 595,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.4578186923631816,
+      "expertise_level": "medium",
+      "primary_domain": "Machine Learning"
+    },
+    {
+      "id": 41,
+      "user_id": 1041,
+      "name": "Shelby Contreras",
+      "skills": "NumPy, Pandas, NLP, TensorFlow",
+      "location": "Chennai",
+      "certificates": [
+        {
+          "certificate_name": "Advanced Machine Learning - Coursera",
+          "related_skill": "NumPy",
+          "description": "Comprehensive course on NumPy",
+          "issuing_organization": "Coursera"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 668,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.4249900757245964,
+      "expertise_level": "medium",
+      "primary_domain": "Machine Learning"
+    },
+    {
+      "id": 42,
+      "user_id": 1042,
+      "name": "Tammy Jacobs",
+      "skills": "Firebase, Mobile UI/UX, iOS, Kotlin, Flutter, React Native, Swift",
+      "location": "Mumbai",
+      "certificates": [
+        {
+          "certificate_name": "Mobile App Development - Coursera",
+          "related_skill": "iOS",
+          "description": "Comprehensive course on iOS",
+          "issuing_organization": "Coursera"
+        },
+        {
+          "certificate_name": "iOS App Development - Apple",
+          "related_skill": "React Native",
+          "description": "Comprehensive course on React Native",
+          "issuing_organization": "Apple"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [
+        {
+          "title": "Cross-Platform Mobile Development Performance",
+          "abstract": "This research explores cross-platform mobile development performance with focus on React Native",
+          "keywords": "Mobile UI/UX, Firebase, Swift, Kotlin",
+          "domain": "Mobile Development",
+          "citation_count": 9
+        }
+      ],
+      "ai_score": 494,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.5374229756071891,
+      "expertise_level": "medium",
+      "primary_domain": "Mobile Development"
+    },
+    {
+      "id": 43,
+      "user_id": 1043,
+      "name": "Charles Mcbride",
+      "skills": "Flutter, Mobile UI/UX, Kotlin, Android, iOS, API Integration",
+      "location": "Pune",
+      "certificates": [
+        {
+          "certificate_name": "React Native - Meta",
+          "related_skill": "Android",
+          "description": "Comprehensive course on Android",
+          "issuing_organization": "Meta"
+        },
+        {
+          "certificate_name": "Mobile App Development - Coursera",
+          "related_skill": "iOS",
+          "description": "Comprehensive course on iOS",
+          "issuing_organization": "Coursera"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [
+        {
+          "title": "Offline-First Mobile Applications",
+          "abstract": "This research explores offline-first mobile applications with focus on API Integration",
+          "keywords": "API Integration, Flutter, iOS, Android",
+          "domain": "Mobile Development",
+          "citation_count": 6
+        }
+      ],
+      "ai_score": 409,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.8266882418451673,
+      "expertise_level": "medium",
+      "primary_domain": "Mobile Development"
+    },
+    {
+      "id": 44,
+      "user_id": 1044,
+      "name": "Bailey Lawrence",
+      "skills": "Cloud Architecture, AWS, CI/CD, GCP",
+      "location": "Ahmedabad",
+      "certificates": [
+        {
+          "certificate_name": "Microsoft Azure Fundamentals",
+          "related_skill": "AWS",
+          "description": "Comprehensive course on AWS",
+          "issuing_organization": "Microsoft Azure Fundamentals"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 333,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.8032819953766752,
+      "expertise_level": "beginner",
+      "primary_domain": "Cloud Computing"
+    },
+    {
+      "id": 45,
+      "user_id": 1045,
+      "name": "Laura Meyers",
+      "skills": "Cloud Architecture, GCP, DevOps",
+      "location": "Ahmedabad",
+      "certificates": [
+        {
+          "certificate_name": "Docker Certified Associate",
+          "related_skill": "GCP",
+          "description": "Comprehensive course on GCP",
+          "issuing_organization": "Docker Certified Associate"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 383,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.8913080046708568,
+      "expertise_level": "beginner",
+      "primary_domain": "Cloud Computing"
+    },
+    {
+      "id": 46,
+      "user_id": 1046,
+      "name": "Mark Schneider",
+      "skills": "React Native, Kotlin, iOS",
+      "location": "Bangalore",
+      "certificates": [
+        {
+          "certificate_name": "iOS App Development - Apple",
+          "related_skill": "Kotlin",
+          "description": "Comprehensive course on Kotlin",
+          "issuing_organization": "Apple"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 385,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.5263073908672699,
+      "expertise_level": "beginner",
+      "primary_domain": "Mobile Development"
+    },
+    {
+      "id": 47,
+      "user_id": 1047,
+      "name": "James Wolfe",
+      "skills": "Terraform, Cloud Architecture, CI/CD, Kubernetes, GCP, Docker, Linux, DevOps, Azure, AWS",
+      "location": "Kolkata",
+      "certificates": [
+        {
+          "certificate_name": "Docker Certified Associate",
+          "related_skill": "Linux",
+          "description": "Comprehensive course on Linux",
+          "issuing_organization": "Docker Certified Associate"
+        },
+        {
+          "certificate_name": "Docker Certified Associate",
+          "related_skill": "Docker",
+          "description": "Comprehensive course on Docker",
+          "issuing_organization": "Docker Certified Associate"
+        },
+        {
+          "certificate_name": "Google Cloud Associate Engineer",
+          "related_skill": "Docker",
+          "description": "Comprehensive course on Docker",
+          "issuing_organization": "Google Cloud Associate Engineer"
+        },
+        {
+          "certificate_name": "AWS Certified Cloud Practitioner",
+          "related_skill": "Linux",
+          "description": "Comprehensive course on Linux",
+          "issuing_organization": "AWS Certified Cloud Practitioner"
+        }
+      ],
+      "internship_experiences": [
+        {
+          "role": "Cloud Infrastructure Intern",
+          "company_name": "DataDrive Inc",
+          "skills_used": "DevOps, Cloud Architecture, Azure",
+          "work_description": "Worked on cloud computing projects involving Azure",
+          "start_date": "2025-07-19",
+          "end_date": "2025-10-17"
+        }
+      ],
+      "research_papers": [
+        {
+          "title": "Infrastructure as Code Best Practices",
+          "abstract": "This research explores infrastructure as code best practices with focus on GCP",
+          "keywords": "GCP, Azure, CI/CD, Docker",
+          "domain": "Cloud Computing",
+          "citation_count": 2
+        },
+        {
+          "title": "Container Orchestration at Scale",
+          "abstract": "This research explores container orchestration at scale with focus on CI/CD",
+          "keywords": "AWS, Cloud Architecture, Kubernetes, CI/CD",
+          "domain": "Cloud Computing",
+          "citation_count": 47
+        },
+        {
+          "title": "Cloud Cost Optimization Techniques",
+          "abstract": "This research explores cloud cost optimization techniques with focus on Cloud Architecture",
+          "keywords": "DevOps, Docker, Linux, CI/CD",
+          "domain": "Cloud Computing",
+          "citation_count": 29
+        }
+      ],
+      "ai_score": 960,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.3717315416857232,
+      "expertise_level": "expert",
+      "primary_domain": "Cloud Computing"
+    },
+    {
+      "id": 48,
+      "user_id": 1048,
+      "name": "Courtney Rodriguez",
+      "skills": "Data Analysis, SQL, Statistics, Python, Power BI",
+      "location": "Ahmedabad",
+      "certificates": [
+        {
+          "certificate_name": "Tableau Desktop Specialist",
+          "related_skill": "Python",
+          "description": "Comprehensive course on Python",
+          "issuing_organization": "Tableau Desktop Specialist"
+        }
+      ],
+      "internship_experiences": [
+        {
+          "role": "Data Analyst Intern",
+          "company_name": "CodeCraft Studios",
+          "skills_used": "SQL, Statistics, Power BI",
+          "work_description": "Worked on data science projects involving SQL",
+          "start_date": "2025-08-29",
+          "end_date": "2025-11-27"
+        }
+      ],
+      "research_papers": [],
+      "ai_score": 525,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.3488222013193959,
+      "expertise_level": "medium",
+      "primary_domain": "Data Science"
+    },
+    {
+      "id": 49,
+      "user_id": 1049,
+      "name": "Alicia Morgan",
+      "skills": "DevOps, Docker, Azure, GCP",
+      "location": "Delhi",
+      "certificates": [],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 365,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.757108983793038,
+      "expertise_level": "beginner",
+      "primary_domain": "Cloud Computing"
+    },
+    {
+      "id": 50,
+      "user_id": 1050,
+      "name": "Michael Byrd",
+      "skills": "Angular, React, Vue.js",
+      "location": "Kolkata",
+      "certificates": [
+        {
+          "certificate_name": "JavaScript Algorithms - freeCodeCamp",
+          "related_skill": "Vue.js",
+          "description": "Comprehensive course on Vue.js",
+          "issuing_organization": "freeCodeCamp"
+        }
+      ],
+      "internship_experiences": [],
+      "research_papers": [],
+      "ai_score": 389,
+      "avg_feedback_score": 0.5,
+      "personality_culture_match": 0.3229370727667837,
+      "expertise_level": "beginner",
+      "primary_domain": "Web Development"
+    }
+  ],
+  "internships": [
+    {
+      "id": 1,
+      "title": "Computer Vision Intern",
+      "skills_required": "Python, TensorFlow, Computer Vision, Neural Networks, Pandas",
+      "location": "Chennai",
+      "duration": "2 months",
+      "stipend": "₹20,000",
+      "domain": "Machine Learning",
+      "organization_name": "BetaWorks",
+      "organization_id": 2001
+    },
+    {
+      "id": 2,
+      "title": "Web Developer Intern",
+      "skills_required": "Node.js, REST API, MongoDB, Vue.js, Express, JavaScript, HTML",
+      "location": "Delhi",
+      "duration": "2 months",
+      "stipend": "₹25,000",
+      "domain": "Web Development",
+      "organization_name": "CloudNine Technologies",
+      "organization_id": 2002
+    },
+    {
+      "id": 3,
+      "title": "MERN Stack Intern",
+      "skills_required": "TypeScript, HTML, CSS, Node.js",
+      "location": "Hyderabad",
+      "duration": "6 months",
+      "stipend": "₹15,000",
+      "domain": "Web Development",
+      "organization_name": "SecureNet Systems",
+      "organization_id": 2003
+    },
+    {
+      "id": 4,
+      "title": "AI Research Intern",
+      "skills_required": "TensorFlow, PyTorch, Deep Learning, Scikit-learn",
+      "location": "Kolkata",
+      "duration": "2 months",
+      "stipend": "₹35,000",
+      "domain": "Machine Learning",
+      "organization_name": "AlphaStack",
+      "organization_id": 2004
+    },
+    {
+      "id": 5,
+      "title": "Cloud Infrastructure Intern",
+      "skills_required": "DevOps, GCP, Docker, CI/CD, Cloud Architecture, Azure, Linux",
+      "location": "Ahmedabad",
+      "duration": "2 months",
+      "stipend": "₹20,000",
+      "domain": "Cloud Computing",
+      "organization_name": "EpsilonTech",
+      "organization_id": 2005
+    },
+    {
+      "id": 6,
+      "title": "Cybersecurity Intern",
+      "skills_required": "Firewall, Penetration Testing, SIEM, Ethical Hacking",
+      "location": "Bangalore",
+      "duration": "6 months",
+      "stipend": "₹35,000",
+      "domain": "Cybersecurity",
+      "organization_name": "NextGen Software",
+      "organization_id": 2006
+    },
+    {
+      "id": 7,
+      "title": "SOC Analyst Intern",
+      "skills_required": "Linux, Cryptography, Firewall, SIEM, Security Auditing, Network Security, Penetration Testing",
+      "location": "Hyderabad",
+      "duration": "3 months",
+      "stipend": "₹22,000",
+      "domain": "Cybersecurity",
+      "organization_name": "QuantumLeap Analytics",
+      "organization_id": 2007
+    },
+    {
+      "id": 8,
+      "title": "Android Developer Intern",
+      "skills_required": "iOS, API Integration, Flutter, Mobile UI/UX, Firebase, Android",
+      "location": "Mumbai",
+      "duration": "3 months",
+      "stipend": "₹28,000",
+      "domain": "Mobile Development",
+      "organization_name": "CloudNine Technologies",
+      "organization_id": 2008
+    },
+    {
+      "id": 9,
+      "title": "Analytics Intern",
+      "skills_required": "SQL, R, Tableau, Statistics, Power BI, Pandas",
+      "location": "Delhi",
+      "duration": "2 months",
+      "stipend": "₹18,000",
+      "domain": "Data Science",
+      "organization_name": "EpsilonTech",
+      "organization_id": 2009
+    },
+    {
+      "id": 10,
+      "title": "Data Science Intern",
+      "skills_required": "Excel, Python, Data Visualization, Data Analysis",
+      "location": "Delhi",
+      "duration": "6 months",
+      "stipend": "₹18,000",
+      "domain": "Data Science",
+      "organization_name": "BetaWorks",
+      "organization_id": 2010
+    },
+    {
+      "id": 11,
+      "title": "Data Science Intern",
+      "skills_required": "Excel, R, Python, Tableau",
+      "location": "Mumbai",
+      "duration": "6 months",
+      "stipend": "₹30,000",
+      "domain": "Data Science",
+      "organization_name": "CloudNine Technologies",
+      "organization_id": 2011
+    },
+    {
+      "id": 12,
+      "title": "Web Developer Intern",
+      "skills_required": "Node.js, MongoDB, React, Express, Angular, HTML, CSS",
+      "location": "Hyderabad",
+      "duration": "6 months",
+      "stipend": "₹15,000",
+      "domain": "Web Development",
+      "organization_name": "BetaWorks",
+      "organization_id": 2012
+    },
+    {
+      "id": 13,
+      "title": "Full Stack Developer Intern",
+      "skills_required": "React, Node.js, MongoDB, Angular, HTML, Express",
+      "location": "Hyderabad",
+      "duration": "6 months",
+      "stipend": "₹15,000",
+      "domain": "Web Development",
+      "organization_name": "CodeCraft Studios",
+      "organization_id": 2013
+    },
+    {
+      "id": 14,
+      "title": "SOC Analyst Intern",
+      "skills_required": "Cryptography, Network Security, Penetration Testing, Linux, Firewall, Security Auditing",
+      "location": "Ahmedabad",
+      "duration": "6 months",
+      "stipend": "₹35,000",
+      "domain": "Cybersecurity",
+      "organization_name": "WebWizards",
+      "organization_id": 2014
+    },
+    {
+      "id": 15,
+      "title": "React Native Developer Intern",
+      "skills_required": "Kotlin, Swift, Firebase, Android, Mobile UI/UX, iOS, React Native",
+      "location": "Chennai",
+      "duration": "6 months",
+      "stipend": "₹18,000",
+      "domain": "Mobile Development",
+      "organization_name": "AlphaStack",
+      "organization_id": 2000
+    },
+    {
+      "id": 16,
+      "title": "SOC Analyst Intern",
+      "skills_required": "Cryptography, SIEM, Penetration Testing, Security Auditing, Firewall, Ethical Hacking",
+      "location": "Hyderabad",
+      "duration": "3 months",
+      "stipend": "₹22,000",
+      "domain": "Cybersecurity",
+      "organization_name": "AI Innovations",
+      "organization_id": 2001
+    },
+    {
+      "id": 17,
+      "title": "SOC Analyst Intern",
+      "skills_required": "Security Auditing, Network Security, Linux, Penetration Testing, Firewall, SIEM, Cryptography",
+      "location": "Ahmedabad",
+      "duration": "2 months",
+      "stipend": "₹22,000",
+      "domain": "Cybersecurity",
+      "organization_name": "GammaCode",
+      "organization_id": 2002
+    },
+    {
+      "id": 18,
+      "title": "Flutter Developer Intern",
+      "skills_required": "Firebase, Mobile UI/UX, Flutter, iOS",
+      "location": "Remote",
+      "duration": "6 months",
+      "stipend": "₹28,000",
+      "domain": "Mobile Development",
+      "organization_name": "BetaWorks",
+      "organization_id": 2003
+    },
+    {
+      "id": 19,
+      "title": "Cloud Infrastructure Intern",
+      "skills_required": "Cloud Architecture, Linux, Azure, GCP, CI/CD",
+      "location": "Kolkata",
+      "duration": "3 months",
+      "stipend": "₹32,000",
+      "domain": "Cloud Computing",
+      "organization_name": "DeltaDev",
+      "organization_id": 2004
+    },
+    {
+      "id": 20,
+      "title": "Cloud Engineer Intern",
+      "skills_required": "Linux, Azure, Cloud Architecture, DevOps, Docker",
+      "location": "Hyderabad",
+      "duration": "2 months",
+      "stipend": "₹20,000",
+      "domain": "Cloud Computing",
+      "organization_name": "GammaCode",
+      "organization_id": 2005
+    },
+    {
+      "id": 21,
+      "title": "SOC Analyst Intern",
+      "skills_required": "Ethical Hacking, Linux, SIEM, Firewall, Security Auditing, Penetration Testing, Network Security",
+      "location": "Bangalore",
+      "duration": "2 months",
+      "stipend": "₹22,000",
+      "domain": "Cybersecurity",
+      "organization_name": "SecureNet Systems",
+      "organization_id": 2006
+    },
+    {
+      "id": 22,
+      "title": "Android Developer Intern",
+      "skills_required": "React Native, Kotlin, iOS, Flutter, Swift, Firebase",
+      "location": "Mumbai",
+      "duration": "3 months",
+      "stipend": "₹18,000",
+      "domain": "Mobile Development",
+      "organization_name": "CloudNine Technologies",
+      "organization_id": 2007
+    },
+    {
+      "id": 23,
+      "title": "Flutter Developer Intern",
+      "skills_required": "React Native, Android, iOS, API Integration, Mobile UI/UX, Swift",
+      "location": "Ahmedabad",
+      "duration": "6 months",
+      "stipend": "₹28,000",
+      "domain": "Mobile Development",
+      "organization_name": "EpsilonTech",
+      "organization_id": 2008
+    },
+    {
+      "id": 24,
+      "title": "Site Reliability Engineer Intern",
+      "skills_required": "Kubernetes, CI/CD, Azure, Cloud Architecture, Terraform, Docker",
+      "location": "Delhi",
+      "duration": "3 months",
+      "stipend": "₹32,000",
+      "domain": "Cloud Computing",
+      "organization_name": "CodeCraft Studios",
+      "organization_id": 2009
+    },
+    {
+      "id": 25,
+      "title": "MERN Stack Intern",
+      "skills_required": "Angular, MongoDB, HTML, CSS, TypeScript, Node.js, JavaScript",
+      "location": "Remote",
+      "duration": "6 months",
+      "stipend": "₹15,000",
+      "domain": "Web Development",
+      "organization_name": "NextGen Software",
+      "organization_id": 2010
+    },
+    {
+      "id": 26,
+      "title": "DevOps Intern",
+      "skills_required": "CI/CD, Kubernetes, Azure, Docker, GCP, Terraform, Cloud Architecture",
+      "location": "Delhi",
+      "duration": "2 months",
+      "stipend": "₹32,000",
+      "domain": "Cloud Computing",
+      "organization_name": "WebWizards",
+      "organization_id": 2011
+    },
+    {
+      "id": 27,
+      "title": "iOS Developer Intern",
+      "skills_required": "API Integration, Kotlin, Mobile UI/UX, Firebase",
+      "location": "Chennai",
+      "duration": "3 months",
+      "stipend": "₹18,000",
+      "domain": "Mobile Development",
+      "organization_name": "DataDrive Inc",
+      "organization_id": 2012
+    },
+    {
+      "id": 28,
+      "title": "MERN Stack Intern",
+      "skills_required": "TypeScript, REST API, MongoDB, CSS, React, Vue.js, Node.js",
+      "location": "Chennai",
+      "duration": "2 months",
+      "stipend": "₹25,000",
+      "domain": "Web Development",
+      "organization_name": "SecureNet Systems",
+      "organization_id": 2013
+    },
+    {
+      "id": 29,
+      "title": "Analytics Intern",
+      "skills_required": "Tableau, Power BI, Excel, SQL, Python, Statistics, Data Analysis",
+      "location": "Chennai",
+      "duration": "3 months",
+      "stipend": "₹18,000",
+      "domain": "Data Science",
+      "organization_name": "GammaCode",
+      "organization_id": 2014
+    },
+    {
+      "id": 30,
+      "title": "ML Engineer Intern",
+      "skills_required": "TensorFlow, Computer Vision, Python, PyTorch, Deep Learning, NumPy",
+      "location": "Mumbai",
+      "duration": "3 months",
+      "stipend": "₹35,000",
+      "domain": "Machine Learning",
+      "organization_name": "QuantumLeap Analytics",
+      "organization_id": 2000
+    },
+    {
+      "id": 31,
+      "title": "Flutter Developer Intern",
+      "skills_required": "iOS, Firebase, API Integration, Swift, Kotlin",
+      "location": "Mumbai",
+      "duration": "6 months",
+      "stipend": "₹18,000",
+      "domain": "Mobile Development",
+      "organization_name": "AI Innovations",
+      "organization_id": 2001
+    },
+    {
+      "id": 32,
+      "title": "Data Science Intern",
+      "skills_required": "Scikit-learn, NLP, PyTorch, TensorFlow, NumPy, Deep Learning",
+      "location": "Delhi",
+      "duration": "3 months",
+      "stipend": "₹20,000",
+      "domain": "Machine Learning",
+      "organization_name": "QuantumLeap Analytics",
+      "organization_id": 2002
+    },
+    {
+      "id": 33,
+      "title": "AI Research Intern",
+      "skills_required": "NLP, NumPy, Computer Vision, TensorFlow, Neural Networks, Python, Pandas",
+      "location": "Hyderabad",
+      "duration": "3 months",
+      "stipend": "₹20,000",
+      "domain": "Machine Learning",
+      "organization_name": "WebWizards",
+      "organization_id": 2003
+    },
+    {
+      "id": 34,
+      "title": "Cloud Engineer Intern",
+      "skills_required": "Cloud Architecture, CI/CD, Azure, Terraform, Linux, Docker",
+      "location": "Remote",
+      "duration": "3 months",
+      "stipend": "₹32,000",
+      "domain": "Cloud Computing",
+      "organization_name": "BetaWorks",
+      "organization_id": 2004
+    },
+    {
+      "id": 35,
+      "title": "Web Developer Intern",
+      "skills_required": "MongoDB, Express, Vue.js, REST API, CSS, JavaScript, React",
+      "location": "Chennai",
+      "duration": "3 months",
+      "stipend": "₹25,000",
+      "domain": "Web Development",
+      "organization_name": "DeltaDev",
+      "organization_id": 2005
+    },
+    {
+      "id": 36,
+      "title": "Backend Developer Intern",
+      "skills_required": "React, Vue.js, MongoDB, Angular, Express",
+      "location": "Hyderabad",
+      "duration": "3 months",
+      "stipend": "₹15,000",
+      "domain": "Web Development",
+      "organization_name": "ByteBuilders",
+      "organization_id": 2006
+    },
+    {
+      "id": 37,
+      "title": "Cybersecurity Intern",
+      "skills_required": "Ethical Hacking, SIEM, Security Auditing, Penetration Testing, Network Security, Cryptography",
+      "location": "Ahmedabad",
+      "duration": "3 months",
+      "stipend": "₹22,000",
+      "domain": "Cybersecurity",
+      "organization_name": "AI Innovations",
+      "organization_id": 2007
+    },
+    {
+      "id": 38,
+      "title": "AWS Intern",
+      "skills_required": "AWS, Kubernetes, Cloud Architecture, CI/CD, Docker",
+      "location": "Pune",
+      "duration": "6 months",
+      "stipend": "₹20,000",
+      "domain": "Cloud Computing",
+      "organization_name": "InnovateLabs",
+      "organization_id": 2008
+    },
+    {
+      "id": 39,
+      "title": "Android Developer Intern",
+      "skills_required": "API Integration, Firebase, Android, Swift, React Native, iOS, Flutter",
+      "location": "Hyderabad",
+      "duration": "3 months",
+      "stipend": "₹28,000",
+      "domain": "Mobile Development",
+      "organization_name": "SecureNet Systems",
+      "organization_id": 2009
+    },
+    {
+      "id": 40,
+      "title": "Data Science Intern",
+      "skills_required": "Python, Deep Learning, PyTorch, Pandas",
+      "location": "Pune",
+      "duration": "3 months",
+      "stipend": "₹20,000",
+      "domain": "Machine Learning",
+      "organization_name": "WebWizards",
+      "organization_id": 2010
+    },
+    {
+      "id": 41,
+      "title": "Web Developer Intern",
+      "skills_required": "Angular, HTML, MongoDB, React",
+      "location": "Remote",
+      "duration": "3 months",
+      "stipend": "₹15,000",
+      "domain": "Web Development",
+      "organization_name": "SecureNet Systems",
+      "organization_id": 2011
+    },
+    {
+      "id": 42,
+      "title": "Computer Vision Intern",
+      "skills_required": "Scikit-learn, Computer Vision, Deep Learning, Pandas, TensorFlow, Neural Networks",
+      "location": "Pune",
+      "duration": "3 months",
+      "stipend": "₹35,000",
+      "domain": "Machine Learning",
+      "organization_name": "DeltaDev",
+      "organization_id": 2012
+    },
+    {
+      "id": 43,
+      "title": "React Native Developer Intern",
+      "skills_required": "API Integration, Swift, Mobile UI/UX, Kotlin, Firebase",
+      "location": "Chennai",
+      "duration": "3 months",
+      "stipend": "₹28,000",
+      "domain": "Mobile Development",
+      "organization_name": "AI Innovations",
+      "organization_id": 2013
+    },
+    {
+      "id": 44,
+      "title": "AWS Intern",
+      "skills_required": "CI/CD, Azure, DevOps, GCP, AWS, Cloud Architecture, Docker",
+      "location": "Pune",
+      "duration": "2 months",
+      "stipend": "₹20,000",
+      "domain": "Cloud Computing",
+      "organization_name": "InnovateLabs",
+      "organization_id": 2014
+    },
+    {
+      "id": 45,
+      "title": "AWS Intern",
+      "skills_required": "Terraform, Azure, Cloud Architecture, Docker, CI/CD, GCP",
+      "location": "Chennai",
+      "duration": "3 months",
+      "stipend": "₹20,000",
+      "domain": "Cloud Computing",
+      "organization_name": "NextGen Software",
+      "organization_id": 2000
+    },
+    {
+      "id": 46,
+      "title": "Flutter Developer Intern",
+      "skills_required": "React Native, Kotlin, Android, Flutter, iOS",
+      "location": "Hyderabad",
+      "duration": "6 months",
+      "stipend": "₹18,000",
+      "domain": "Mobile Development",
+      "organization_name": "GammaCode",
+      "organization_id": 2001
+    },
+    {
+      "id": 47,
+      "title": "Deep Learning Intern",
+      "skills_required": "Computer Vision, Python, TensorFlow, Scikit-learn, NLP, NumPy",
+      "location": "Mumbai",
+      "duration": "3 months",
+      "stipend": "₹20,000",
+      "domain": "Machine Learning",
+      "organization_name": "CodeCraft Studios",
+      "organization_id": 2002
+    },
+    {
+      "id": 48,
+      "title": "Deep Learning Intern",
+      "skills_required": "PyTorch, Scikit-learn, Deep Learning, Computer Vision, NumPy, Python, Neural Networks",
+      "location": "Mumbai",
+      "duration": "6 months",
+      "stipend": "₹20,000",
+      "domain": "Machine Learning",
+      "organization_name": "DataDrive Inc",
+      "organization_id": 2003
+    },
+    {
+      "id": 49,
+      "title": "MERN Stack Intern",
+      "skills_required": "REST API, TypeScript, Vue.js, HTML, MongoDB, Node.js",
+      "location": "Chennai",
+      "duration": "3 months",
+      "stipend": "₹25,000",
+      "domain": "Web Development",
+      "organization_name": "QuantumLeap Analytics",
+      "organization_id": 2004
+    },
+    {
+      "id": 50,
+      "title": "Full Stack Developer Intern",
+      "skills_required": "CSS, TypeScript, REST API, Express, React, Vue.js",
+      "location": "Mumbai",
+      "duration": "6 months",
+      "stipend": "₹15,000",
+      "domain": "Web Development",
+      "organization_name": "ByteBuilders",
+      "organization_id": 2005
+    }
+  ],
+  "matches": [
+    {
+      "student_id": 1,
+      "internship_id": 1,
+      "organization_id": 2001,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 1,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Would have preferred clearer expectations.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 1,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Required constant supervision.",
+        "actual_success_score": 18.0,
+        "true_match_quality": 23.545282344036192
+      },
+      "match_quality": 23.545282344036192
+    },
+    {
+      "student_id": 2,
+      "internship_id": 2,
+      "organization_id": 2002,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 1,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Not the best fit for my skill level.",
+        "company_performance": 2,
+        "company_skill_level": 1,
+        "company_professionalism": 1,
+        "company_learning_ability": 2,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Required constant supervision.",
+        "actual_success_score": 23.0,
+        "true_match_quality": 38.16573159615977
+      },
+      "match_quality": 38.16573159615977
+    },
+    {
+      "student_id": 3,
+      "internship_id": 3,
+      "organization_id": 2003,
+      "feedback": {
+        "student_satisfaction": 2,
+        "student_learning": 1,
+        "student_work_environment": 2,
+        "student_mentor_quality": 1,
+        "student_skill_match": 2,
+        "student_would_recommend": false,
+        "student_comments": "Would have preferred clearer expectations.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 2,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Skills were below requirements.",
+        "actual_success_score": 26.5,
+        "true_match_quality": 37.10062494015001
+      },
+      "match_quality": 37.10062494015001
+    },
+    {
+      "student_id": 4,
+      "internship_id": 4,
+      "organization_id": 2004,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 1,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Not the best fit for my skill level.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 1,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Skills were below requirements.",
+        "actual_success_score": 18.0,
+        "true_match_quality": 11.465813063105553
+      },
+      "match_quality": 11.465813063105553
+    },
+    {
+      "student_id": 5,
+      "internship_id": 5,
+      "organization_id": 2005,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 1,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Would have preferred clearer expectations.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 1,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Skills were below requirements.",
+        "actual_success_score": 18.0,
+        "true_match_quality": 0
+      },
+      "match_quality": 0
+    },
+    {
+      "student_id": 6,
+      "internship_id": 6,
+      "organization_id": 2006,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 1,
+        "student_work_environment": 2,
+        "student_mentor_quality": 1,
+        "student_skill_match": 2,
+        "student_would_recommend": false,
+        "student_comments": "Would have preferred clearer expectations.",
+        "company_performance": 2,
+        "company_skill_level": 2,
+        "company_professionalism": 2,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Would benefit from more foundational knowledge.",
+        "actual_success_score": 29.5,
+        "true_match_quality": 39.650797040130755
+      },
+      "match_quality": 39.650797040130755
+    },
+    {
+      "student_id": 7,
+      "internship_id": 7,
+      "organization_id": 2007,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 2,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 2,
+        "student_would_recommend": false,
+        "student_comments": "Would have preferred clearer expectations.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 1,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Struggled with project complexity.",
+        "actual_success_score": 22.0,
+        "true_match_quality": 35.39324901361691
+      },
+      "match_quality": 35.39324901361691
+    },
+    {
+      "student_id": 8,
+      "internship_id": 8,
+      "organization_id": 2008,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 1,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Skills didn't match the requirements well.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 1,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Skills were below requirements.",
+        "actual_success_score": 18.0,
+        "true_match_quality": 13.391619221609723
+      },
+      "match_quality": 13.391619221609723
+    },
+    {
+      "student_id": 9,
+      "internship_id": 9,
+      "organization_id": 2009,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 1,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Learned but found it challenging.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 1,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Required constant supervision.",
+        "actual_success_score": 18.0,
+        "true_match_quality": 32.412507100475956
+      },
+      "match_quality": 32.412507100475956
+    },
+    {
+      "student_id": 10,
+      "internship_id": 10,
+      "organization_id": 2010,
+      "feedback": {
+        "student_satisfaction": 2,
+        "student_learning": 2,
+        "student_work_environment": 3,
+        "student_mentor_quality": 2,
+        "student_skill_match": 2,
+        "student_would_recommend": false,
+        "student_comments": "Would have preferred clearer expectations.",
+        "company_performance": 2,
+        "company_skill_level": 2,
+        "company_professionalism": 3,
+        "company_learning_ability": 2,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Struggled with project complexity.",
+        "actual_success_score": 40.5,
+        "true_match_quality": 51.30195084895625
+      },
+      "match_quality": 51.30195084895625
+    },
+    {
+      "student_id": 11,
+      "internship_id": 11,
+      "organization_id": 2011,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 1,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Not the best fit for my skill level.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 1,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Required constant supervision.",
+        "actual_success_score": 18.0,
+        "true_match_quality": 9.71022870828738
+      },
+      "match_quality": 9.71022870828738
+    },
+    {
+      "student_id": 12,
+      "internship_id": 12,
+      "organization_id": 2012,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 2,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Not the best fit for my skill level.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 2,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Would benefit from more foundational knowledge.",
+        "actual_success_score": 22.5,
+        "true_match_quality": 31.527617988402277
+      },
+      "match_quality": 31.527617988402277
+    },
+    {
+      "student_id": 13,
+      "internship_id": 13,
+      "organization_id": 2013,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 1,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Not the best fit for my skill level.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 1,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Required constant supervision.",
+        "actual_success_score": 18.0,
+        "true_match_quality": 15.59227853794334
+      },
+      "match_quality": 15.59227853794334
+    },
+    {
+      "student_id": 14,
+      "internship_id": 14,
+      "organization_id": 2014,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 1,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Would have preferred clearer expectations.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 1,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Would benefit from more foundational knowledge.",
+        "actual_success_score": 18.0,
+        "true_match_quality": 31.985159650319805
+      },
+      "match_quality": 31.985159650319805
+    },
+    {
+      "student_id": 15,
+      "internship_id": 15,
+      "organization_id": 2000,
+      "feedback": {
+        "student_satisfaction": 2,
+        "student_learning": 3,
+        "student_work_environment": 2,
+        "student_mentor_quality": 3,
+        "student_skill_match": 3,
+        "student_would_recommend": false,
+        "student_comments": "Struggled with some tasks initially.",
+        "company_performance": 3,
+        "company_skill_level": 2,
+        "company_professionalism": 3,
+        "company_learning_ability": 3,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Skills were below requirements.",
+        "actual_success_score": 47.5,
+        "true_match_quality": 57.710660810541334
+      },
+      "match_quality": 57.710660810541334
+    },
+    {
+      "student_id": 16,
+      "internship_id": 16,
+      "organization_id": 2001,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 1,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Skills didn't match the requirements well.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 1,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Skills were below requirements.",
+        "actual_success_score": 18.0,
+        "true_match_quality": 26.557313807384133
+      },
+      "match_quality": 26.557313807384133
+    },
+    {
+      "student_id": 17,
+      "internship_id": 17,
+      "organization_id": 2002,
+      "feedback": {
+        "student_satisfaction": 2,
+        "student_learning": 1,
+        "student_work_environment": 3,
+        "student_mentor_quality": 2,
+        "student_skill_match": 2,
+        "student_would_recommend": false,
+        "student_comments": "Not the best fit for my skill level.",
+        "company_performance": 2,
+        "company_skill_level": 2,
+        "company_professionalism": 2,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Needed significant training.",
+        "actual_success_score": 33.5,
+        "true_match_quality": 46.483118195183636
+      },
+      "match_quality": 46.483118195183636
+    },
+    {
+      "student_id": 18,
+      "internship_id": 18,
+      "organization_id": 2003,
+      "feedback": {
+        "student_satisfaction": 3,
+        "student_learning": 3,
+        "student_work_environment": 3,
+        "student_mentor_quality": 3,
+        "student_skill_match": 3,
+        "student_would_recommend": true,
+        "student_comments": "Met my expectations.",
+        "company_performance": 3,
+        "company_skill_level": 3,
+        "company_professionalism": 3,
+        "company_learning_ability": 3,
+        "company_would_hire": true,
+        "company_would_recommend": true,
+        "company_comments": "Solid contributor to the team.",
+        "actual_success_score": 74.0,
+        "true_match_quality": 70.43512677285925
+      },
+      "match_quality": 70.43512677285925
+    },
+    {
+      "student_id": 19,
+      "internship_id": 19,
+      "organization_id": 2004,
+      "feedback": {
+        "student_satisfaction": 2,
+        "student_learning": 2,
+        "student_work_environment": 2,
+        "student_mentor_quality": 2,
+        "student_skill_match": 2,
+        "student_would_recommend": false,
+        "student_comments": "Skills didn't match the requirements well.",
+        "company_performance": 2,
+        "company_skill_level": 2,
+        "company_professionalism": 3,
+        "company_learning_ability": 2,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Needed significant training.",
+        "actual_success_score": 38.5,
+        "true_match_quality": 48.91385068340542
+      },
+      "match_quality": 48.91385068340542
+    },
+    {
+      "student_id": 20,
+      "internship_id": 20,
+      "organization_id": 2005,
+      "feedback": {
+        "student_satisfaction": 2,
+        "student_learning": 3,
+        "student_work_environment": 3,
+        "student_mentor_quality": 3,
+        "student_skill_match": 2,
+        "student_would_recommend": false,
+        "student_comments": "Skills didn't match the requirements well.",
+        "company_performance": 2,
+        "company_skill_level": 2,
+        "company_professionalism": 2,
+        "company_learning_ability": 3,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Needed significant training.",
+        "actual_success_score": 42.5,
+        "true_match_quality": 58.57847148161091
+      },
+      "match_quality": 58.57847148161091
+    },
+    {
+      "student_id": 21,
+      "internship_id": 21,
+      "organization_id": 2006,
+      "feedback": {
+        "student_satisfaction": 2,
+        "student_learning": 3,
+        "student_work_environment": 2,
+        "student_mentor_quality": 2,
+        "student_skill_match": 2,
+        "student_would_recommend": true,
+        "student_comments": "Decent experience overall.",
+        "company_performance": 3,
+        "company_skill_level": 3,
+        "company_professionalism": 3,
+        "company_learning_ability": 2,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Met project requirements.",
+        "actual_success_score": 55.5,
+        "true_match_quality": 60.29257257991518
+      },
+      "match_quality": 60.29257257991518
+    },
+    {
+      "student_id": 22,
+      "internship_id": 22,
+      "organization_id": 2007,
+      "feedback": {
+        "student_satisfaction": 2,
+        "student_learning": 2,
+        "student_work_environment": 1,
+        "student_mentor_quality": 2,
+        "student_skill_match": 2,
+        "student_would_recommend": false,
+        "student_comments": "Not the best fit for my skill level.",
+        "company_performance": 2,
+        "company_skill_level": 2,
+        "company_professionalism": 2,
+        "company_learning_ability": 3,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Required constant supervision.",
+        "actual_success_score": 36.5,
+        "true_match_quality": 56.324616681983144
+      },
+      "match_quality": 56.324616681983144
+    },
+    {
+      "student_id": 23,
+      "internship_id": 23,
+      "organization_id": 2008,
+      "feedback": {
+        "student_satisfaction": 3,
+        "student_learning": 3,
+        "student_work_environment": 3,
+        "student_mentor_quality": 3,
+        "student_skill_match": 3,
+        "student_would_recommend": true,
+        "student_comments": "Valuable learning opportunity.",
+        "company_performance": 3,
+        "company_skill_level": 3,
+        "company_professionalism": 2,
+        "company_learning_ability": 3,
+        "company_would_hire": false,
+        "company_would_recommend": true,
+        "company_comments": "Met project requirements.",
+        "actual_success_score": 61.5,
+        "true_match_quality": 68.24890835779301
+      },
+      "match_quality": 68.24890835779301
+    },
+    {
+      "student_id": 24,
+      "internship_id": 24,
+      "organization_id": 2009,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 1,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Would have preferred clearer expectations.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 1,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Would benefit from more foundational knowledge.",
+        "actual_success_score": 18.0,
+        "true_match_quality": 28.054917226695885
+      },
+      "match_quality": 28.054917226695885
+    },
+    {
+      "student_id": 25,
+      "internship_id": 25,
+      "organization_id": 2010,
+      "feedback": {
+        "student_satisfaction": 3,
+        "student_learning": 2,
+        "student_work_environment": 3,
+        "student_mentor_quality": 2,
+        "student_skill_match": 3,
+        "student_would_recommend": true,
+        "student_comments": "Good internship, learned new skills.",
+        "company_performance": 3,
+        "company_skill_level": 2,
+        "company_professionalism": 3,
+        "company_learning_ability": 3,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Met project requirements.",
+        "actual_success_score": 59.5,
+        "true_match_quality": 60.09067182352199
+      },
+      "match_quality": 60.09067182352199
+    },
+    {
+      "student_id": 26,
+      "internship_id": 26,
+      "organization_id": 2011,
+      "feedback": {
+        "student_satisfaction": 2,
+        "student_learning": 2,
+        "student_work_environment": 2,
+        "student_mentor_quality": 2,
+        "student_skill_match": 2,
+        "student_would_recommend": false,
+        "student_comments": "Not the best fit for my skill level.",
+        "company_performance": 2,
+        "company_skill_level": 2,
+        "company_professionalism": 2,
+        "company_learning_ability": 2,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Skills were below requirements.",
+        "actual_success_score": 36.0,
+        "true_match_quality": 49.76939387922499
+      },
+      "match_quality": 49.76939387922499
+    },
+    {
+      "student_id": 27,
+      "internship_id": 27,
+      "organization_id": 2012,
+      "feedback": {
+        "student_satisfaction": 3,
+        "student_learning": 3,
+        "student_work_environment": 2,
+        "student_mentor_quality": 3,
+        "student_skill_match": 3,
+        "student_would_recommend": true,
+        "student_comments": "Met my expectations.",
+        "company_performance": 3,
+        "company_skill_level": 3,
+        "company_professionalism": 4,
+        "company_learning_ability": 3,
+        "company_would_hire": true,
+        "company_would_recommend": true,
+        "company_comments": "Met project requirements.",
+        "actual_success_score": 74.5,
+        "true_match_quality": 72.790770984311
+      },
+      "match_quality": 72.790770984311
+    },
+    {
+      "student_id": 28,
+      "internship_id": 28,
+      "organization_id": 2013,
+      "feedback": {
+        "student_satisfaction": 2,
+        "student_learning": 2,
+        "student_work_environment": 3,
+        "student_mentor_quality": 2,
+        "student_skill_match": 2,
+        "student_would_recommend": false,
+        "student_comments": "Skills didn't match the requirements well.",
+        "company_performance": 3,
+        "company_skill_level": 2,
+        "company_professionalism": 3,
+        "company_learning_ability": 2,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Would benefit from more foundational knowledge.",
+        "actual_success_score": 43.0,
+        "true_match_quality": 57.2182416058816
+      },
+      "match_quality": 57.2182416058816
+    },
+    {
+      "student_id": 29,
+      "internship_id": 29,
+      "organization_id": 2014,
+      "feedback": {
+        "student_satisfaction": 3,
+        "student_learning": 2,
+        "student_work_environment": 3,
+        "student_mentor_quality": 3,
+        "student_skill_match": 3,
+        "student_would_recommend": true,
+        "student_comments": "Good internship, learned new skills.",
+        "company_performance": 2,
+        "company_skill_level": 2,
+        "company_professionalism": 3,
+        "company_learning_ability": 2,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Met project requirements.",
+        "actual_success_score": 54.5,
+        "true_match_quality": 60.83012914550875
+      },
+      "match_quality": 60.83012914550875
+    },
+    {
+      "student_id": 30,
+      "internship_id": 30,
+      "organization_id": 2000,
+      "feedback": {
+        "student_satisfaction": 3,
+        "student_learning": 3,
+        "student_work_environment": 2,
+        "student_mentor_quality": 3,
+        "student_skill_match": 3,
+        "student_would_recommend": true,
+        "student_comments": "Decent experience overall.",
+        "company_performance": 3,
+        "company_skill_level": 3,
+        "company_professionalism": 3,
+        "company_learning_ability": 3,
+        "company_would_hire": false,
+        "company_would_recommend": true,
+        "company_comments": "Performed well with guidance.",
+        "actual_success_score": 62.0,
+        "true_match_quality": 66.83238471432539
+      },
+      "match_quality": 66.83238471432539
+    },
+    {
+      "student_id": 31,
+      "internship_id": 31,
+      "organization_id": 2001,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 1,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Struggled with some tasks initially.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 1,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Skills were below requirements.",
+        "actual_success_score": 18.0,
+        "true_match_quality": 23.45898528039173
+      },
+      "match_quality": 23.45898528039173
+    },
+    {
+      "student_id": 32,
+      "internship_id": 32,
+      "organization_id": 2002,
+      "feedback": {
+        "student_satisfaction": 4,
+        "student_learning": 4,
+        "student_work_environment": 4,
+        "student_mentor_quality": 4,
+        "student_skill_match": 4,
+        "student_would_recommend": true,
+        "student_comments": "Highly recommend this internship!",
+        "company_performance": 4,
+        "company_skill_level": 4,
+        "company_professionalism": 4,
+        "company_learning_ability": 4,
+        "company_would_hire": true,
+        "company_would_recommend": true,
+        "company_comments": "Outstanding intern! Exceeded expectations.",
+        "actual_success_score": 92.0,
+        "true_match_quality": 88.44532425854727
+      },
+      "match_quality": 88.44532425854727
+    },
+    {
+      "student_id": 33,
+      "internship_id": 33,
+      "organization_id": 2003,
+      "feedback": {
+        "student_satisfaction": 2,
+        "student_learning": 2,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 2,
+        "student_would_recommend": false,
+        "student_comments": "Skills didn't match the requirements well.",
+        "company_performance": 2,
+        "company_skill_level": 2,
+        "company_professionalism": 1,
+        "company_learning_ability": 2,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Would benefit from more foundational knowledge.",
+        "actual_success_score": 31.5,
+        "true_match_quality": 46.494078285381185
+      },
+      "match_quality": 46.494078285381185
+    },
+    {
+      "student_id": 34,
+      "internship_id": 34,
+      "organization_id": 2004,
+      "feedback": {
+        "student_satisfaction": 2,
+        "student_learning": 1,
+        "student_work_environment": 2,
+        "student_mentor_quality": 1,
+        "student_skill_match": 2,
+        "student_would_recommend": false,
+        "student_comments": "Skills didn't match the requirements well.",
+        "company_performance": 2,
+        "company_skill_level": 2,
+        "company_professionalism": 2,
+        "company_learning_ability": 2,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Skills were below requirements.",
+        "actual_success_score": 34.0,
+        "true_match_quality": 46.37501349594691
+      },
+      "match_quality": 46.37501349594691
+    },
+    {
+      "student_id": 35,
+      "internship_id": 35,
+      "organization_id": 2005,
+      "feedback": {
+        "student_satisfaction": 2,
+        "student_learning": 2,
+        "student_work_environment": 2,
+        "student_mentor_quality": 2,
+        "student_skill_match": 2,
+        "student_would_recommend": false,
+        "student_comments": "Would have preferred clearer expectations.",
+        "company_performance": 2,
+        "company_skill_level": 2,
+        "company_professionalism": 3,
+        "company_learning_ability": 2,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Would benefit from more foundational knowledge.",
+        "actual_success_score": 38.5,
+        "true_match_quality": 53.57132641430791
+      },
+      "match_quality": 53.57132641430791
+    },
+    {
+      "student_id": 36,
+      "internship_id": 36,
+      "organization_id": 2006,
+      "feedback": {
+        "student_satisfaction": 4,
+        "student_learning": 3,
+        "student_work_environment": 4,
+        "student_mentor_quality": 4,
+        "student_skill_match": 4,
+        "student_would_recommend": true,
+        "student_comments": "Perfect match for my skills and interests.",
+        "company_performance": 4,
+        "company_skill_level": 4,
+        "company_professionalism": 4,
+        "company_learning_ability": 4,
+        "company_would_hire": true,
+        "company_would_recommend": true,
+        "company_comments": "Made significant contributions to projects.",
+        "actual_success_score": 90.0,
+        "true_match_quality": 81.7786030766278
+      },
+      "match_quality": 81.7786030766278
+    },
+    {
+      "student_id": 37,
+      "internship_id": 37,
+      "organization_id": 2007,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 1,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Would have preferred clearer expectations.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 1,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Would benefit from more foundational knowledge.",
+        "actual_success_score": 18.0,
+        "true_match_quality": 0
+      },
+      "match_quality": 0
+    },
+    {
+      "student_id": 38,
+      "internship_id": 38,
+      "organization_id": 2008,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 1,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Struggled with some tasks initially.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 1,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Skills were below requirements.",
+        "actual_success_score": 18.0,
+        "true_match_quality": 24.305932884033076
+      },
+      "match_quality": 24.305932884033076
+    },
+    {
+      "student_id": 39,
+      "internship_id": 39,
+      "organization_id": 2009,
+      "feedback": {
+        "student_satisfaction": 2,
+        "student_learning": 2,
+        "student_work_environment": 3,
+        "student_mentor_quality": 1,
+        "student_skill_match": 2,
+        "student_would_recommend": false,
+        "student_comments": "Struggled with some tasks initially.",
+        "company_performance": 1,
+        "company_skill_level": 2,
+        "company_professionalism": 2,
+        "company_learning_ability": 2,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Needed significant training.",
+        "actual_success_score": 35.5,
+        "true_match_quality": 45.406905480430936
+      },
+      "match_quality": 45.406905480430936
+    },
+    {
+      "student_id": 40,
+      "internship_id": 40,
+      "organization_id": 2010,
+      "feedback": {
+        "student_satisfaction": 3,
+        "student_learning": 2,
+        "student_work_environment": 2,
+        "student_mentor_quality": 3,
+        "student_skill_match": 3,
+        "student_would_recommend": true,
+        "student_comments": "Valuable learning opportunity.",
+        "company_performance": 3,
+        "company_skill_level": 2,
+        "company_professionalism": 2,
+        "company_learning_ability": 3,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Good learning attitude.",
+        "actual_success_score": 55.0,
+        "true_match_quality": 60.452187436119715
+      },
+      "match_quality": 60.452187436119715
+    },
+    {
+      "student_id": 41,
+      "internship_id": 41,
+      "organization_id": 2011,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 1,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Not the best fit for my skill level.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 1,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Required constant supervision.",
+        "actual_success_score": 18.0,
+        "true_match_quality": 7.66557581737042
+      },
+      "match_quality": 7.66557581737042
+    },
+    {
+      "student_id": 42,
+      "internship_id": 42,
+      "organization_id": 2012,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 1,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Struggled with some tasks initially.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 1,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Needed significant training.",
+        "actual_success_score": 18.0,
+        "true_match_quality": 15.903446215299066
+      },
+      "match_quality": 15.903446215299066
+    },
+    {
+      "student_id": 43,
+      "internship_id": 43,
+      "organization_id": 2013,
+      "feedback": {
+        "student_satisfaction": 3,
+        "student_learning": 3,
+        "student_work_environment": 4,
+        "student_mentor_quality": 3,
+        "student_skill_match": 3,
+        "student_would_recommend": true,
+        "student_comments": "Good internship, learned new skills.",
+        "company_performance": 3,
+        "company_skill_level": 3,
+        "company_professionalism": 4,
+        "company_learning_ability": 3,
+        "company_would_hire": false,
+        "company_would_recommend": true,
+        "company_comments": "Met project requirements.",
+        "actual_success_score": 68.5,
+        "true_match_quality": 69.21484815557332
+      },
+      "match_quality": 69.21484815557332
+    },
+    {
+      "student_id": 44,
+      "internship_id": 44,
+      "organization_id": 2014,
+      "feedback": {
+        "student_satisfaction": 3,
+        "student_learning": 2,
+        "student_work_environment": 3,
+        "student_mentor_quality": 3,
+        "student_skill_match": 2,
+        "student_would_recommend": true,
+        "student_comments": "Met my expectations.",
+        "company_performance": 3,
+        "company_skill_level": 3,
+        "company_professionalism": 3,
+        "company_learning_ability": 2,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Good performance overall.",
+        "actual_success_score": 57.5,
+        "true_match_quality": 60.39308763642495
+      },
+      "match_quality": 60.39308763642495
+    },
+    {
+      "student_id": 45,
+      "internship_id": 45,
+      "organization_id": 2000,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 1,
+        "student_work_environment": 2,
+        "student_mentor_quality": 2,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Skills didn't match the requirements well.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 2,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Needed significant training.",
+        "actual_success_score": 22.5,
+        "true_match_quality": 39.12895528113613
+      },
+      "match_quality": 39.12895528113613
+    },
+    {
+      "student_id": 46,
+      "internship_id": 46,
+      "organization_id": 2001,
+      "feedback": {
+        "student_satisfaction": 2,
+        "student_learning": 3,
+        "student_work_environment": 2,
+        "student_mentor_quality": 3,
+        "student_skill_match": 2,
+        "student_would_recommend": false,
+        "student_comments": "Would have preferred clearer expectations.",
+        "company_performance": 2,
+        "company_skill_level": 2,
+        "company_professionalism": 3,
+        "company_learning_ability": 3,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Required constant supervision.",
+        "actual_success_score": 43.0,
+        "true_match_quality": 58.87754825954559
+      },
+      "match_quality": 58.87754825954559
+    },
+    {
+      "student_id": 47,
+      "internship_id": 47,
+      "organization_id": 2002,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 1,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Would have preferred clearer expectations.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 2,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Required constant supervision.",
+        "actual_success_score": 20.5,
+        "true_match_quality": 27.96534543521411
+      },
+      "match_quality": 27.96534543521411
+    },
+    {
+      "student_id": 48,
+      "internship_id": 48,
+      "organization_id": 2003,
+      "feedback": {
+        "student_satisfaction": 2,
+        "student_learning": 1,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Not the best fit for my skill level.",
+        "company_performance": 2,
+        "company_skill_level": 1,
+        "company_professionalism": 2,
+        "company_learning_ability": 2,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Required constant supervision.",
+        "actual_success_score": 27.5,
+        "true_match_quality": 32.90357931760208
+      },
+      "match_quality": 32.90357931760208
+    },
+    {
+      "student_id": 49,
+      "internship_id": 49,
+      "organization_id": 2004,
+      "feedback": {
+        "student_satisfaction": 1,
+        "student_learning": 1,
+        "student_work_environment": 1,
+        "student_mentor_quality": 1,
+        "student_skill_match": 1,
+        "student_would_recommend": false,
+        "student_comments": "Struggled with some tasks initially.",
+        "company_performance": 1,
+        "company_skill_level": 1,
+        "company_professionalism": 1,
+        "company_learning_ability": 1,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Skills were below requirements.",
+        "actual_success_score": 18.0,
+        "true_match_quality": 14.527348123541614
+      },
+      "match_quality": 14.527348123541614
+    },
+    {
+      "student_id": 50,
+      "internship_id": 50,
+      "organization_id": 2005,
+      "feedback": {
+        "student_satisfaction": 2,
+        "student_learning": 2,
+        "student_work_environment": 1,
+        "student_mentor_quality": 2,
+        "student_skill_match": 2,
+        "student_would_recommend": false,
+        "student_comments": "Learned but found it challenging.",
+        "company_performance": 2,
+        "company_skill_level": 2,
+        "company_professionalism": 2,
+        "company_learning_ability": 2,
+        "company_would_hire": false,
+        "company_would_recommend": false,
+        "company_comments": "Needed significant training.",
+        "actual_success_score": 34.0,
+        "true_match_quality": 48.514796565418195
+      },
+      "match_quality": 48.514796565418195
+    }
+  ]
+}

@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Submit Internship Feedback</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .container {
+        max-width: 900px;
+        width: 100%;
+      }
+
+      .feedback-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 40px;
+        text-align: center;
+      }
+
+      .header h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+      }
+
+      .header p {
+        font-size: 1.1em;
+        opacity: 0.9;
+      }
+
+      .internship-info {
+        background: #f8f9fa;
+        padding: 25px 40px;
+        border-bottom: 3px solid #667eea;
+      }
+
+      .internship-info h2 {
+        color: #333;
+        margin-bottom: 10px;
+        font-size: 1.6em;
+      }
+
+      .info-meta {
+        color: #666;
+        font-size: 1.05em;
+      }
+
+      .feedback-content {
+        padding: 40px;
+      }
+
+      .section {
+        margin-bottom: 40px;
+      }
+
+      .section-title {
+        color: #667eea;
+        font-size: 1.6em;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .rating-group {
+        background: #f8f9fa;
+        padding: 25px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+      }
+
+      .rating-label {
+        color: #333;
+        font-size: 1.1em;
+        font-weight: 600;
+        margin-bottom: 15px;
+        display: block;
+      }
+
+      .rating-description {
+        color: #666;
+        font-size: 0.95em;
+        margin-bottom: 20px;
+      }
+
+      .star-rating {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .star-option {
+        position: relative;
+      }
+
+      .star-option input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+      }
+
+      .star-option label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 12px;
+        background: white;
+        border: 3px solid #e0e0e0;
+        transition: all 0.3s;
+        min-width: 80px;
+      }
+
+      .star-option label:hover {
+        transform: translateY(-3px);
+        border-color: #667eea;
+      }
+
+      .star-option input[type="radio"]:checked + label {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-color: #667eea;
+        color: white;
+        transform: scale(1.05);
+      }
+
+      .star-icon {
+        font-size: 2em;
+        margin-bottom: 5px;
+      }
+
+      .star-option input[type="radio"]:checked + label .star-icon {
+        filter: brightness(1.2);
+      }
+
+      .star-number {
+        font-weight: bold;
+        font-size: 1.1em;
+      }
+
+      .star-text {
+        font-size: 0.85em;
+        margin-top: 5px;
+      }
+
+      .boolean-choice {
+        display: flex;
+        gap: 15px;
+        margin-top: 15px;
+      }
+
+      .choice-option {
+        flex: 1;
+      }
+
+      .choice-option input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+      }
+
+      .choice-option label {
+        display: block;
+        padding: 20px;
+        background: white;
+        border: 3px solid #e0e0e0;
+        border-radius: 12px;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.3s;
+        font-weight: 600;
+        font-size: 1.1em;
+      }
+
+      .choice-option label:hover {
+        border-color: #667eea;
+        transform: translateY(-2px);
+      }
+
+      .choice-option input[type="radio"]:checked + label {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-color: #667eea;
+      }
+
+      .choice-yes input[type="radio"]:checked + label {
+        background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+        border-color: #4caf50;
+      }
+
+      .choice-no input[type="radio"]:checked + label {
+        background: linear-gradient(135deg, #f44336 0%, #c62828 100%);
+        border-color: #f44336;
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+      .form-group label {
+        display: block;
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 10px;
+        font-size: 1.05em;
+      }
+
+      .form-group textarea {
+        width: 100%;
+        padding: 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 1em;
+        font-family: inherit;
+        resize: vertical;
+        min-height: 120px;
+        transition: border-color 0.3s;
+      }
+
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      .info-box {
+        background: #e3f2fd;
+        border-left: 5px solid #2196f3;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+      }
+
+      .info-box-title {
+        color: #1565c0;
+        font-weight: 600;
+        margin-bottom: 10px;
+        font-size: 1.1em;
+      }
+
+      .info-box-text {
+        color: #1976d2;
+        line-height: 1.6;
+      }
+
+      .submit-section {
+        background: #f8f9fa;
+        padding: 30px 40px;
+        border-top: 3px solid #667eea;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .privacy-note {
+        color: #666;
+        font-size: 0.9em;
+        flex: 1;
+      }
+
+      .btn {
+        padding: 15px 40px;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+      }
+
+      .btn-secondary {
+        background: white;
+        color: #667eea;
+        border: 2px solid #667eea;
+      }
+
+      .required {
+        color: #f44336;
+        margin-left: 3px;
+      }
+
+      @media (max-width: 768px) {
+        .header {
+          padding: 25px;
+        }
+
+        .header h1 {
+          font-size: 1.8em;
+        }
+
+        .feedback-content {
+          padding: 25px;
+        }
+
+        .star-rating {
+          flex-wrap: wrap;
+        }
+
+        .star-option label {
+          min-width: 65px;
+          padding: 10px;
+        }
+
+        .submit-section {
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <form
+        method="POST"
+        action="/student/feedback/submit/{{ internship.id }}"
+        class="feedback-card"
+      >
+        <!-- Header -->
+        <div class="header">
+          <h1>📝 Internship Feedback</h1>
+          <p>
+            Help us improve future recommendations for you and other students
+          </p>
+        </div>
+
+        <!-- Internship Info -->
+        <div class="internship-info">
+          <h2>{{ internship.title }}</h2>
+          <div class="info-meta">
+            📍 {{ internship.organization_name }} • {{ internship.location }} •
+            {{ internship.duration }}
+          </div>
+        </div>
+
+        <!-- Feedback Content -->
+        <div class="feedback-content">
+          <!-- Info Box -->
+          <div class="info-box">
+            <div class="info-box-title">🤖 How This Helps</div>
+            <div class="info-box-text">
+              Your honest feedback trains our AI matching system to provide
+              better internship recommendations for you and other students. This
+              data is used to improve match accuracy and help companies find the
+              right candidates.
+            </div>
+          </div>
+
+          <!-- Rating Section -->
+          <div class="section">
+            <div class="section-title">⭐ Rate Your Experience</div>
+
+            <!-- Overall Satisfaction -->
+            <div class="rating-group">
+              <label class="rating-label">
+                Overall Satisfaction <span class="required">*</span>
+              </label>
+              <div class="rating-description">
+                How satisfied were you with this internship overall?
+              </div>
+              <div class="star-rating">
+                {% for i in range(1, 6) %}
+                <div class="star-option">
+                  <input
+                    type="radio"
+                    name="satisfaction"
+                    id="satisfaction_{{ i }}"
+                    value="{{ i }}"
+                    required
+                  />
+                  <label for="satisfaction_{{ i }}">
+                    <div class="star-icon">
+                      {% if i == 1 %}😞{% elif i == 2 %}😐{% elif i == 3 %}🙂{%
+                      elif i == 4 %}😊{% else %}🤩{% endif %}
+                    </div>
+                    <div class="star-number">{{ i }}</div>
+                    <div class="star-text">
+                      {% if i == 1 %}Poor {% elif i == 2 %}Below Avg {% elif i
+                      == 3 %}Average {% elif i == 4 %}Good {% else %}Excellent
+                      {% endif %}
+                    </div>
+                  </label>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+
+            <!-- Learning Experience -->
+            <div class="rating-group">
+              <label class="rating-label">
+                Learning Experience <span class="required">*</span>
+              </label>
+              <div class="rating-description">
+                How much did you learn during this internship?
+              </div>
+              <div class="star-rating">
+                {% for i in range(1, 6) %}
+                <div class="star-option">
+                  <input
+                    type="radio"
+                    name="learning"
+                    id="learning_{{ i }}"
+                    value="{{ i }}"
+                    required
+                  />
+                  <label for="learning_{{ i }}">
+                    <div class="star-icon">
+                      {% if i == 1 %}📉{% elif i == 2 %}📊{% elif i == 3 %}📈{%
+                      elif i == 4 %}🎓{% else %}🚀{% endif %}
+                    </div>
+                    <div class="star-number">{{ i }}</div>
+                    <div class="star-text">
+                      {% if i == 1 %}Minimal {% elif i == 2 %}Limited {% elif i
+                      == 3 %}Moderate {% elif i == 4 %}Significant {% else
+                      %}Exceptional {% endif %}
+                    </div>
+                  </label>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+
+            <!-- Work Environment -->
+            <div class="rating-group">
+              <label class="rating-label">
+                Work Environment <span class="required">*</span>
+              </label>
+              <div class="rating-description">
+                How would you rate the work environment and culture?
+              </div>
+              <div class="star-rating">
+                {% for i in range(1, 6) %}
+                <div class="star-option">
+                  <input
+                    type="radio"
+                    name="work_environment"
+                    id="work_env_{{ i }}"
+                    value="{{ i }}"
+                    required
+                  />
+                  <label for="work_env_{{ i }}">
+                    <div class="star-icon">⭐</div>
+                    <div class="star-number">{{ i }}</div>
+                  </label>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+
+            <!-- Mentor Quality -->
+            <div class="rating-group">
+              <label class="rating-label">
+                Mentor Quality <span class="required">*</span>
+              </label>
+              <div class="rating-description">
+                How effective was the mentorship and guidance provided?
+              </div>
+              <div class="star-rating">
+                {% for i in range(1, 6) %}
+                <div class="star-option">
+                  <input
+                    type="radio"
+                    name="mentor_quality"
+                    id="mentor_{{ i }}"
+                    value="{{ i }}"
+                    required
+                  />
+                  <label for="mentor_{{ i }}">
+                    <div class="star-icon">👨‍🏫</div>
+                    <div class="star-number">{{ i }}</div>
+                  </label>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+
+            <!-- Skill Match -->
+            <div class="rating-group">
+              <label class="rating-label">
+                Skills Match <span class="required">*</span>
+              </label>
+              <div class="rating-description">
+                How well did your skills match the internship requirements?
+              </div>
+              <div class="star-rating">
+                {% for i in range(1, 6) %}
+                <div class="star-option">
+                  <input
+                    type="radio"
+                    name="skill_match"
+                    id="skill_{{ i }}"
+                    value="{{ i }}"
+                    required
+                  />
+                  <label for="skill_{{ i }}">
+                    <div class="star-icon">🎯</div>
+                    <div class="star-number">{{ i }}</div>
+                  </label>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <!-- Recommendation -->
+          <div class="section">
+            <div class="section-title">💭 Would You Recommend?</div>
+
+            <div class="rating-group">
+              <label class="rating-label">
+                Would you recommend this internship to other students?
+                <span class="required">*</span>
+              </label>
+              <div class="boolean-choice">
+                <div class="choice-option choice-yes">
+                  <input
+                    type="radio"
+                    name="would_recommend"
+                    id="recommend_yes"
+                    value="yes"
+                    required
+                  />
+                  <label for="recommend_yes"> 👍 Yes, Definitely </label>
+                </div>
+                <div class="choice-option choice-no">
+                  <input
+                    type="radio"
+                    name="would_recommend"
+                    id="recommend_no"
+                    value="no"
+                  />
+                  <label for="recommend_no"> 👎 No </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comments -->
+          <div class="section">
+            <div class="section-title">💬 Additional Comments</div>
+
+            <div class="form-group">
+              <label for="comments"> Share your experience (optional) </label>
+              <textarea
+                name="comments"
+                id="comments"
+                placeholder="Tell us about your internship experience, what you learned, challenges faced, etc..."
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Section -->
+        <div class="submit-section">
+          <div class="privacy-note">
+            🔒 Your feedback is confidential and helps improve our AI matching
+            system
+          </div>
+          <button type="submit" class="btn btn-primary">Submit Feedback</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

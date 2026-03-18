@@ -6,7 +6,7 @@
 <a href="#" onclick="showSection('my-internship')" data-section="my-internship" class="nav-link" style="color:#ffffff;text-decoration:none;font-size:13px;padding:6px 10px;border-radius:4px;transition:all 0.2s;white-space:nowrap;">Internship</a>
 <a href="/student/ai" style="color:#fbbf24;text-decoration:none;font-size:13px;padding:6px 10px;border-radius:4px;transition:all 0.2s;white-space:nowrap;font-weight:600;">AI Hub</a>
 <div class="nav-dropdown">
-  <button id="profile-dropdown-btn" class="nav-link" onclick="showSection('profile'); toggleProfileDropdown(event);" style="font-size:13px;padding:6px 10px;border-radius:4px;transition:all 0.2s;white-space:nowrap;background:none;border:none;cursor:pointer;font-family:inherit;">Profile &#9660;</button>
+  <button id="profile-dropdown-btn" class="nav-link" onclick="toggleProfileDropdown(event);" style="font-size:13px;padding:6px 10px;border-radius:4px;transition:all 0.2s;white-space:nowrap;background:none;border:none;cursor:pointer;font-family:inherit;">Profile &#9660;</button>
   <div class="nav-dropdown-menu" id="profile-dropdown">
     <a href="#" onclick="showSection('profile');return false;">Edit Profile</a>
     <a href="#" onclick="showSection('add-certificate');return false;">Add Certificate</a>
@@ -138,7 +138,6 @@
       </div>
       <div class="sdb-ai-links">
         <a href="/student/ai/career-path" class="sdb-ai-pill">Career Path</a>
-        <a href="/student/ai/recommendations" class="sdb-ai-pill">AI Matches</a>
         <a href="/student/ai/interview" class="sdb-ai-pill">Interview</a>
         <a href="/student/ai" class="sdb-ai-pill sdb-ai-pill-primary">View All &rarr;</a>
       </div>
@@ -746,6 +745,45 @@
 
       .tl-label { font-size: 11px; font-weight: 600; color: #555; margin-top: 6px; text-align: center; }
       .tl-date  { font-size: 10px; color: #9ca3af; margin-top: 2px; text-align: center; }
+
+      /* Aadhaar Verification - Locked Sections */
+      #skills-section,
+      #portfolio-section {
+        transition: opacity 0.3s ease, filter 0.3s ease;
+        position: relative;
+      }
+
+      #skills-section[style*="opacity: 0.6"],
+      #portfolio-section[style*="opacity: 0.6"] {
+        filter: grayscale(50%);
+      }
+
+      #skills-section input:disabled,
+      #skills-section textarea:disabled,
+      #portfolio-section input:disabled {
+        background-color: #f3f4f6 !important;
+        color: #9ca3af !important;
+        cursor: not-allowed !important;
+      }
+
+      /* Hover effect showing locked message */
+      #skills-section[style*="opacity: 0.6"]::after,
+      #portfolio-section[style*="opacity: 0.6"]::after {
+        content: attr(title);
+        position: absolute;
+        top: 12px;
+        right: 16px;
+        background: #dc2626;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+        z-index: 10;
+        pointer-events: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      }
     </style>
     {% else %}
     <div class="empty-state">
@@ -989,7 +1027,7 @@
         </div>
       </div>
 
-      <div class="form-card profile-card-skills">
+      <div class="form-card profile-card-skills" id="skills-section">
         <h3>&#9998; Skills &amp; Expertise</h3>
         <div class="form-group">
           <label for="skills">Skills <span style="color:#888;font-weight:400;">(comma separated)</span></label>
@@ -1010,7 +1048,7 @@
         <p style="font-size:12px;color:#888;">Your skills are used by the AI engine to match you with the best internships.</p>
       </div>
 
-      <div class="form-card profile-card-portfolio">
+      <div class="form-card profile-card-portfolio" id="portfolio-section">
         <h3>&#128279; Portfolio &amp; Links</h3>
         <div class="form-row">
           <div class="form-group">
@@ -1026,15 +1064,22 @@
           <label>Resume / CV
             <span style="font-size:11px;font-weight:600;padding:2px 8px;background:#1e7ce8;color:#fff;border-radius:10px;margin-left:8px;vertical-align:middle;">🧠 AI Auto-Scan</span>
           </label>
+          {% if portfolio and portfolio.resume_path %}
+          <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 8px; padding: 12px; margin-bottom: 10px;">
+            <div style="display: flex; align-items: center; gap: 8px; color: #059669; font-weight: 600; font-size: 13px; margin-bottom: 6px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+              Resume uploaded successfully
+            </div>
+            <a href="/{{ portfolio.resume_path }}" target="_blank" class="profile-resume-link">
+              &#128196; View Current Resume
+            </a>
+            <div style="font-size: 11px; color: #6b7280; margin-top: 6px;">Upload a new file to replace your current resume</div>
+          </div>
+          {% endif %}
           <input type="file" name="resume_file" id="resume_file_input" accept=".pdf,.doc,.docx" style="padding:8px;" onchange="onResumeSelected(this)" />
           <div id="resume-ai-hint" style="font-size:12px;color:#6b7280;margin-top:6px;display:flex;align-items:center;gap:6px;">
             <span style="color:#1e7ce8;font-weight:600;">⚡ AI will automatically detect your skills and portfolio links (LinkedIn, GitHub) from your resume.</span>
           </div>
-          {% if portfolio and portfolio.resume_path %}
-          <a href="/{{ portfolio.resume_path }}" target="_blank" class="profile-resume-link">
-            &#128196; View Current Resume
-          </a>
-          {% endif %}
         </div>
       </div>
 
@@ -1100,11 +1145,11 @@
       </div>
       {% endif %}
 
-      {% if not profile or not profile.skills or not profile.skills.strip() %}
+      {% if not profile or not profile.skills or (profile.skills and not profile.skills.strip()) or not (portfolio and portfolio.resume_path) %}
       <div class="notification-item unread">
         <div class="notification-icon">!</div>
         <div class="notification-content">
-          <p><strong>Profile Incomplete</strong> — Add your skills to get better internship matches from the AI engine.</p>
+          <p><strong>Profile Incomplete</strong> — Add your skills and upload your resume to get better internship matches from the AI engine.</p>
           <div class="notification-time">Recommendation</div>
         </div>
       </div>
@@ -1598,6 +1643,11 @@
     var greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
     var el = document.getElementById('greeting-text');
     if (el) el.textContent = greeting + ', {{ user.name }}!';
+
+    // Initialize locked sections based on Aadhaar status
+    setTimeout(function() {
+      updateLockedSections();
+    }, 100);
   })();
 
   // ── AI Resume Scan live feedback ──────────────────────────────────────────
@@ -1827,5 +1877,6 @@
     var terms = val.split(/\s+/).filter(Boolean);
     runPendingSkillSearch(terms);
   }
+
 </script>
 {% endblock %}

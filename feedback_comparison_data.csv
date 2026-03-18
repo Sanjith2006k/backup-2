@@ -1,0 +1,11 @@
+id,original_score,actual_score,difference,category,student_satisfaction,company_performance
+1,88.5,90.0,1.5,Excellent Match,5,5
+2,91.2,88.0,-3.2,Good Match,4,4
+3,84.7,32.0,-52.7,Poor Match,2,2
+4,82.1,28.0,-54.1,Poor Match,1,2
+5,52.8,84.0,31.2,Hidden Gem,5,4
+6,48.3,80.0,31.7,Hidden Gem,4,5
+7,41.2,36.0,-5.2,Expected Poor,2,3
+8,71.5,68.0,-3.5,Average Match,3,3
+9,67.8,72.0,4.2,Average Match,4,4
+10,75.2,64.0,-11.2,Incomplete Feedback,4,

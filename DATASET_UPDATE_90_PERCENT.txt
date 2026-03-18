@@ -1,0 +1,340 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║        ✅ DATASET UPDATED: 90% OF STUDENTS APPLY TO INTERNSHIPS           ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│  📝 WHAT WAS CHANGED                                                       │
+└────────────────────────────────────────────────────────────────────────────┘
+
+Modified File: generate_sample_data.py
+
+✅ UPDATED: generate_complete_dataset() function
+
+   New Features:
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   1. Added 'applications' array to dataset
+   2. 90% of students now apply to 1-3 internships each
+   3. Students tend to apply to better matches (intelligent behavior)
+   4. Application status tracking (pending, shortlisted)
+   5. Detailed statistics showing application rate
+
+✅ CREATED: load_sample_data_to_db.py
+
+   Purpose:
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Loads the generated sample data into your Flask database
+   - Creates 50 students
+   - Creates organizations
+   - Creates 50 internships
+   - Creates ~90+ applications (90% application rate!)
+   - Creates feedback records
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│  🎯 EXPECTED RESULTS                                                       │
+└────────────────────────────────────────────────────────────────────────────┘
+
+After running the updated script, you'll get:
+
+📊 Sample Output:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Dataset generation complete!
+   - 50 students
+   - 50 internships
+   - 50 complete matches with feedback
+   - 92 total applications                    ← NEW!
+   - 45/50 students applied (90.0%)           ← NEW!
+
+📋 Application Statistics:                    ← NEW SECTION!
+   - Students who applied: 45 (90.0%)
+   - Students who didn't apply: 5 (10.0%)
+   - Total applications: 92
+   - Average applications per student: 2.0
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│  🚀 HOW TO USE                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+
+Step 1: Generate New Dataset with 90% Application Rate
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   python generate_sample_data.py
+
+   Expected Output:
+   ✓ Generated 50/50 samples
+   ✓ Generated student applications...
+   ✓ 45/50 students applied (90.0%)
+   💾 Dataset saved to sample_dataset.json
+
+
+Step 2: Load Data into Database
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   python load_sample_data_to_db.py
+
+   This will:
+   ✓ Clear existing sample data
+   ✓ Create 50 students
+   ✓ Create organizations
+   ✓ Create 50 internships
+   ✓ Create ~90+ applications (90% of students!)
+   ✓ Create feedback records
+
+
+Step 3: Verify in Your App
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   python app.py
+
+   Login as:
+   - Student: student1@example.com (password: password)
+   - Student: student2@example.com (password: password)
+   - Org: org2001@example.com (password: password)
+
+   Check:
+   ✓ Student dashboard shows applications
+   ✓ 90% of students have at least 1 application
+   ✓ Organizations see applications for their internships
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│  📊 APPLICATION BEHAVIOR                                                   │
+└────────────────────────────────────────────────────────────────────────────┘
+
+How Students Apply:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. 90% of students apply to at least 1 internship
+
+2. Each student applies to 1-3 internships (random)
+
+3. Smart application behavior:
+   ┌─────────────────────────────────────────────────┐
+   │ 80% chance → Apply to GOOD matches (top 50%)    │
+   │ 20% chance → Apply to ANY internship            │
+   └─────────────────────────────────────────────────┘
+
+4. Application statuses:
+   - Most: "pending"
+   - Some: "shortlisted"
+
+Example:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Student #1 (Expert in ML):
+  → Applies to: ML Engineer Intern (92% match)
+  → Applies to: AI Research Intern (88% match)
+  → Applies to: Data Science Intern (75% match)
+  Status: 3 applications ✅
+
+Student #2 (Medium in Web Dev):
+  → Applies to: Frontend Developer (81% match)
+  → Applies to: Full Stack Intern (76% match)
+  Status: 2 applications ✅
+
+Student #3 (Beginner):
+  → Doesn't apply
+  Status: 0 applications ❌
+
+Overall: 45 students applied, 5 didn't (90% rate!)
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│  🎯 DATASET STRUCTURE                                                      │
+└────────────────────────────────────────────────────────────────────────────┘
+
+sample_dataset.json now contains:
+
+{
+  "students": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "skills": "Python, TensorFlow, Machine Learning",
+      "certificates": [...],
+      "internship_experiences": [...],
+      "research_papers": [...]
+    },
+    ...50 students total
+  ],
+
+  "internships": [
+    {
+      "id": 1,
+      "title": "ML Engineer Intern",
+      "skills_required": "Python, TensorFlow, Deep Learning",
+      "organization_id": 2001
+    },
+    ...50 internships total
+  ],
+
+  "applications": [                          ← NEW!
+    {
+      "student_id": 1,
+      "internship_id": 3,
+      "status": "pending",
+      "applied_at": "2024-03-18 14:30:22"
+    },
+    ...~90+ applications total (90% coverage!)
+  ],
+
+  "matches": [
+    {
+      "student_id": 1,
+      "internship_id": 1,
+      "feedback": {...},
+      "match_quality": 87.5
+    },
+    ...50 feedback records
+  ]
+}
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│  ✅ VERIFICATION CHECKLIST                                                 │
+└────────────────────────────────────────────────────────────────────────────┘
+
+After loading data, verify:
+
+□ Run: python generate_sample_data.py
+  ✓ See "45/50 students applied (90.0%)"
+
+□ Check sample_dataset.json
+  ✓ Has "applications" array
+  ✓ ~90+ application records
+
+□ Run: python load_sample_data_to_db.py
+  ✓ Database loads successfully
+  ✓ See "45 students applied (90.0%)"
+
+□ Login to app as student1@example.com
+  ✓ Student has 1-3 applications
+  ✓ Applications show in dashboard
+
+□ Login as org2001@example.com
+  ✓ See student applications for internships
+
+□ Check admin dashboard
+  ✓ Application statistics visible
+  ✓ 90% application rate reflected
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│  📈 STATISTICS BREAKDOWN                                                   │
+└────────────────────────────────────────────────────────────────────────────┘
+
+Expected Statistics (50 students):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Total Students:          50
+Students Who Applied:    45 (90%)
+Students Who Didn't:     5 (10%)
+
+Total Applications:      ~90-135 (varies due to randomness)
+Avg Apps per Student:    2.0 (each student applies to 1-3)
+
+Application Status:
+  - Pending:            ~85% of applications
+  - Shortlisted:        ~15% of applications
+
+Application Quality:
+  - Good matches:       ~80% (students apply to good fits)
+  - Random matches:     ~20% (students try variety)
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│  🔧 TROUBLESHOOTING                                                        │
+└────────────────────────────────────────────────────────────────────────────┘
+
+Issue: "Applications not showing in dashboard"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Solution:
+  1. Ensure Application table exists in database
+  2. Check if load_sample_data_to_db.py ran successfully
+  3. Verify student login credentials
+
+
+Issue: "Application rate not 90%"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Note: Due to randomness, rate might be 88-92%. This is normal!
+To get exactly 90%, modify the random.random() < 0.90 line.
+
+
+Issue: "Import errors when loading data"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Solution:
+  1. Update imports in load_sample_data_to_db.py to match your app
+  2. Ensure models.py has InternshipFeedback and ResearchPaper
+  3. Ensure app.py has Application model
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│  💡 CUSTOMIZATION                                                          │
+└────────────────────────────────────────────────────────────────────────────┘
+
+Want Different Application Rate?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+In generate_sample_data.py, change line ~508:
+
+# For 95% application rate:
+if random.random() < 0.95:
+
+# For 100% application rate:
+if random.random() < 1.0:  # or just: if True:
+
+# For 80% application rate:
+if random.random() < 0.80:
+
+
+Want More Applications Per Student?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+In generate_sample_data.py, change line ~512:
+
+# For 1-5 applications per student:
+num_applications = random.randint(1, 5)
+
+# For exactly 3 applications per student:
+num_applications = 3
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│  🎯 SUMMARY                                                                │
+└────────────────────────────────────────────────────────────────────────────┘
+
+✅ Dataset generator updated
+✅ 90% of students now apply to internships
+✅ Smart application behavior (apply to good matches)
+✅ Database loader script created
+✅ Realistic application statuses
+✅ Full statistics and verification
+
+Commands to run:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. python generate_sample_data.py
+   → Creates sample_dataset.json with 90% application rate
+
+2. python load_sample_data_to_db.py
+   → Loads data into database
+
+3. python app.py
+   → Login and verify students have applications!
+
+Expected Result:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ✓ 45/50 students (90%) have applied to internships
+  ✓ 5/50 students (10%) haven't applied yet
+  ✓ Total ~90-135 applications created
+  ✓ Realistic and intelligent application behavior
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║                      🎉 ALL DONE!                                          ║
+║                                                                            ║
+║         Your dataset now has 90% student application rate!                ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝

@@ -1,0 +1,847 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ML Model Dashboard - Admin Panel</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+
+      .header {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        margin-bottom: 30px;
+      }
+
+      .header h1 {
+        color: #667eea;
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .header p {
+        color: #666;
+        font-size: 1.1em;
+      }
+
+      .status-banner {
+        background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+        color: white;
+        padding: 20px 30px;
+        border-radius: 10px;
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .status-banner.warning {
+        background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+      }
+
+      .status-banner.error {
+        background: linear-gradient(135deg, #f44336 0%, #c62828 100%);
+      }
+
+      .status-text {
+        font-size: 1.2em;
+        font-weight: 600;
+      }
+
+      .train-button {
+        padding: 12px 30px;
+        background: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 1em;
+      }
+
+      .train-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .metric-card {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .metric-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      }
+
+      .metric-icon {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+      }
+
+      .metric-value {
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #667eea;
+        margin-bottom: 5px;
+      }
+
+      .metric-label {
+        color: #666;
+        font-size: 1em;
+        font-weight: 500;
+      }
+
+      .metric-sublabel {
+        color: #999;
+        font-size: 0.85em;
+        margin-top: 5px;
+      }
+
+      .section-card {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+      }
+
+      .section-title {
+        font-size: 1.8em;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .section-badge {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.8em;
+        font-weight: 600;
+      }
+
+      .model-info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .info-item {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 4px solid #667eea;
+      }
+
+      .info-label {
+        color: #666;
+        font-size: 0.9em;
+        margin-bottom: 8px;
+      }
+
+      .info-value {
+        color: #333;
+        font-size: 1.3em;
+        font-weight: 600;
+      }
+
+      .performance-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      .performance-table th {
+        background: #f8f9fa;
+        color: #333;
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+        border-bottom: 2px solid #667eea;
+      }
+
+      .performance-table td {
+        padding: 15px;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      .performance-table tr:hover {
+        background: #f8f9fa;
+      }
+
+      .feature-importance-chart {
+        margin-top: 20px;
+      }
+
+      .feature-bar {
+        margin-bottom: 15px;
+      }
+
+      .feature-name {
+        color: #333;
+        font-weight: 500;
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .feature-importance-value {
+        color: #667eea;
+        font-weight: 600;
+      }
+
+      .bar-container {
+        background: #e0e0e0;
+        height: 25px;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        border-radius: 12px;
+        transition: width 1s ease;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        color: white;
+        font-weight: 600;
+        font-size: 0.85em;
+      }
+
+      .feedback-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+      }
+
+      .feedback-stat {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+      }
+
+      .feedback-stat-number {
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #667eea;
+      }
+
+      .feedback-stat-label {
+        color: #666;
+        margin-top: 5px;
+      }
+
+      .chart-container {
+        margin-top: 30px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 10px;
+      }
+
+      .timeline {
+        margin-top: 20px;
+      }
+
+      .timeline-item {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+        position: relative;
+        padding-left: 30px;
+      }
+
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: 8px;
+        top: 25px;
+        bottom: -20px;
+        width: 2px;
+        background: #e0e0e0;
+      }
+
+      .timeline-item:last-child::before {
+        display: none;
+      }
+
+      .timeline-dot {
+        position: absolute;
+        left: 0;
+        top: 5px;
+        width: 18px;
+        height: 18px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        border: 3px solid white;
+        box-shadow: 0 0 0 3px #e0e0e0;
+      }
+
+      .timeline-content {
+        flex: 1;
+        background: #f8f9fa;
+        padding: 15px 20px;
+        border-radius: 10px;
+      }
+
+      .timeline-date {
+        color: #667eea;
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .timeline-text {
+        color: #333;
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .btn {
+        padding: 12px 30px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-danger {
+        background: linear-gradient(135deg, #f44336 0%, #c62828 100%);
+        color: white;
+      }
+
+      .btn-success {
+        background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+        color: white;
+      }
+
+      .alert {
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+
+      .alert-info {
+        background: #e3f2fd;
+        border-left: 5px solid #2196f3;
+        color: #1565c0;
+      }
+
+      .alert-warning {
+        background: #fff3e0;
+        border-left: 5px solid #ff9800;
+        color: #e65100;
+      }
+
+      .loading-spinner {
+        display: none;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #667eea;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .metrics-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .model-info-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h1>🤖 ML Model Dashboard</h1>
+        <p>
+          Monitor and manage the AI-powered student-internship matching system
+        </p>
+
+        {% if model %}
+        <div class="status-banner">
+          <div>
+            <div class="status-text">
+              ✅ Model Active: {{ model.model_version }}
+            </div>
+            <div style="font-size: 0.9em; opacity: 0.9; margin-top: 5px">
+              Last trained: {{ model.trained_at.strftime('%B %d, %Y at %I:%M
+              %p') if model.trained_at else 'N/A' }}
+            </div>
+          </div>
+          <button class="train-button" onclick="trainModel()">
+            🔄 Retrain Model
+          </button>
+        </div>
+        {% else %}
+        <div class="status-banner warning">
+          <div>
+            <div class="status-text">⚠️ No Active Model</div>
+            <div style="font-size: 0.9em; opacity: 0.9; margin-top: 5px">
+              Need {{ 10 - complete_feedbacks }} more complete feedbacks to
+              train initial model
+            </div>
+          </div>
+          <button class="train-button" onclick="trainModel()">
+            🚀 Train Model
+          </button>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Metrics Grid -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-icon">📊</div>
+          <div class="metric-value">{{ total_feedbacks }}</div>
+          <div class="metric-label">Total Feedbacks</div>
+          <div class="metric-sublabel">{{ complete_feedbacks }} complete</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon">👨‍🎓</div>
+          <div class="metric-value">{{ student_feedbacks }}</div>
+          <div class="metric-label">Student Feedbacks</div>
+          <div class="metric-sublabel">From completed internships</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon">🏢</div>
+          <div class="metric-value">{{ company_feedbacks }}</div>
+          <div class="metric-label">Company Feedbacks</div>
+          <div class="metric-sublabel">Performance ratings</div>
+        </div>
+
+        {% if model %}
+        <div class="metric-card">
+          <div class="metric-icon">🎯</div>
+          <div class="metric-value">{{ model.training_samples }}</div>
+          <div class="metric-label">Training Samples</div>
+          <div class="metric-sublabel">Used for current model</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon">📈</div>
+          <div class="metric-value">
+            {{ "%.2f"|format(model.mean_absolute_error) if
+            model.mean_absolute_error else 'N/A' }}
+          </div>
+          <div class="metric-label">Mean Absolute Error</div>
+          <div class="metric-sublabel">Lower is better</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon">⭐</div>
+          <div class="metric-value">
+            {{ (model.accuracy * 100)|round|int if model.accuracy else 'N/A' }}%
+          </div>
+          <div class="metric-label">Model Accuracy</div>
+          <div class="metric-sublabel">R² Score</div>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Model Information -->
+      {% if model %}
+      <div class="section-card">
+        <div class="section-header">
+          <h2 class="section-title">🔧 Model Information</h2>
+          <span class="section-badge">ACTIVE</span>
+        </div>
+
+        <div class="model-info-grid">
+          <div class="info-item">
+            <div class="info-label">Model Version</div>
+            <div class="info-value">{{ model.model_version }}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Algorithm</div>
+            <div class="info-value">Gradient Boosting</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Features Count</div>
+            <div class="info-value">{{ model.features_count }}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Training Date</div>
+            <div class="info-value">
+              {{ model.trained_at.strftime('%b %d, %Y') if model.trained_at else
+              'N/A' }}
+            </div>
+          </div>
+        </div>
+
+        {% if model.notes %}
+        <div class="alert alert-info" style="margin-top: 20px">
+          <strong>📝 Notes:</strong> {{ model.notes }}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Feature Importance -->
+      {% if model.feature_importance %}
+      <div class="section-card">
+        <div class="section-header">
+          <h2 class="section-title">📊 Feature Importance</h2>
+        </div>
+
+        <div class="feature-importance-chart">
+          {% set features = model.feature_importance|fromjson %} {% for
+          feature_name, importance in (features.items()|sort(attribute='1',
+          reverse=True))[:10] %}
+          <div class="feature-bar">
+            <div class="feature-name">
+              <span>{{ feature_name.replace('_', ' ').title() }}</span>
+              <span class="feature-importance-value"
+                >{{ (importance * 100)|round(1) }}%</span
+              >
+            </div>
+            <div class="bar-container">
+              <div
+                class="bar-fill"
+                style="width: {{ (importance * 100) }}%"
+              ></div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Performance Metrics -->
+      <div class="section-card">
+        <div class="section-header">
+          <h2 class="section-title">📈 Performance Metrics</h2>
+        </div>
+
+        {% if model %}
+        <table class="performance-table">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Value</th>
+              <th>Description</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Mean Absolute Error (MAE)</strong></td>
+              <td>
+                {{ "%.3f"|format(model.mean_absolute_error) if
+                model.mean_absolute_error else 'N/A' }}
+              </td>
+              <td>Average prediction error</td>
+              <td>
+                {% if model.mean_absolute_error and model.mean_absolute_error <
+                0.1 %}
+                <span style="color: #4caf50; font-weight: 600"
+                  >✅ Excellent</span
+                >
+                {% elif model.mean_absolute_error and model.mean_absolute_error
+                < 0.15 %}
+                <span style="color: #2196f3; font-weight: 600">✓ Good</span>
+                {% else %}
+                <span style="color: #ff9800; font-weight: 600"
+                  >⚠ Needs Improvement</span
+                >
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Precision</strong></td>
+              <td>
+                {{ "%.3f"|format(model.precision) if model.precision else 'N/A'
+                }}
+              </td>
+              <td>Accuracy of positive predictions</td>
+              <td>
+                {% if model.precision and model.precision > 0.8 %}
+                <span style="color: #4caf50; font-weight: 600"
+                  >✅ Excellent</span
+                >
+                {% elif model.precision and model.precision > 0.7 %}
+                <span style="color: #2196f3; font-weight: 600">✓ Good</span>
+                {% else %}
+                <span style="color: #ff9800; font-weight: 600">⚠ Fair</span>
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td><strong>F1 Score</strong></td>
+              <td>
+                {{ "%.3f"|format(model.f1_score) if model.f1_score else 'N/A' }}
+              </td>
+              <td>Harmonic mean of precision and recall</td>
+              <td>
+                {% if model.f1_score and model.f1_score > 0.8 %}
+                <span style="color: #4caf50; font-weight: 600"
+                  >✅ Excellent</span
+                >
+                {% else %}
+                <span style="color: #2196f3; font-weight: 600">✓ Good</span>
+                {% endif %}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        {% else %}
+        <div class="alert alert-warning">
+          <strong>⚠️ Model not yet trained</strong><br />
+          Collect at least 10 complete feedbacks (both student and company) to
+          train the initial model. Currently have {{ complete_feedbacks }}
+          complete feedbacks.
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      <!-- Feedback Statistics -->
+      <div class="section-card">
+        <div class="section-header">
+          <h2 class="section-title">📋 Feedback Statistics</h2>
+        </div>
+
+        <div class="feedback-stats">
+          <div class="feedback-stat">
+            <div class="feedback-stat-number">{{ total_feedbacks }}</div>
+            <div class="feedback-stat-label">Total Feedbacks</div>
+          </div>
+          <div class="feedback-stat">
+            <div class="feedback-stat-number">{{ complete_feedbacks }}</div>
+            <div class="feedback-stat-label">Complete (Both Sides)</div>
+          </div>
+          <div class="feedback-stat">
+            <div class="feedback-stat-number">{{ student_feedbacks }}</div>
+            <div class="feedback-stat-label">Student Submitted</div>
+          </div>
+          <div class="feedback-stat">
+            <div class="feedback-stat-number">{{ company_feedbacks }}</div>
+            <div class="feedback-stat-label">Company Submitted</div>
+          </div>
+        </div>
+
+        {% if complete_feedbacks < 10 %}
+        <div class="alert alert-info" style="margin-top: 20px">
+          <strong>📊 About Training Data</strong><br />
+          The ML model requires at least 10 complete feedbacks (both student and
+          company ratings) to start training. Current progress: {{
+          complete_feedbacks }}/10 complete feedbacks.
+          <br /><br />
+          <strong
+            >Need {{ 10 - complete_feedbacks }} more complete feedback{{ 's' if
+            (10 - complete_feedbacks) != 1 else '' }} to enable
+            training.</strong
+          >
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Training History -->
+      <div class="section-card">
+        <div class="section-header">
+          <h2 class="section-title">📜 Training History</h2>
+        </div>
+
+        {% if model %}
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">
+                {{ model.trained_at.strftime('%B %d, %Y at %I:%M %p') if
+                model.trained_at else 'N/A' }}
+              </div>
+              <div class="timeline-text">
+                <strong>Model {{ model.model_version }} trained</strong> with {{
+                model.training_samples }} samples • MAE: {{
+                "%.3f"|format(model.mean_absolute_error) if
+                model.mean_absolute_error else 'N/A' }}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% else %}
+        <div class="alert alert-warning">
+          No training history available yet. Train the model to see history.
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Actions -->
+      <div class="section-card">
+        <div class="section-header">
+          <h2 class="section-title">⚙️ Model Actions</h2>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-primary" onclick="trainModel()">
+            🔄 Train/Retrain Model
+          </button>
+          <a href="/admin/ml-model/export" class="btn btn-success">
+            💾 Export Model Data
+          </a>
+          <a href="/admin/feedbacks" class="btn btn-primary">
+            📊 View All Feedbacks
+          </a>
+        </div>
+
+        <div id="trainingResult" style="margin-top: 20px"></div>
+        <div class="loading-spinner" id="loadingSpinner"></div>
+      </div>
+    </div>
+
+    <script>
+      function trainModel() {
+        if (
+          !confirm(
+            "This will retrain the ML model with all available feedback data. Continue?",
+          )
+        ) {
+          return;
+        }
+
+        const resultDiv = document.getElementById("trainingResult");
+        const spinner = document.getElementById("loadingSpinner");
+
+        resultDiv.innerHTML = "";
+        spinner.style.display = "block";
+
+        fetch("/admin/ml-model/train", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            spinner.style.display = "none";
+
+            if (data.success) {
+              resultDiv.innerHTML = `
+                        <div class="alert alert-info" style="background: #c8e6c9; border-color: #4caf50; color: #1b5e20;">
+                            <strong>✅ Training Successful!</strong><br>
+                            Model Version: ${data.model_version}<br>
+                            Training Samples: ${data.samples}<br>
+                            <br>
+                            <em>Page will reload in 3 seconds...</em>
+                        </div>
+                    `;
+              setTimeout(() => location.reload(), 3000);
+            } else {
+              resultDiv.innerHTML = `
+                        <div class="alert alert-warning">
+                            <strong>⚠️ Training Failed</strong><br>
+                            ${data.message}<br>
+                            Samples Available: ${data.samples || 0}
+                        </div>
+                    `;
+            }
+          })
+          .catch((error) => {
+            spinner.style.display = "none";
+            resultDiv.innerHTML = `
+                    <div class="alert" style="background: #ffcdd2; border-color: #f44336; color: #c62828;">
+                        <strong>❌ Error</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+          });
+      }
+
+      // Animate bars on load
+      window.addEventListener("load", () => {
+        document.querySelectorAll(".bar-fill").forEach((bar) => {
+          const width = bar.style.width;
+          bar.style.width = "0";
+          setTimeout(() => {
+            bar.style.width = width;
+          }, 100);
+        });
+      });
+    </script>
+  </body>
+</html>
